@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{Introduction-toalgorithm}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
+\newblock {\em Introduction to Algorithms}.
+\newblock MIT Press, Cambridge, MA, 3rd edition, 2009.
+
+\bibitem{Goodfellow-et-al-2016}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
+
+\bibitem{Knuth}
+D~Knuth.
+\newblock {\em The Art of Computer Programming}.
+\newblock ADDISON-WESLEY An Imprint of Addison Wesley Longman, Inc., 1998.
+
+\end{thebibliography}

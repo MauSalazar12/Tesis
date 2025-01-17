@@ -1,0 +1,27 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducci^^c3^^b3n}{3}{section.1}%
+\contentsline {section}{\numberline {2}Gr^^c3^^a1ficas y Superficies}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Introducci^^c3^^b3n}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Definiciones y conceptos}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Matriz de adyacencia}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Grado de un v^^c3^^a9rtice}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Subgr^^c3^^a1ficas}{8}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Caminos y ciclos}{10}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}^^c3^^81rboles}{10}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Redes Neuronales Gr^^c3^^a1ficas}{14}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Redes Neuronales}{14}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Redes convolucionales CNN}{20}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Redes Neuronales Gr^^c3^^a1ficas}{24}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Propagaci^^c3^^b3n de Mensajes Neuronales}{24}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Descripci^^c3^^b3n general del mecanismo}{25}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}La GNN fundamental}{25}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{26}{subsection.3.7}%
+\contentsline {section}{\numberline {4}Muestreo General}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Superficies estudiadas}{27}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}M^^c3^^a9todos de Muestreo}{28}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Orden por ^^c3^^a1rbol generador m^^c3^^adnimo}{28}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Muestreo por Esferas}{29}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Reasignaci^^c3^^b3n de Adyacencias para Preservar la Estructura}{34}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{36}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Combinaci^^c3^^b3n de funciones}{36}{subsubsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.7}An^^c3^^a1lisis de Complejidad}{37}{subsection.4.7}%
