@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex build/main"] 1737128847.96272 "build/main.aux" "build/main.bbl" "build/main" 1737128857.12334 0
+["bibtex build/main"] 1737686948.78622 "build/main.aux" "build/main.bbl" "build/main" 1737686961.58561 0
   "./ref.bib" 1736912063 1185 abfcb4e7bb7ef7690214669ace5aa48a ""
   "C:/Users/mauri/AppData/Local/Programs/MiKTeX1/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "build/main.aux" 1737128856 20979 fa10c13d3b4f03cce11902a255bd8781 "pdflatex"
+  "build/main.aux" 1737686960 21231 da3c743ad2da7c3f6701f0d4891a8b09 "pdflatex"
   (generated)
   "build/main.bbl"
   "build/main.blg"
   (rewritten before read)
-["pdflatex"] 1737128848.30778 "c:/Users/mauri/Documents/Facultad de Ciencias/Tesis/Tesis/main.tex" "build/main.pdf" "main" 1737128857.12461 0
+["pdflatex"] 1737686949.14534 "c:/Users/mauri/Documents/Facultad de Ciencias/Tesis/Tesis/main.tex" "build/main.pdf" "main" 1737686961.58623 0
   "C:/Users/mauri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1737127683 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/mauri/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcti1000.pk" 1736815222 14064 41fee0d7abedbdfa037fcdc02fa29434 ""
   "C:/Users/mauri/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1736814959 688 37338d6ab346c2f1466b29e195316aa4 ""
@@ -281,15 +281,16 @@
   "Sec/1_Intro.tex" 1736814584 23 da48b590e301069ded14b96f40a31033 ""
   "Sec/2_GraficasYSuperfices.tex" 1737083406 23537 01e8c6c2403f7d01f6b188ab3368c3cd ""
   "Sec/3_GNNs.tex" 1736830052 32828 a7a30d03048aeba0f3e9ba37abd6c5f1 ""
-  "Sec/4_MuestreoGeneral.tex" 1737082353 27246 4228d62fda5e54b27bc3b6073609f807 ""
-  "build/main.aux" 1737128856 20979 fa10c13d3b4f03cce11902a255bd8781 "pdflatex"
-  "build/main.bbl" 1737128848 624 94529efb64d927b8d78f678d315c7729 "bibtex build/main"
-  "build/main.out" 1737128856 4726 7fc219da77a30e2d15058b56a53e710b "pdflatex"
-  "build/main.toc" 1737128856 2477 65077a45d9ee13809a5b282fe411cccd "pdflatex"
-  "c:/Users/mauri/Documents/Facultad de Ciencias/Tesis/Tesis/main.tex" 1737083246 2714 217fa558cc3a2c103d07f48483469d5c ""
+  "Sec/4_MuestreoGeneral.tex" 1737686596 27249 0ddc095891d20282f9fcda4323d70d2b ""
+  "Sec/5_ResultadosYConclusiones.tex" 1737686935 331 acf8dfe58e7182ae8e4a8009610e3c61 ""
+  "build/main.aux" 1737686960 21231 da3c743ad2da7c3f6701f0d4891a8b09 "pdflatex"
+  "build/main.bbl" 1737686949 624 94529efb64d927b8d78f678d315c7729 "bibtex build/main"
+  "build/main.out" 1737686960 5067 ffe62e7e8267210477af0157946652d3 "pdflatex"
+  "build/main.toc" 1737686960 2647 56b65c2457a39b7767527cd2e65ac34d "pdflatex"
+  "c:/Users/mauri/Documents/Facultad de Ciencias/Tesis/Tesis/main.tex" 1737685946 2752 a226abdcf3bf1f5b1a2beaf2bd413e75 ""
   "img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png" 1736813871 125536 c76d2fc0c4aad83b864a170dd713ad3b ""
   "img/conv_illustration.png" 1736813870 17649 964c69cfe04f9651929c1a4ea50df711 ""
-  "main.tex" 1737083246 2714 217fa558cc3a2c103d07f48483469d5c ""
+  "main.tex" 1737685946 2752 a226abdcf3bf1f5b1a2beaf2bd413e75 ""
   (generated)
   "build/main.aux"
   "build/main.log"
