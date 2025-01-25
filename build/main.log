@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  25 JAN 2025 14:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  25 JAN 2025 14:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -873,7 +873,7 @@ Overfull \hbox (0.42885pt too wide) in paragraph at lines 143--144
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 159.
 Package hyperref Info: bookmark level for unknown observation defaults to 0 on input line 185.
  [17] [18] [19] [20]
-<img/conv_illustration.png, id=383, 365.365pt x 219.82124pt>
+<img/conv_illustration.png, id=393, 365.365pt x 219.82124pt>
 File: img/conv_illustration.png Graphic file (type png)
 <use img/conv_illustration.png>
 Package pdftex.def Info: img/conv_illustration.png  used on input line 336.
@@ -883,7 +883,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 498--503
 
  []
 
-<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=418, 284.39583pt x 154.5775pt>
+<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=428, 284.39583pt x 154.5775pt>
 File: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png Graphic file (type png)
 <use img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>
 Package pdftex.def Info: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png  used on input line 505.
@@ -893,25 +893,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 557--559
 
  []
 
-) (Sec/4_MuestreoGeneral.tex [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37]) (Sec/5_ResultadosYConclusiones.tex) [38] (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl) [39] (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.aux
+) (Sec/4_MuestreoGeneral.tex [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37]) (Sec/5_ResultadosYConclusiones.tex [38]) (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl) [39] (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FFE62E7E8267210477AF0157946652D3;5067.
+(rerunfilecheck)             Checksum: 12970C44642867D5D10C7A37258F06CB;5390.
  ) 
 Here is how much of TeX's memory you used:
- 37801 strings out of 478906
- 863278 string characters out of 2851448
+ 37805 strings out of 478906
+ 863338 string characters out of 2851448
  2824547 words of memory out of 3000000
- 54762 multiletter control sequences out of 15000+600000
+ 54764 multiletter control sequences out of 15000+600000
  418943 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,11n,83p,1464b,2685s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on "c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf" (39 pages, 710806 bytes).
+Output written on "c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf" (39 pages, 712410 bytes).
 PDF statistics:
- 706 PDF objects out of 1000 (max. 8388607)
- 251 named destinations out of 1000 (max. 500000)
- 247 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 718 PDF objects out of 1000 (max. 8388607)
+ 253 named destinations out of 1000 (max. 500000)
+ 263 words of extra memory for PDF output out of 10000 (max. 10000000)
 
