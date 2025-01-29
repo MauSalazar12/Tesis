@@ -1,17 +1,23 @@
 \section{Resultados y conclusiones}
-En el presente capítulo analizaremos la forma en que el algortimo presentado en el capítulo anterior 
-influye en los reusltados de aplicar la arquitectura PointNet para la clasificación de nudos de Lissajous 
-basado en la característica de Euler.
-
-\subsection{Arquitectura PointNet}
-
 Las arquitecturas comúnmente utilizadas en el procesamiento de imágenes requieren que los datos se encuentren ordenados en cierto formato, el cual puede ser en cuadrículas 3D, lo que permite que el proceso de distribución de peso se realice para optimizar el núcleo. Sin embargo, este enfoque puede resultar altamente costoso, ya que maneja una gran cantidad de parámetros que, 
 en muchos casos, no aportan información relevante a la red y generan un desperdicio computacional significativo.
-
 Para evitar estos inconvenientes, surge una arquitectura denominada PointNet, diseñada específicamente para procesar directamente nubes de puntos 3D sin la necesidad de 
 transformarlas a una estructura regular como cuadrículas o vóxeles. PointNet aprovecha la naturaleza no estructurada de las nubes de puntos y utiliza operaciones simétricas, 
 como el max pooling, para garantizar la invariancia al orden de los puntos. De este modo, permite realizar el procesamiento de datos 3D de manera más eficiente, 
-capturando tanto características globales como locales directamente de los puntos de entrada, lo que simplifica y optimiza el análisis de formas y estructuras tridimensionales. 
+capturando tanto características globales como locales directamente de los puntos de entrada, lo que simplifica y optimiza el análisis de formas y estructuras tridimensionales. \cite{pointnet}
+En el presente capítulo analizaremos la forma en que el algortimo presentado en el capítulo anterior 
+influye en los resultados de aplicar la arquitectura PointNet para la clasificación de nudos de Lissajous 
+basado en la característica de Euler.
+La descripción de la arquitectura está basada en el artículo \cite{pointnet}.
+
+\subsection{Arquitectura PointNet}
+La arquitectura, está diseñada de tal forma que recibe un conjunto de puntos sin orden en 3 dimensiones , es decir. $\{P_i\ | i = 1, \cdots .,n\}$ donde cada punto $P_i$ es un vector con coordenadas
+$(x_i,y_i,z_i)$
+
+
+
+
+
 
 \subsection{Resultados de la evaluación}
 

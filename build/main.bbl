@@ -5,15 +5,36 @@ Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
 \newblock {\em Introduction to Algorithms}.
 \newblock MIT Press, Cambridge, MA, 3rd edition, 2009.
 
+\bibitem{diestel}
+Reinhard Diestel.
+\newblock {\em Graph Theory}.
+\newblock Springer, Graduate Texts in Mathematics, 2017.
+
 \bibitem{Goodfellow-et-al-2016}
 Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
 \newblock {\em Deep Learning}.
 \newblock MIT Press, 2016.
 \newblock \url{http://www.deeplearningbook.org}.
 
+\bibitem{haru}
+Tero Harju.
+\newblock {\em Graph Theory}.
+\newblock Department of Mathematics University of Turku, 2007.
+
 \bibitem{Knuth}
 D~Knuth.
 \newblock {\em The Art of Computer Programming}.
 \newblock ADDISON-WESLEY An Imprint of Addison Wesley Longman, Inc., 1998.
+
+\bibitem{pressley}
+Andrew Pressley.
+\newblock {\em Elementary Differential Geometry}.
+\newblock Springer, Undergraduate Texts in Mathematics, 2000.
+
+\bibitem{pointnet}
+Charles~R. Qi, Hao Su, Kaichun Mo, and Leonidas~J. Guibas.
+\newblock Pointnet: Deep learning on point sets for 3d classification and
+  segmentation.
+\newblock {\em arXiv preprint}, arXiv:1612.00593, 2017.
 
 \end{thebibliography}

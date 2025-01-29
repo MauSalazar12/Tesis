@@ -17,6 +17,13 @@ INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\base\size10.clo
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\base\size10.clo
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\base\size10.clo
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\base\size10.clo
+INPUT .\preambulo.tex
+INPUT .\preambulo.tex
+INPUT .\preambulo.tex
+INPUT preambulo.tex
+INPUT .\preambulo.tex
+INPUT .\preambulo.tex
+INPUT preambulo.tex
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsmath\amsmath.sty
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsmath\amsmath.sty
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsmath\amsmath.sty
@@ -1101,6 +1108,28 @@ INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\listings\listings.
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\listings\listings.cfg
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\listings\listings.cfg
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\listings\listings.cfg
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\cite\cite.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\appendix\appendix.sty
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\l3backend\l3backend-pdftex.def
@@ -1184,58 +1213,44 @@ OUTPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out
 OUTPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out
+INPUT .\portada.tex
+INPUT .\portada.tex
+INPUT .\portada.tex
+INPUT portada.tex
+INPUT .\portada.tex
+INPUT .\portada.tex
+INPUT portada.tex
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr17.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmcsc10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr12.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr8.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr6.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmmi12.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmmi8.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmmi6.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmsy10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmsy8.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmsy6.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmex10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\cmextra\cmex8.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam7.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
-INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs10.tfm
-INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs10.tfm
-INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs5.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx12.tfm
-INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr12.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr17.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx12.tfm
-INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
-INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
-INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx10.tfm
+INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
+INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
+INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
+INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsa.fd
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam7.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msam5.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\amsfonts\umsb.fd
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex\latex\jknappen\ursfs.fd
 INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs10.tfm
 INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs7.tfm
 INPUT C:\Users\mauri\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs5.tfm
@@ -1254,6 +1269,8 @@ INPUT Sec\2_GraficasYSuperfices.tex
 INPUT .\Sec\2_GraficasYSuperfices.tex
 INPUT .\Sec\2_GraficasYSuperfices.tex
 INPUT Sec\2_GraficasYSuperfices.tex
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr12.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmti10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbxti10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbx7.tfm
@@ -1276,6 +1293,7 @@ INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbxti10
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmti7.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmbxti10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\jknappen\ec\tcti1000.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmr8.tfm
 INPUT .\img\conv_illustration.png
 INPUT .\img\conv_illustration.png
 INPUT img\conv_illustration.png
@@ -1298,6 +1316,7 @@ INPUT .\Sec\4_MuestreoGeneral.tex
 INPUT Sec\4_MuestreoGeneral.tex
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmcsc10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmcsc10.tfm
+INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmcsc10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmtt10.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmtt8.tfm
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\tfm\public\cm\cmtt8.tfm
@@ -1312,6 +1331,13 @@ INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl
+INPUT .\apendice.tex
+INPUT .\apendice.tex
+INPUT .\apendice.tex
+INPUT apendice.tex
+INPUT .\apendice.tex
+INPUT .\apendice.tex
+INPUT apendice.tex
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.aux
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out
 INPUT c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out
@@ -1345,8 +1371,6 @@ INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cmextra\cmmib7.pfb
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr10.pfb
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr10.pfb
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr12.pfb
-INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr12.pfb
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr5.pfb
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr5.pfb
 INPUT C:\Users\mauri\AppData\Local\Programs\MiKTeX1\fonts\type1\public\amsfonts\cm\cmr7.pfb
