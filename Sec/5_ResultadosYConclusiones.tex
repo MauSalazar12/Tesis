@@ -11,8 +11,61 @@ basado en la característica de Euler.
 La descripción de la arquitectura está basada en el artículo \cite{pointnet}.
 
 \subsection{Arquitectura PointNet}
-La arquitectura, está diseñada de tal forma que recibe un conjunto de puntos sin orden en 3 dimensiones , es decir. $\{P_i\ | i = 1, \cdots .,n\}$ donde cada punto $P_i$ es un vector con coordenadas
-$(x_i,y_i,z_i)$
+La arquitectura, está diseñada de tal forma que recibe un 
+conjunto de puntos sin ordenen 3 dimensiones , es decir,
+$\{P_i\ | i = 1, \cdots .,n\}$ donde cada punto $P_i$ es 
+un vector con coordenadas $(x_i,y_i,z_i)$, es decir, una matriz $X \in \mathbb{R}^{n \times 3}$ la cual evita la pérdida
+de información y reduce la complejidad computacional, a diferencia 
+de otros algortimos que convierten las nubes de puntos en imágenes 2D.
+
+La entrada de la red se basa en tres propiedades principales de los puntos en el 
+espacio Euclideano:
+
+\begin{enumerate}
+    \item \textbf{Sin orden}: La nube de puntos es un conjunto de puntos sin un orden
+    en específico es decir la red consume  N puntos en 3d que son invariantes a $N!$ permutaciones en 
+    el conjunto de datos de entrada.
+
+    \item \textbf{Interacción entre puntos}: Los puntos provienen de un espacio métrico, lo cual
+    otorga un subconjunto significativo de características por lo cual el modelo de poder capturar estructuras locales
+    entre puntos cercanos.
+
+    \item \textbf{Invariancia bajo transformaciones}: La nube de puntos es invariante bajo ciertas transformaciones
+    por ejemplo, rotar y trasladar el conjunto de puntos no debería modificar la estructura global de dicho conjunto.
+\end{enumerate}
+
+\begin{figure}[h]
+    \label{fig : PointNet Arquitecture}
+    \includegraphics{pointnet.jpeg} 
+    \caption{Arquitectura PointNet \cite{pointnet}}
+\end{figure}
+
+
+En la medida en que el modelo debe permanecer invariante bajo permutaciones de los puntos de entrada, 
+PointNet utiliza una función simétrica para agregar características de puntos individuales. 
+Esta función simétrica es típicamente una operación de max pooling, que selecciona el valor máximo a lo largo de una dimensión específica.
+ La red se compone de varias capas de convolución 1D que operan sobre cada punto individualmente, 
+ seguidas de una capa de max pooling global que agrega las características extraídas de todos los puntos.
+
+La arquitectura de PointNet se puede dividir en tres módulos principales:
+
+\begin{enumerate}
+    \item \textbf{Transformación de entrada}: PointNet aprende una transformación afín para alinear la nube de puntos de manera canónica, lo cual se logra 
+    mediante uns subred llamada \textbf{T-Net} la cual predice una matriz de transofrmación $T \in \mathbf{R}^{3 \times 3}$, es decir \[ X^{*} = X \cdot T\], donde
+    $X^{*}$ es la nube de puntos alineada y $T$ es la matriz predicha por \textbf{T-Net}
+    \item \textbf{Extracción de características locales y globales}: A través de una red \text{MLP}, se extraen características locales de cada punto, es decir, para cada punto $x_i \in \mathbb{R}^3$,
+     el MLP lo mapea a un espaciode caracteríticas de mayor dimensión: \[h_i = MLP(x_i) , \hspace{5pt} h_i \in \mathbb{R}^d\] 
+     lo cual, al mapearse en todos los puntos, resulta en una matriz de características
+    $H \in \mathbb{R}^{n \times d}$. Similar a la transformación de entrada, la red utiliza otra \textbf{T-Net} para aprender una transformación afín
+    en el espacio de características, es decir: \[H* = H \cdot T_f\] donde $T_f \in \mathbb{R}^{d \times d}$ es la matriz de trasnformación aprendida.
+    Luego, una capa de max pooling global agrega estas características en un vector de características globales $g \in \mathbb{R}^d$, es decir \[g_j = \max_{i = 1, \cdots ,n} H_{ij} \hspace{5pt} \forall j = 1, \cdots ,d \]
+    \item \textbf{Clasificación o segmentación}: Dependiendo de la tarea, el vector de características globales se puede utilizar para la clasificación de la nube de puntos completa, o se pueden concatenar características locales y globales para realizar segmentación punto a punto.
+    En el caso de la clasificación, podemos utilizar una red MLP para predecir la clase, es decir \[y = MLP(g)\] donde $y \in \mathbb{R}^k$ con $k$ clases y para el vector global $g$.
+
+\end{enumerate}
+
+
+
 
 
 

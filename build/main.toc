@@ -26,5 +26,5 @@
 \contentsline {subsection}{\numberline {4.7}An^^c3^^a1lisis de Complejidad}{35}{subsection.4.7}%
 \contentsline {section}{\numberline {5}Resultados y conclusiones}{36}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Arquitectura PointNet}{37}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{37}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Conclusiones}{37}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{38}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Conclusiones}{38}{subsection.5.3}%
