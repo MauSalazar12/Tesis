@@ -12,11 +12,11 @@ La descripción de la arquitectura está basada en el artículo \cite{pointnet}.
 
 \subsection{Arquitectura PointNet}
 La arquitectura, está diseñada de tal forma que recibe un 
-conjunto de puntos sin ordenen 3 dimensiones , es decir,
+conjunto de puntos sin orden en 3 dimensiones , es decir,
 $\{P_i\ | i = 1, \cdots .,n\}$ donde cada punto $P_i$ es 
 un vector con coordenadas $(x_i,y_i,z_i)$, es decir, una matriz $X \in \mathbb{R}^{n \times 3}$ la cual evita la pérdida
 de información y reduce la complejidad computacional, a diferencia 
-de otros algortimos que convierten las nubes de puntos en imágenes 2D.
+de otros algoritmos que convierten las nubes de puntos en imágenes 2D.
 
 La entrada de la red se basa en tres propiedades principales de los puntos en el 
 espacio Euclideano:
@@ -44,8 +44,15 @@ espacio Euclideano:
 En la medida en que el modelo debe permanecer invariante bajo permutaciones de los puntos de entrada, 
 PointNet utiliza una función simétrica para agregar características de puntos individuales. 
 Esta función simétrica es típicamente una operación de max pooling, que selecciona el valor máximo a lo largo de una dimensión específica.
- La red se compone de varias capas de convolución 1D que operan sobre cada punto individualmente, 
- seguidas de una capa de max pooling global que agrega las características extraídas de todos los puntos.
+La red se compone de varias capas de convolución 1D que operan sobre cada punto individualmente, 
+seguidas de una capa de max pooling global que agrega las características extraídas de todos los puntos, pero principoalmente
+sus capas siguen la siguiente ecuación que rige el funcionamiento y la validez de PointNet como aproximador universal de funciones continuas.
+\\ Dado un conjunto de puntos sin orden $\{x_1,x_2, \cdots ,x_n\}$ con $x_i \in \mathbb{R}^d$ podemos definir
+un conjunto de funciones que mapean el conjunto de vértices a un vector de la forma:
+
+\[ \mathbf{x}_{i}^{\prime} = \mathbf{\gamma_{\Theta}} \left( \max_{j \in \mathcal{N}(i) \cup \{i\} } \mathbf{h_{\Theta}} (\mathbf{x}_j,p_j - p_i) \right) \]
+
+
 
 La arquitectura de PointNet se puede dividir en tres módulos principales:
 
