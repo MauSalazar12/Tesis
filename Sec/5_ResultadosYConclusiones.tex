@@ -44,14 +44,13 @@ espacio Euclideano:
 En la medida en que el modelo debe permanecer invariante bajo permutaciones de los puntos de entrada, 
 PointNet utiliza una función simétrica para agregar características de puntos individuales. 
 Esta función simétrica es típicamente una operación de max pooling, que selecciona el valor máximo a lo largo de una dimensión específica.
-La red se compone de varias capas de convolución 1D que operan sobre cada punto individualmente, 
-seguidas de una capa de max pooling global que agrega las características extraídas de todos los puntos, pero principoalmente
-sus capas siguen la siguiente ecuación que rige el funcionamiento y la validez de PointNet como aproximador universal de funciones continuas.
+La red se compone de varias capas de convolución 1D que operan sobre cada punto individualmente, seguidas de una capa de max pooling global que agrega las características extraídas de todos los puntos, pero principalmente sus capas siguen la siguiente ecuación que rige el funcionamiento y la validez de PointNet como aproximador universal de funciones continuas.
 \\ Dado un conjunto de puntos sin orden $\{x_1,x_2, \cdots ,x_n\}$ con $x_i \in \mathbb{R}^d$ podemos definir
 un conjunto de funciones que mapean el conjunto de vértices a un vector de la forma:
 
 \[ \mathbf{x}_{i}^{\prime} = \mathbf{\gamma_{\Theta}} \left( \max_{j \in \mathcal{N}(i) \cup \{i\} } \mathbf{h_{\Theta}} (\mathbf{x}_j,p_j - p_i) \right) \]
 
+Donde podemos recalcar, que cada punto se actualiza en función de la información proporcionada por sus vecinos, el valor de la nueva representación $\mathbf{x}_{i}^{\prime}$ se obtiene aplicando la función simétrica $\mathbf{\gamma_{\Theta}}$ a la capa de max pooling de la capa anterior , lo cual permite que cada punto en la nuve de puntos se transforme en función de la información local de su vecindad.
 
 
 La arquitectura de PointNet se puede dividir en tres módulos principales:
