@@ -36,7 +36,8 @@ espacio Euclideano:
 
 \begin{figure}[h]
     \label{fig : PointNet Arquitecture}
-    \includegraphics{pointnet.jpeg} 
+    \includegraphics[width=16cm]{pointnet.png} 
+    \centering
     \caption{Arquitectura PointNet \cite{pointnet}}
 \end{figure}
 
@@ -50,7 +51,11 @@ un conjunto de funciones que mapean el conjunto de vértices a un vector de la f
 
 \[ \mathbf{x}_{i}^{\prime} = \mathbf{\gamma_{\Theta}} \left( \max_{j \in \mathcal{N}(i) \cup \{i\} } \mathbf{h_{\Theta}} (\mathbf{x}_j,p_j - p_i) \right) \]
 
-Donde podemos recalcar, que cada punto se actualiza en función de la información proporcionada por sus vecinos, el valor de la nueva representación $\mathbf{x}_{i}^{\prime}$ se obtiene aplicando la función simétrica $\mathbf{\gamma_{\Theta}}$ a la capa de max pooling de la capa anterior , lo cual permite que cada punto en la nuve de puntos se transforme en función de la información local de su vecindad.
+Donde podemos recalcar, que cada punto se actualiza en función de la información proporcionada por sus vecinos $j \in \mathcal{N}(i)$.
+De aquí que podemos notar que la función $\mathbf{h_{\Theta}} (\mathbf{x}_j,p_j - p_i)$ calcula la interacción entre el punto $\i$ y sus vecinos lo que puede considerarse como el mensaje que el punto $\i$ recibe.
+Además la operción $\max$ indica que para cada punto $i$ se toma el valor máximo de las intereracciones de todos sus vecinos y de sí mismo actúando como un operador de agregación.
+Por último notamos que la función $\gamma_{\theta}$ aplica una transformación no lineal a las representaciones agregadas, por lo tanto podríamos tomarlo como una función de actualización.
+De esta forma podemos ver que la ecuación anterior la podriamos moldearcomo una GNN.
 
 
 La arquitectura de PointNet se puede dividir en tres módulos principales:
@@ -70,14 +75,63 @@ La arquitectura de PointNet se puede dividir en tres módulos principales:
 
 \end{enumerate}
 
-
-
-
-
-
-
-
-
 \subsection{Resultados de la evaluación}
+
+Ahora que describimos el funcionamiento y arquitectura de los modelos PointNet, presentaremos a continuación los resultados obtenidos de aplicar esta arquitectura combinado de el método de muestreo contra la arquitectura aplicada sin el método de muestreo. En esta sección, tabmién, se justifica el desempeño observado considerando las diferencias en la representación de datos y el procesamiento de la información.
+
+\begin{figure}[h]
+    \label{tab : Muestreo}
+    \centering
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & precision & recall & f1-score & support \\ \hline
+        0 & 0.85 & 0.85 & 0.85 & 20 \\ 
+        1 & 0.77 & 0.50 & 0.61 & 20 \\ 
+        2 & 0.95 & 0.90 & 0.92 & 20 \\ 
+        3 & 0.83 & 0.95 & 0.88 & 20 \\ 
+        4 & 0.80 & 0.80 & 0.80 & 20 \\ 
+        5 & 1.00 & 0.30 & 0.46 & 20 \\ 
+        6 & 0.57 & 1.00 & 0.73 & 20 \\ 
+        7 & 0.72 & 0.90 & 0.80 & 20 \\ 
+        8 & 0.84 & 0.80 & 0.82 & 20 \\ 
+        9 & 0.90 & 0.90 & 0.90 & 20 \\ \hline
+        accuracy & & & 0.79 & 200 \\
+   macro avg & 0.82 & 0.79 & 0.78 & 200 \\ 
+weighted avg & 0.82 & 0.79 & 0.78 & 200\\ \hline
+
+
+    \end{tabular}
+    \caption{Resultados obtenidos aplicando el muestreo general}
+\end{figure}
+
+\begin{figure}[h]
+    \label{tab : sin_muestreo}
+    \centering
+    \begin{tabular}{| c | c | c | c | c |}
+        \hline
+         & precision & recall & f1-score & support \\ \hline
+         0 & 0.32 & 1.00 & 0.49 & 20 \\
+         1 & 0.29 & 0.35 & 0.32 & 20 \\
+         2 & 0.58 & 0.95 & 0.72 & 20 \\
+         3 & 1.00 & 0.30 & 0.46 & 20 \\
+         4 & 0.00 & 0.00 & 0.00 & 20 \\
+         5 & 0.42 & 0.55 & 0.48 & 20 \\
+         6 & 0.00 & 0.00 & 0.00 & 20 \\
+         7 &   1.00   &   0.25 &     0.40 &       20 \\
+         8     &  0.61   &   0.85 &     0.71 &       20 \\
+         9      & 0.81   &   0.65 &     0.72 &       20 \\ \hline
+
+  accuracy & & &           0.49  &     200 \\
+ macro avg   &    0.50  &    0.49  &    0.43   &    200 \\
+weighted avg  &     0.50    &  0.49   &   0.43   &    200 \\ \hline
+
+
+    \end{tabular}
+    \caption{Resultados obtenidos sin aplicar el muestreo general}
+\end{figure}
+
+Podemos observar una diferencia notoria en lo resultados presentados, en primer lugar podemos observar que en el modelo con muestreo obtenemos métricas de precisión, recall y F1-score considerablemente más altos en la mayoría de las clases lo cual nos indica que este modelo clasifica correctamente las clases determinadas, también con base en el reccall podemos decir que el modelo detecta en la mayoría los casos positivos y por último la F1-score nos indica que la reducción de nodos ayudó a mantener la informacióin clave sin perder la representatividad en las clases.
+
+
 
 \subsection{Conclusiones}

@@ -400,29 +400,23 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
 \Ensure Nueva lista de nodos $new\_x$, Matriz de adyacencia Actualizada $new\_adj$
 \Statex
 \Function{Sampling}{$x, adjacency, size, alcance, esfera\_size$}
-    \State Obtiene el árbol generador mínimo (MST) desde $adjacency$ \Comment{Se obtiene medisnte el algoritmo \ref{alg:kruskal}}
-    \State Obtiene el orden DFS en MST
-        \State Inicializar $visited \gets \text{0 para todos los nodos}$
-        \State Inicializar $order \gets []$
-        \State \Call{DFS}{$0, visited, order$} \Comment{Empieza desde el nodo 0}
-    \State Inicializar $new\_adj \gets adjacency$
-    \State Inicializar $delel \gets []$
-    \State Inicializar $queue \gets order$
-    \State $M, N \gets$ dimensiones de $adjacency$
+    \State Obtener el árbol generador mínimo (MST) desde $adjacency$ \Comment{Algoritmo \ref{alg:kruskal}}
+    \State Inicializar $visitados[] \gets FALSE$ , $orden[] \gets []$
+    \State Obtener orden mediante DFS $dfs\_order(0, visitados, orden) $\Comment{Algoritmo \ref{alg:DFS}} 
+
+    \State Inicializar $nodos\_eliminados[] \gets []$, $cola[] = orden[]$
     
-    \While{$M - |\text{unique}(delel)| \geq size$}
-        \If{$delel$ no es vacío}
-            \State $selected\_coords \gets x[\text{nodes no están en } delel]$
-            \State Calcula distancias de$queue$ nodos al centroide de $selected\_coords$
-            \State Ordena $queue$ por distancias en orden descendente
+    \While{$numero\_nodos - nodos\_eliminados \geq size$}
+        \If{$nodos\_eliminados$ no es vacío}
+            \State $dist = ||nodo\_actual - centroide|| $
+            \State Ordena $cola$ por distancias en orden descendente
         \EndIf
-        \State $idx \gets$ \Call{Pop}{$queue$} \Comment{Selecciona el siguiente nodo}
-        \State \Call{GeneraPuntosUniformes}{$idx$}
-        \State Idenifica los vecinos dentro de $alcance$
-        \State $neighbors \gets$ Intersección de la esfera con los vecinos de $idx$
-        \State Actualiza $queue \gets queue \setminus neighbors$
-        \ForAll{$n \in neighbors \setminus delel$}
-            \State \Call{EliminaNodoConAdyacencia}{$n$,$adyacency$}
+        \State Obtener coordenadas del primer elemento de $cola$.
+        \\ \hfil $idx = cola.pop(0)$ $h, k, l = x[idx]$ 
+        \State Obtenemos esfera uniforme \Call{GeneraPuntosUniformes}{$idx$} \Comment{Algoritmo \ref{alg:generaPuntos}}
+        \State Hacemos $vecinos = vecinos \cap GeneraPuntosUniformes(idx)$
+        \ForAll{$vecinos \in vecinos \setminus eliminados$}
+            \State \Call{EliminaNodoConAdyacencia}{$n$,$adyacency$} \Comment{Algoritmo \ref{alg:elimnaAdyacencias}}
         \EndFor
     \EndWhile
     \State \Return $new\_x, new\_adj$
