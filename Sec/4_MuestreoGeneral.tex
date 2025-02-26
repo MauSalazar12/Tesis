@@ -408,7 +408,7 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
     
     \While{$numero\_nodos - nodos\_eliminados \geq size$}
         \If{$nodos\_eliminados$ no es vacío}
-            \State $dist = ||nodo\_actual - centroide|| $
+            \State $dist = ||nodo\_actual - centroide||_2 $
             \State Ordena $cola$ por distancias en orden descendente
         \EndIf
         \State Obtener coordenadas del primer elemento de $cola$.

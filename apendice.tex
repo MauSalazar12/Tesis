@@ -1,0 +1,35 @@
+\section{Definiciones básicas}
+
+\begin{definition}(Espacio métrico)
+    Un espacio métrico consta de un conjunto $X$ y una función $d: X \times X \rightarrow \mathbb{R}^{+}$, llamada métrica, o distancia que satisface los siguientes axiomas:
+    \begin{enumerate}
+        \item $d(x,y) = 0 $ sí y sólo sí $x=y$.
+        \item $d(x,y) = d(y,x)$ para todo $x,y \in X$.
+        \item $d(x,y) \leq d(x,z) + d(z,y)$ para todo $x,y,z \in X$
+    \end{enumerate} 
+    
+\end{definition}
+
+\begin{definition}(Bola abierta)
+    Sea $x \in X$ con $X$ espacio métrico, $\epsilon \in \mathbf{R}^{+}$. Definimos la bola abierta con centro en $x$ y radio $\epsilon$ como:
+    \[\mathcal{B}_{\epsilon}(x) = \{y \in X | d(x,y) < \epsilon \}\]
+    
+\end{definition}
+
+\begin{definition}(Vecindad)
+    Sea $X$ un espacio métrico y $U$ un subconjunto de este, decimos que $U \subseteq X$ es una \textbf{vecindad} de $x$ si existe $\epsilon > 0 $ tal que $\mathcal{B}_{\epsilon}(x) \subseteq U$
+    
+\end{definition}
+
+\begin{definition}(Conjunto abierto)
+    Sea $X$ un espacio métrico. Decimos que un subconjunto $A$ de $X$ es \textbf{abierto} si $A$ es vecindad de $x$ para toda $x \in A$. Es decir $A \subseteq X$ es abierto si y sólo si para todo $x \in A$ existe $\epsilon > 0 $ tal que $\mathcal{B}_{\epsilon}(x) \subseteq A$  
+\end{definition}
+
+\begin{teorema}(Unión e intersección de abiertos)
+    Sea $\mathcal{A}$ el conjunto de todos los abiertos en un espacio métrico $X$. Entonces se cumplen las siguientes afirmaciones:
+    \begin{enumerate}
+        \item Sea $\mathcal{I}$ un conjunto arbitrario de índices. Si $\{A_i\}_{i \in \mathcal{I}}$ es una familia de elementos en $\mathcal{A}$, entonces $\bigcup_{i \in \mathcal{I}} A_{i}$ es elemento de $\mathcal{A}$
+        \item Sea $\mathcal{I}$ un conjunto finito de índices. Si $\{A_i\}_{i \in \mathcal{I}}$ es una familia de elementos en $\mathcal{A}$, entonces $\bigcap_{i \in \mathcal{I}} A_{i}$ es elemento de $\mathcal{A}$
+    \end{enumerate}
+    
+\end{teorema}

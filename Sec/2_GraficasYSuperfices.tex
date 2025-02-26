@@ -1,8 +1,6 @@
 \section{Gráficas y Superficies}
-La teoría de gráficas y el estudio de superficies son dos ramas de las matemáticas que en primera instancia podrían parecer agenas entre sí. Sin embargo a lo largo de este capítulo 
-veremos que ambas están relacionadas a través de la implementación de triangulaciones sobre las superficies. 
-En particular la representación de superficies a través de gráficas proporciona una nueva perspectiva que permite estudiar propiedades topológicas de otros objetos matemáticos 
-conocidos cómo nudos.\\
+La teoría de gráficas y el estudio de superficies son dos ramas de las matemáticas que en primera instancia podrían parecer agenas entre sí. Sin embargo a lo largo de este capítulo veremos que ambas están relacionadas a través de la implementación de triangulaciones sobre las superficies. 
+En particular la representación de superficies a través de gráficas proporciona una nueva perspectiva que permite estudiar propiedades topológicas de otros objetos matemáticos conocidos cómo nudos.\\
 Una gráfica es un conjunto de vértices que están conectados por aristas, mientras que una superficie puede entenderse como un objeto que es localmente homeomorfo 
 al plano $\mathbb{R}^2$, tales como una esfera, o un toro. Al triangular la superficie, podemos relacionarla posteriormente con una gráfica, lo cual permite la 
 posibilidad de abordar la superficie con los teoremas y algoritmos existentes para la teoría de gráficas.Esta relación también permite investigar temas como la clasificación 
@@ -13,7 +11,20 @@ en los textos: \cite{haru}, \cite{diestel}, \cite{pressley}, las cuales utilizar
 
 
 \subsection{Definiciones y conceptos}
-Para entender el objeto de estudio principal de esta tesis, comenzaremos por definir uno de los objetos matemáticos que utilizaremos en primera instancia, el concepto de superficie.
+Para entender el objeto de estudio principal de esta tesis, comenzaremos por definir uno de los objetos matemáticos que utilizaremos en primera instancia, el concepto de superficie, para ello dependemos de conceptos previos que iremos definiendo uno a uno hasta llegar a la definición de superficie.
+
+\begin{definition}(Espacio topológico)
+    Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{A}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.
+    \begin{enumerate}
+        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ arbitrario, entonces $\cup_{i \in \mathcal{I}} A_i \in \mathcal{A}$.
+        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ finito, entonces $\cap_{i \in \mathcal{I}} A_i \in \mathcal{A}$
+    \end{enumerate}
+    Por ser $A$ la intersección de una familia vacía, entonces $X \in \mathcal{A}$, además por ser $\emptyset$ la unión de una familia vacía también yace en $\mathcal{A}$.
+    \\ A la pareja $(X,\mathcal{A})$ se le denomina \textbf{\textit{espacio topológico}}.
+\end{definition}
+\begin{definition}(Espacio de Hausdorf)
+    Sea $(X,\mathcal{A})$ un espacio topológico, tal que cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es un \textbf{Espacio de Hausdorf}.
+\end{definition}
 
 \begin{definition}
     (Superficie)\\
@@ -57,7 +68,7 @@ Demostraremos que $\mathrm{S}$ es una superficie, entonces , tenemos que demostr
     Por tanto $\Pi$ es un homeomorfismo y por tanto $S \cap W$ es homeomorfo a $U$ y por lo tanto $S$ es una superficie.
 \end{proof}
 
-\begin{center}
+
 \begin{figure}[H]
 	\centering
     \begin{tikzpicture}
@@ -75,23 +86,22 @@ Demostraremos que $\mathrm{S}$ es una superficie, entonces , tenemos que demostr
 
 \end{tikzpicture}
     \label{fig:silla}
-    \caption{Ejemplo de superficie}
+    \caption{Ejemplo de superficie en $\mathbb{R}^3$ comúnmente conocida como "Silla de Montar"}
 \end{figure}
-\begin{flushleft}
-En la figura \ref{fig:silla} se puede observar una superficies en $\mathbb{R}^3$ comúnmente conocida como "Silla de montar"
-\end{flushleft}
 
-\end{center}
 
 \end{example}
 Habiendo establecido una forma rigurosa de definir superficies, es útil explorar cómo podemos representar estas superficies mediante estructuras más manejables y adecuadas para los objetivos de esta tesis. Una técnica clave es la triangulación, que nos permite descomponer una superficie en elementos simples, como triángulos, preservando su estructura topológica. En este contexto, el teorema de triangulación de Radó desempeña un papel central, ya que garantiza que cualquier superficie puede ser triangulada. Este proceso nos permite asociar una gráfica a la superficie al considerar los vértices y aristas de la triangulación, facilitando su estudio como gráfica.
-\begin{definition}
-    (Triangulación)\\
+
+\begin{definition}(Trigángulo topológico)\\
+    
+\end{definition}
+
+\begin{definition}(Triangulación)\\
     Una \textbf{}{triangulación} de una superficie \textbf{S} es una subdivisón de S en triángulos topológicos que se itersectan en aristas o en vértices.
 \end{definition}
 
-\begin{teorema}
-(Teorema de Radó)\\
+\begin{teorema}(Teorema de Radó)\\
     Toda superficie \textbf{S} se puede triangular 
 \end{teorema}
 
