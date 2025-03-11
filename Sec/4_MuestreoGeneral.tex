@@ -389,8 +389,8 @@ Así, hemos definido una operación para las matrices de adyacencia donde, dado 
 Una vez establecidos los métodos descritos anteriormente, es posible combinar sus principios para desarrollar un enfoque generalizado de reducción de nodos. 
 \\En esta sección, exploraremos en detalle dicho enfoque, examinando su complejidad computacional, describiendo su implementación paso a paso y destacando las ventajas clave que se derivan de su aplicación.
 
-\subsubsection{Combinación de funciones}
 El proceso de muestreo eficiente en una gráfica se basa en reducir el número de nodos mientras se conservan sus propiedades clave. Primero, se genera un orden de recorrido utilizando un árbol generador mínimo y el algoritmo DFS, lo que permite recorrer toda la gráfica y establecer un orden basado en DFS.
+
 En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de la muestra. Se calculan las distancias promedio entre los nodos ordenados y el centroide de la muestra, priorizando los más lejanos para evitar sesgos. Con el nuevo orden, se generan puntos alrededor de cada nodo utilizando una esfera, identificando y eliminando vecinos dentro de un radio definido, manteniendo la adyacencia. Este proceso se repite hasta obtener la muestra requerida. El algoritmo se divide en fases para facilitar su comprensión. 
 \begin{algorithm}[H]
 \caption{Método General}
@@ -401,21 +401,21 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
 \Statex
 \Function{Sampling}{$x, adjacency, size, alcance, esfera\_size$}
     \State Obtener el árbol generador mínimo (MST) desde $adjacency$ \Comment{Algoritmo \ref{alg:kruskal}}
-    \State Inicializar $visitados[] \gets FALSE$ , $orden[] \gets []$
-    \State Obtener orden mediante DFS $dfs\_order(0, visitados, orden) $\Comment{Algoritmo \ref{alg:DFS}} 
+    \State Inicializar $visited[] \gets FALSE$ , $order[] \gets empty\_list$
+    \State Obtener orden mediante DFS $dfs\_order(0, visited, order) $\Comment{Algoritmo \ref{alg:DFS}} 
 
-    \State Inicializar $nodos\_eliminados[] \gets []$, $cola[] = orden[]$
+    \State Inicializar $removed\_nodes[] \gets empty\_list$, $queue[] = order\_copy$
     
-    \While{$numero\_nodos - nodos\_eliminados \geq size$}
-        \If{$nodos\_eliminados$ no es vacío}
-            \State $dist = ||nodo\_actual - centroide||_2 $
-            \State Ordena $cola$ por distancias en orden descendente
+    \While{$number\_nodes - removed\_nodes \geq size$}
+        \If{$removed\_nodes$ no es vacío}
+            \State $dist \gets dist(currency\_node - centroid) $
+            \State Ordena $queue$ por distancias en orden descendente
         \EndIf
-        \State Obtener coordenadas del primer elemento de $cola$.
-        \\ \hfil $idx = cola.pop(0)$ $h, k, l = x[idx]$ 
+        \State Obtener coordenadas del primer elemento de $queue$.
+        \\ \hfil $idx \gets queue.pop()$ $h, k, l \gets x[idx]$ 
         \State Obtenemos esfera uniforme \Call{GeneraPuntosUniformes}{$idx$} \Comment{Algoritmo \ref{alg:generaPuntos}}
-        \State Hacemos $vecinos = vecinos \cap GeneraPuntosUniformes(idx)$
-        \ForAll{$vecinos \in vecinos \setminus eliminados$}
+        \State Hacemos $neighbors \gets neighbors \cap GeneraPuntosUniformes(idx)$
+        \ForAll{$vecinos \in vecinos - eliminados$}
             \State \Call{EliminaNodoConAdyacencia}{$n$,$adyacency$} \Comment{Algoritmo \ref{alg:elimnaAdyacencias}}
         \EndFor
     \EndWhile
@@ -425,13 +425,20 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
 \end{algorithm}
 \subsection{Análisis de Complejidad}
 
-El análisis de complejidad de nuestro algoritmo se realiza descomponiendo sus principales componentes y justificando cada cálculo. La construcción del Árbol Generador Mínimo (MST) utiliza el algoritmo de Kruskal, que tiene una complejidad de \( \mathcal{O}(E \log(V)) \)\cite{Introduction-toalgorithm}, donde \( E \) es el número de aristas y \( V \) el número de vértices del grafo. Este paso es esencial para establecer una estructura inicial que guía el muestreo de nodos.
+El análisis de complejidad de nuestro algoritmo se realiza descomponiendo sus principales componentes y justificando cada cálculo. La construcción del Árbol Generador Mínimo (MST) utiliza el algoritmo de Kruskal, que tiene una complejidad de \( \mathcal{O}(E \log(V)) \)\cite{Introduction-toalgorithm}, donde \( E \) es el número de aristas y \( V \) el número de vértices de la gráfica. Este paso es esencial para establecer una estructura inicial que guía el muestreo de nodos.
 El siguiente paso es ordenar los nodos del grafo mediante un recorrido en profundidad (DFS), cuya complejidad es \( \mathcal{O}(V + E) \)\cite{Introduction-toalgorithm}. Esto se debe a que el DFS visita cada vértice y cada arista exactamente una vez. Este orden nos permite recorrer sistemáticamente los nodos y controlar las operaciones de muestreo.
 
-El bucle principal del algoritmo, que se ejecuta hasta alcanzar el tamaño deseado de la muestra, domina la mayor parte del costo computacional. Dentro de este bucle, el cálculo de distancias entre los nodos y el centroide de la muestra tiene un costo de \( \mathcal{O}(n \cdot d) \). Este cálculo involucra tres pasos: el cálculo de la media, la resta elemento a elemento y la norma euclidiana para cada nodo en \( \texttt{queue} \). Cada paso depende de la dimensión \( d \) de los datos y del número de nodos procesados en esa iteración.
-La generación de puntos esféricos, que depende únicamente del parámetro \( \texttt{esfera\_size} \), tiene un costo constante de \( \mathcal{O}(\texttt{esfera\_size}) \). Como esta operación se repite para cada nodo en el muestreo, el costo total asociado a este componente es \( \mathcal{O}(M \cdot \texttt{esfera\_size} \cdot d) \), donde \( M \) es el número de nodos y \( d \) es la dimensión.
-La intersección de los vecinos generados en la esfera con los vecinos del nodo en la matriz de adyacencia tiene un costo lineal de \( \mathcal{O}(V) \). Este cálculo depende del tamaño de los conjuntos comparados, donde el conjunto mayor está determinado por el número de vértices del grafo. Una vez identificados los nodos dentro de la esfera, el algoritmo actualiza la matriz de adyacencia. Dado que esta matriz tiene un tamaño de \( V \times V \), las operaciones de reajuste tienen un costo de \( \mathcal{O}(V^2) \).
-Finalmente, los nodos eliminados deben ser descartados de la matriz de adyacencia, lo que implica un costo adicional de \( \mathcal{O}(V \cdot k) \), donde \( k \) es el número de nodos eliminados. Este costo se suma al procesamiento necesario para mantener la consistencia de la estructura de datos.
-Resumiendo , notamos que las operaciones más costosas que otorgan la complejidad final al algoritmo es la obtención del MST $\mathcal{O}(E\log V)$ y las iteraciones del bucle principal, que resulta ser $\mathcal{O}(M * V^2)$ donde $T$ depende del tamaño final de la muestra, entonces dado las dos operaciones mas costosas en diferentes fases del algortimo la complejidad final está dada por: $\mathcal{O}(E \log V + M* V^2)$.
+El bucle principal del algoritmo, que se ejecuta hasta alcanzar el tamaño deseado de la muestra, domina la mayor parte del costo computacional, en el peor de los casos este bucle se ejecuta \(V\) veces ya que en cada iteración se elimina un nodo por tanto su costo podría acotarse por \(\mathcal{O} (V)\). 
+
+Dentro de este bucle, el cálculo de distancias entre los nodos y el centroide de la muestra se calcula mediante la norma euclideana, es decir se calcula la distancia a lo más $V$ veces y se repite por el número $d$ de dimensión que en este caso $d=3$ por tanto la complejidad total es: $\mathcal{O}(V)$
+
+Luego, la complejidad de algoritmo para generar la muestra uniforme está determinado por el número de veces que se ejecuta su bucle principal, ya que, las operaciones realizadas no dependen del número de puntos a generar por tanto su complejidad es $\mathcal{O}(1)$, de esta forma la complejidad de este algortimo es $\mathcal{O}(esfera_size)$, que para terminos de la implementación de dicho algoritmo, siempre es constante. 
+
+La intersección de los vecinos generados en la esfera con los vecinos del nodo en la matriz de adyacencia tiene un costo lineal de \( \mathcal{O}(V) \). Este cálculo depende del tamaño de los conjuntos comparados, donde el conjunto mayor está determinado por el número de vértices de la gráfica. Una vez identificados los nodos dentro de la esfera, el algoritmo actualiza la matriz de adyacencia. Dado que esta matriz tiene un tamaño de \( V \times V \), las operaciones de reajuste tienen un costo de \( \mathcal{O}(V^2) \).
+
+Finalmente, los nodos eliminados deben ser descartados de la matriz de adyacencia, lo que implica un costo adicional de \( \mathcal{O}(V \cdot k) \), donde \( k \) es el número de nodos eliminados que para terminos de la implementación lo podemos dejar como una constante, por lo tanto la complejidad final sería $\mathcal{O}(V)$.
+ Este costo se suma al procesamiento necesario para mantener la consistencia de la estructura de datos.
+Resumiendo , notamos que las operaciones más costosas que otorgan la complejidad final al algoritmo es la obtención del MST $\mathcal{O}(E\log V)$ y las iteraciones del bucle principal, que resulta ser $\mathcal{O}(V * V^2) = \mathcal{O}(V^3)$ pues, las operaciones se ejecutan $V$ veces multiplicado por el reordenamiento de la matriz de adyacencia, entonces dado las dos operaciones mas costosas en diferentes fases del algortimo la complejidad final está dada por: $\mathcal{O}(E \log V +  V^3)$. 
+\\Como observación final, en el peor de los casos sabemos que $E = V^2$, pero como estamos trabajando con un tipo de gráficas especiales, para este caso $E \neq V^2$.
 
 

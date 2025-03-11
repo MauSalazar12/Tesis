@@ -16,19 +16,40 @@ Para entender el objeto de estudio principal de esta tesis, comenzaremos por def
 \begin{definition}(Espacio topológico)
     Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{A}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.
     \begin{enumerate}
-        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ arbitrario, entonces $\cup_{i \in \mathcal{I}} A_i \in \mathcal{A}$.
-        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ finito, entonces $\cap_{i \in \mathcal{I}} A_i \in \mathcal{A}$
+        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ arbitrario, entonces \(\displaystyle \bigcup_{i \in \mathcal{I}} A_i \in \mathcal{A}\).
+        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ finito, entonces $\bigcap_{i \in \mathcal{I}} A_i \in \mathcal{A}$
     \end{enumerate}
     Por ser $A$ la intersección de una familia vacía, entonces $X \in \mathcal{A}$, además por ser $\emptyset$ la unión de una familia vacía también yace en $\mathcal{A}$.
     \\ A la pareja $(X,\mathcal{A})$ se le denomina \textbf{\textit{espacio topológico}}.
 \end{definition}
+
+\begin{example}
+    
+\end{example}
+
 \begin{definition}(Espacio de Hausdorf)
-    Sea $(X,\mathcal{A})$ un espacio topológico, tal que cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es un \textbf{Espacio de Hausdorf}.
+    Sea $(X,\mathcal{A})$ un espacio topológico  es un \textbf{Espacio de Hausdorf}, si para cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es decir para dos puntos $x \neq y $ en $X$ existe $U \in \mathcal{N}_x$ y $V \in \mathcal{N}_Y$ tal que $U \cap V = \emptyset$ .
+\end{definition}
+
+\begin{definition}(Base de vecindades)
+    Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
+\end{definition}
+
+\begin{definition}(Primer axioma de numerabilidad)
+    Sea $X$ un espacio topológico. Se dice que $X$ satisface el primer axioma de numerabilidad o que es 1-numerable, si cumple que, cada punto de $X$ tiene una base de vecindades numerable.
+\end{definition}
+
+\begin{definition}(Espacio 2-numerable)
+    Sea $X$ un espacio topológico, se dice que $X$ satisface el segundo axioma de numerabilidad, o que es 2-numerable, si la topología $X$ admite una base numerable.
+\end{definition}
+
+\begin{definition}(Variedad topológica)
+    Un espacio topológico $X$, de Hausdorff, 2-numerable es una \textbf{variedad topológica} de dimensión n, también llamada n-variedad, si cada punto $x \in X$ tiene una vecindad homeomorfa a un abierto $U$ en la n-bola cerrada $\mathbb{B}^n$
 \end{definition}
 
 \begin{definition}
     (Superficie)\\
-        Un subconjunto $S$ de $\mathbb{R}^{3}$ es una \textbf{superficie} si para cada punto $p \in S$, hay un conjunto abierto $U \subset \mathbb{R}^{2}$ y un conjunto abierto $W \subset \mathbb{R}^{3}$ que contiene a $p$ tal que $S \cap W$ es homeomorfo a $U$.
+        Una $2-variedad$ $S$ es una superficie.
 \end{definition}
 
 \begin{example}
