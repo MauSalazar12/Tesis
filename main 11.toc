@@ -3,8 +3,8 @@
 \contentsline {section}{\numberline {2}Gráficas y Superficies}{2}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Definiciones y conceptos}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Matriz de adyacencia}{6}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Grado de un vértice}{7}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Subgráficas}{9}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.3}Grado de un vértice}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Subgráficas}{8}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Caminos y ciclos}{10}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Árboles}{10}{subsection.2.6}%
 \contentsline {section}{\numberline {3}Redes Neuronales Gráficas}{14}{section.3}%

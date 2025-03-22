@@ -1,4 +1,4 @@
-\section{Muestreo General}
+\section{Construcción de algoritmo de muestreo}
 En los últimos años, los avances en el campo del \textit{Deep Learning} y la Inteligencia Artificial han transformado distintas disciplinas como la visión por computadora, el análisis de datos y el reconocimiento de patrones. Estas herrramientas se han construido con bases matemáticas sólidas, cómo el Análisis matemático , el álgebra lineal y la estadística, las cuales han sido ampliamente documentadas y desarrolladas en textos con el que se ha citado en repetidas ocasiones en esta Tesis \textit{Deep Learning} de Goodfellow et al (2016). Sin embargo la relación entre las matemáticas y el aprendizaje profundo no se limita únicamente al uso de coneptos matemáticos para el desarrollo de modelos; por el contrario, podemos utilizar dichos modelos para explorar y analizar estructuras de objetos matemáticos complejos (Bronstein et al, 2021).
 Este capítulo aborda el estudio de nudos de Lissajous, un tipo especial de nudo generado por funciones armónicas tridimensionales que se modelan mediante parámetros periódicos, los cuales presentan una serie de configuraciones topológicas que pueden ser modeladas y analizadas a través de herramientas modernas de aprendizaje automático y teoría de gráficas. En este contexto, el objetivo principal es clasisificar con base en una serie de propiedades de estos nudos, de las cuales dentro de todas estas se encuentra la característica de Euler, una propiedad topológica fundamental que describe la conectividad y la estructura de estos objetos. Para ello, emplearemo arquitecturas avanzadas de aprendizaje profundo, como las Redes Neuronales Gráficas que hemos descito en capítulos anteriores,que han demostrado se herramientas efectivas para analizar estructuras no euclidianas (Xu et al 2019).
 A lo largo de este capítulo, se detallará la metodología empleada, que combina técnicas de visualización de gráficas, empleo de algoritmos de clasificación utilizando GNNs, así como unan serie de algoritmos de muestreo que se utilizan para obtener mejores resultados.Este enfoque resalta cómo las herramientas existentes de Deep Learning pueden extenderse más allá de los problemas tradicionales de clasificación y predicción, ofreciendo nuevas perspectivas de resolver problemas fundamentales en matemáticas y teoría de nudos.
@@ -401,18 +401,18 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
 \Statex
 \Function{Sampling}{$x, adjacency, size, alcance, esfera\_size$}
     \State Obtener el árbol generador mínimo (MST) desde $adjacency$ \Comment{Algoritmo \ref{alg:kruskal}}
-    \State Inicializar $visited[] \gets FALSE$ , $order[] \gets empty\_list$
+    \State Inicializar $visited[] \gets FALSE$ ; $order[] \gets empty\_list$
     \State Obtener orden mediante DFS $dfs\_order(0, visited, order) $\Comment{Algoritmo \ref{alg:DFS}} 
 
-    \State Inicializar $removed\_nodes[] \gets empty\_list$, $queue[] = order\_copy$
+    \State Inicializar $removed\_nodes[] \gets empty\_list$; $queue[] \gets copy(order)$
     
     \While{$number\_nodes - removed\_nodes \geq size$}
         \If{$removed\_nodes$ no es vacío}
-            \State $dist \gets dist(currency\_node - centroid) $
+            \State $dist \gets dist(currency\_node,centroid) $
             \State Ordena $queue$ por distancias en orden descendente
         \EndIf
         \State Obtener coordenadas del primer elemento de $queue$.
-        \\ \hfil $idx \gets queue.pop()$ $h, k, l \gets x[idx]$ 
+        \\ \hfil $idx \gets queue.pop()$; $h, k, l \gets x[idx]$ 
         \State Obtenemos esfera uniforme \Call{GeneraPuntosUniformes}{$idx$} \Comment{Algoritmo \ref{alg:generaPuntos}}
         \State Hacemos $neighbors \gets neighbors \cap GeneraPuntosUniformes(idx)$
         \ForAll{$vecinos \in vecinos - eliminados$}
@@ -428,17 +428,18 @@ En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de 
 El análisis de complejidad de nuestro algoritmo se realiza descomponiendo sus principales componentes y justificando cada cálculo. La construcción del Árbol Generador Mínimo (MST) utiliza el algoritmo de Kruskal, que tiene una complejidad de \( \mathcal{O}(E \log(V)) \)\cite{Introduction-toalgorithm}, donde \( E \) es el número de aristas y \( V \) el número de vértices de la gráfica. Este paso es esencial para establecer una estructura inicial que guía el muestreo de nodos.
 El siguiente paso es ordenar los nodos del grafo mediante un recorrido en profundidad (DFS), cuya complejidad es \( \mathcal{O}(V + E) \)\cite{Introduction-toalgorithm}. Esto se debe a que el DFS visita cada vértice y cada arista exactamente una vez. Este orden nos permite recorrer sistemáticamente los nodos y controlar las operaciones de muestreo.
 
-El bucle principal del algoritmo, que se ejecuta hasta alcanzar el tamaño deseado de la muestra, domina la mayor parte del costo computacional, en el peor de los casos este bucle se ejecuta \(V\) veces ya que en cada iteración se elimina un nodo por tanto su costo podría acotarse por \(\mathcal{O} (V)\). 
+El bucle principal del algoritmo, que se ejecuta hasta alcanzar el tamaño deseado de la muestra, domina la mayor parte del costo computacional, en el peor de los casos este bucle se ejecuta \(V\) veces, considerando que el tamaño de la muestra puede representar una cota ya que en cada iteración se elimina un nodo por tanto su costo podría acotarse por \(\mathcal{O} (V)\). 
 
-Dentro de este bucle, el cálculo de distancias entre los nodos y el centroide de la muestra se calcula mediante la norma euclideana, es decir se calcula la distancia a lo más $V$ veces y se repite por el número $d$ de dimensión que en este caso $d=3$ por tanto la complejidad total es: $\mathcal{O}(V)$
+Dentro de este bucle, el cálculo de distancias entre los nodos y el centroide de la muestra se calcula mediante la norma euclideana, es decir se calcula la distancia a lo más $V$ veces y se repite por el número $d$ de dimensión que en este caso $d=3$ por tanto la complejidad total es: $\mathcal{O}(V)$ .
 
-Luego, la complejidad de algoritmo para generar la muestra uniforme está determinado por el número de veces que se ejecuta su bucle principal, ya que, las operaciones realizadas no dependen del número de puntos a generar por tanto su complejidad es $\mathcal{O}(1)$, de esta forma la complejidad de este algortimo es $\mathcal{O}(esfera_size)$, que para terminos de la implementación de dicho algoritmo, siempre es constante. 
+Luego, la complejidad del algoritmo para generar la muestra uniforme está determinado por el número de veces que se ejecuta su bucle principal, ya que, las operaciones realizadas no dependen del número de puntos a generer, por lo tanto la complejidad es constante, de esta forma el número de pasos que realiza el método es en el orde de $esfera\_size$ que, para términos de la implementación de dicho algorimot, siempre es constante.
 
 La intersección de los vecinos generados en la esfera con los vecinos del nodo en la matriz de adyacencia tiene un costo lineal de \( \mathcal{O}(V) \). Este cálculo depende del tamaño de los conjuntos comparados, donde el conjunto mayor está determinado por el número de vértices de la gráfica. Una vez identificados los nodos dentro de la esfera, el algoritmo actualiza la matriz de adyacencia. Dado que esta matriz tiene un tamaño de \( V \times V \), las operaciones de reajuste tienen un costo de \( \mathcal{O}(V^2) \).
 
-Finalmente, los nodos eliminados deben ser descartados de la matriz de adyacencia, lo que implica un costo adicional de \( \mathcal{O}(V \cdot k) \), donde \( k \) es el número de nodos eliminados que para terminos de la implementación lo podemos dejar como una constante, por lo tanto la complejidad final sería $\mathcal{O}(V)$.
+Finalmente, los nodos eliminados deben ser descartados de la matriz de adyacencia, lo que implica un costo adicional de \( \mathcal{O}(V) \) por le número de pasos k, donde \( k \) es el número de nodos eliminados que para terminos de la implementación lo podemos dejar como una constante, por lo tanto la complejidad final sería $\mathcal{O}(V)$.
  Este costo se suma al procesamiento necesario para mantener la consistencia de la estructura de datos.
 Resumiendo , notamos que las operaciones más costosas que otorgan la complejidad final al algoritmo es la obtención del MST $\mathcal{O}(E\log V)$ y las iteraciones del bucle principal, que resulta ser $\mathcal{O}(V * V^2) = \mathcal{O}(V^3)$ pues, las operaciones se ejecutan $V$ veces multiplicado por el reordenamiento de la matriz de adyacencia, entonces dado las dos operaciones mas costosas en diferentes fases del algortimo la complejidad final está dada por: $\mathcal{O}(E \log V +  V^3)$. 
-\\Como observación final, en el peor de los casos sabemos que $E = V^2$, pero como estamos trabajando con un tipo de gráficas especiales, para este caso $E \neq V^2$.
+\\Como observación final, en el peor de los casos sabemos que $E = V^2$, pero como estamos trabajando con un tipo de gráficas especiales, para este caso $E \neq V^2$, en específico $E < V^2$
 
 
+captura equivarianzas sobre la superficie por eso los resultados parecen ser mejores.

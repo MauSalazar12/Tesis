@@ -1,0 +1,30 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Gráficas y Superficies}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Definiciones y conceptos}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Matriz de adyacencia}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Grado de un vértice}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Subgráficas}{8}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Caminos y ciclos}{9}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Árboles}{10}{subsection.2.6}%
+\contentsline {section}{\numberline {3}Redes Neuronales Gráficas}{13}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Redes Neuronales}{13}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Redes convolucionales CNN}{19}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Redes Neuronales Gráficas}{23}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Propagación de Mensajes Neuronales}{23}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Descripción general del mecanismo}{24}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}La GNN fundamental}{24}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Redes Gráficas Convolucionales (GCNs)}{25}{subsection.3.7}%
+\contentsline {section}{\numberline {4}Construcción de algoritmo de muestreo}{26}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Superficies estudiadas}{26}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Métodos de Muestreo}{27}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Orden por árbol generador mínimo}{27}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Muestreo por Esferas}{28}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Reasignación de Adyacencias para Preservar la Estructura}{33}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Método general para la reducción de nodos}{35}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Análisis de Complejidad}{36}{subsection.4.7}%
+\contentsline {section}{\numberline {5}Resultados y conclusiones}{37}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Arquitectura PointNet}{38}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Resultados de la evaluación}{40}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Conclusiones}{41}{subsection.5.3}%
+\contentsline {section}{\numberline {A}Definiciones básicas}{41}{appendix.Alph1}%

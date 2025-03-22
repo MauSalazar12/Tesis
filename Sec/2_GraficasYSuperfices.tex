@@ -14,26 +14,99 @@ en los textos: \cite{haru}, \cite{diestel}, \cite{pressley}, las cuales utilizar
 Para entender el objeto de estudio principal de esta tesis, comenzaremos por definir uno de los objetos matemáticos que utilizaremos en primera instancia, el concepto de superficie, para ello dependemos de conceptos previos que iremos definiendo uno a uno hasta llegar a la definición de superficie.
 
 \begin{definition}(Espacio topológico)
-    Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{A}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.
+    \\Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{T}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.
     \begin{enumerate}
-        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ arbitrario, entonces \(\displaystyle \bigcup_{i \in \mathcal{I}} A_i \in \mathcal{A}\).
-        \item Si $\{A_i\}_{i \in \mathcal{I}} \subseteq A$, $\mathcal{I}$ finito, entonces $\bigcap_{i \in \mathcal{I}} A_i \in \mathcal{A}$
+        \item Si $\{T_i\}_{i \in \mathcal{I}} \subseteq \mathcal{T}$, $\mathcal{I}$ arbitrario, entonces \(\displaystyle \bigcup_{i \in \mathcal{I}} T_i \in \mathcal{T}\).
+        \item Si $\{T_i\}_{i \in \mathcal{I}} \subseteq \mathcal{T}$, $\mathcal{I}$ finito, entonces $\displaystyle \bigcap_{i \in \mathcal{I}} T_i \in \mathcal{T}$
     \end{enumerate}
-    Por ser $A$ la intersección de una familia vacía, entonces $X \in \mathcal{A}$, además por ser $\emptyset$ la unión de una familia vacía también yace en $\mathcal{A}$.
-    \\ A la pareja $(X,\mathcal{A})$ se le denomina \textbf{\textit{espacio topológico}}.
+    Por ser $T$ la intersección de una familia vacía, entonces $X \in \mathcal{T}$, además por ser $\emptyset$ la unión de una familia vacía también yace en $\mathcal{T}$.
+    \\ A la pareja $(X,\mathcal{T})$ se le denomina \textbf{\textit{espacio topológico}}.
 \end{definition}
 
 \begin{example}
+    Sea $X$ un conjunto de dos elementos $X = \{x,y\}$, podemos definir una topología sobre este conjunto de la siguiente forma:
+    \\Tomemos los conjuntos abiertos: $\mathcal{T} = \{X,\emptyset, \{x\} \}$
+    \\Entonces observamos que:
+    
+    $\{x\} \cup X =X$, $\{x\} \cup \emptyset = \{x\}$,
+    $X \cup \emptyset = X$, $\{x\} \cap X = \{x\}$,
+    $\{x\} \cap \emptyset = \emptyset$, $X \cap \emptyset = \emptyset$
+    
+    Por tanto $(X,\mathcal{T})$ es un espacio topológico, en específico se le conoce como espacio topológico de Sierpiński.
     
 \end{example}
 
-\begin{definition}(Espacio de Hausdorf)
-    Sea $(X,\mathcal{A})$ un espacio topológico  es un \textbf{Espacio de Hausdorf}, si para cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es decir para dos puntos $x \neq y $ en $X$ existe $U \in \mathcal{N}_x$ y $V \in \mathcal{N}_Y$ tal que $U \cap V = \emptyset$ .
+\begin{definition}(Base de vecindades)
+    \\Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
 \end{definition}
 
-\begin{definition}(Base de vecindades)
-    Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
+\begin{definition}(Espacio de Hausdorf)
+    \\Sea $(X,\mathcal{A})$ un espacio topológico  es un \textbf{Espacio de Hausdorf}, si para cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es decir para dos puntos $x \neq y $ en $X$ existe $U \in \mathcal{N}_x$ y $V \in \mathcal{N}_Y$ tal que $U \cap V = \emptyset$ .
 \end{definition}
+
+\begin{definition}(Cubierta abierta)
+    \\Sea $X$ un espacio topológico, sea $\mathcal{A} = \{\mathcal{A}_i\}_{i \in \mathcal{I}}$ una familia de subconjuntos abiertos de $X$.
+    \\Se dice que $\mathcal{A}$ es una \textbf{cubierta abierta} de $X$ si $X \subseteq \displaystyle \bigcup_{i \in \mathcal{I}} \{\mathcal{A}_i\} $
+    
+\end{definition}
+
+\begin{definition}(Subcubierta finita)
+    Sea $X$ un espacio topológico, sea $\mathcal{A}$ una cubierta abierta de $X$. 
+    \\Decimos que $\mathcal{A}'$ es una subcubierta de $\mathcal{A}$ si $\mathcal{A}' \subset \mathcal{A}$, en particular si $\mathcal{A}'$ es finito, entonces es una \textbf{subcubierta finita}.
+    
+\end{definition}
+
+\begin{definition}(Espacio Compacto)
+    \\Sea $X$ un espacio topológico, se dice que $X$ es \textbf{compacto} si de cada cubierta abierta podemos extraer una subcubierta finita de $X$.
+\end{definition}
+
+\begin{example}
+    Sea $X = \{0\} \cup \{ \frac{1}{n} \hspace{5pt} | \hspace{5pt} n \in \mathbb{Z}_{+} \}$ un subespacio de $\mathbb{R}$.
+    \\Demostraremos a continuación que el espacio $X$ es un espacio compacto:
+    \begin{proof}
+        Sea $\{\mathcal{A}_{\alpha}\}$ una cubierta abierta de $X$, es decir $X \subseteq \displaystyle \bigcup_{\alpha} \mathcal{A}_{\alpha}$.
+        \\Como $0 \in X$ y $\{\mathcal{A}_{\alpha}\}$ es cubierta abierta, entonces existe un entorno abierto $\mathcal{A}_0$ que contiene a 0, es decir , existe $\epsilon > 0$ tal que $(-\epsilon, \epsilon) \subseteq \mathcal{A}_0$.
+        Notamos que, en particular existe un $N$ suficientemente grande tal que para todo $n>N$, se cumple que $\frac{1}{n} \in (-\epsilon,\epsilon)$, de ahí que los puntos de la forma $\frac{1}{N},\frac{1}{(N+1)},\frac{1}{(N+2)}, \dotsc $ están en $\mathcal{A}_0$, ahora los puntos restantes $1,2,\dotsc ,\frac{1}{N-1}$ notamos que son finitos y además están en algún $\mathcal{A}_{\alpha}$.Es decir están en una subcubierta finita.
+        \\Por último notamos que la subcubierta finita de $X$ es de la forma $\mathcal{A}_0 \cup \mathcal{A}_{1} \cup \cdots \cup \mathcal{A}_{N-1}$ por tanto, $X$ es compacto.
+
+    \end{proof}
+
+\end{example}
+\begin{figure}[H]
+    \centering
+    \begin{center}
+        \begin{tikzpicture}[scale=8]
+            % Eje x
+            \draw[->] (-0.05,0) -- (1.1,0) node[below] {$\mathbb{R}$};
+    
+            % Punto límite en 0
+            \filldraw[red] (0,0) circle (0.4pt) node[below left] {$0$};
+    
+            % Puntos de la secuencia 1, 1/2, 1/3, ..., 1/7
+            \foreach \n in {1,2,3,4,5,6,7} {
+                \filldraw[blue] ({1/\n},0) circle (0.4pt) node[above] {$\frac{1}{\n}$};
+            }
+    
+            % Indicador de la sucesión que converge a 0
+            \draw[dashed] (0,0.05) -- (0,-0.05);
+    
+            % Entorno abierto alrededor de 0
+            \draw[red,thick,opacity=0.5] (-0.03,-0.1) -- (0.12,-0.1) arc[start angle=180, end angle=0, radius=0.02] -- cycle;
+            \node[red] at (0.06,-0.12) {$\mathcal{A}_0$};
+    
+            % Entornos abiertos para algunos puntos
+            \foreach \n in {1,2,3,4} {
+                \draw[blue,thick,opacity=0.5] ({1/\n - 0.05},-0.1) -- ({1/\n + 0.05},-0.1) arc[start angle=180, end angle=0, radius=0.02] -- cycle;
+                \node[blue] at ({1/\n},-0.12) {$\mathcal{A}_{\frac{1}{\n}}$};
+            }
+        \end{tikzpicture}
+    \end{center}
+    \label{fig:compacto}
+    \caption{Ilustración de la compacidad del espacio $X$}
+    
+    
+\end{figure}
+
 
 \begin{definition}(Primer axioma de numerabilidad)
     Sea $X$ un espacio topológico. Se dice que $X$ satisface el primer axioma de numerabilidad o que es 1-numerable, si cumple que, cada punto de $X$ tiene una base de vecindades numerable.
@@ -49,7 +122,7 @@ Para entender el objeto de estudio principal de esta tesis, comenzaremos por def
 
 \begin{definition}
     (Superficie)\\
-        Una $2-variedad$ $S$ es una superficie.
+        Una $2-variedad$ $S$ es una superficie. Si es compacta y no tiene frontera se le llama \textbf{Superfice cerrada}
 \end{definition}
 
 \begin{example}
@@ -182,7 +255,7 @@ En la figura \ref{fig:G} podemos observar que $\nu_{G}$ = 6, $\varepsilon_{G}$ =
     La matriz de adyacencia $\mathbf{A}$ de $\mathbf{G}$ está definida cómo \begin{center}
         $\mathbf{A}(\mathbf{G})$ = $\left[a_{ij}\right]$
     \end{center}
-    donde;
+    donde:
     \begin{center}
         $a_{ij}$=$\left\lbrace\begin{array}{c} 1~si~v_iv_j \in \mathbf{E_G} \\0~si~no \end{array}\right.$
     \end{center}
@@ -530,6 +603,8 @@ Lo cual quiere decir que $T$ es un sólo componente conexo, por lo tanto $T$ es 
 \end{center}
 Donde $w(u,v)$ es el peso que hay entre el vértice $u$ y la arista $v$.
 \end{definition}
+
+Hablar de raices de un árbol dado que el mst se inicializa en una raíz
 
 \begin{definition}[Característica de Euler]
     Dado un grafo plano $G$, la característica de Euler se define como:
