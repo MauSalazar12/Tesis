@@ -36,12 +36,69 @@ Para entender el objeto de estudio principal de esta tesis, comenzaremos por def
     
 \end{example}
 
-\begin{definition}(Base de vecindades)
-    \\Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
+\begin{definition}[Conjunto cerrado]
+    Sea $X$ un espacio topológico. Decimos que un subconjunto $A$ de $X$ es \textbf{cerrado} si el conjunto $X-A$ es abierto.   
+\end{definition}
+
+\begin{example}
+    Sea $A = \{x \times y | x\geq 0 \hspace{5pt} e \hspace{5pt} y \geq 0\} \subset \mathbb{R}^2$,entonces el conjunto A es cerrado.
+    \begin{proof}
+        Observamos que el complemento de $A$ es:
+         \[\{x \times y \hspace{5pt}| x < 0 , y \geq 0\} \cup \{x \times y \hspace{5pt} | x \geq, y <0 \} \cup \{x \times y  \hspace{5pt}| x<0 , y <0 \}\] es decir \[\{x \times y \hspace{5pt}| x <0 , y \in \mathbb{R}\} \cup \{x \times y\hspace{5pt} | x \in \mathbb{R} \times y < 0\}\] lo cual es equivalente a  \[(- \infty , 0) \times \mathbb{R} \cup \mathbb{R} \times (0, \infty)\] , como cada uno de ellos es abierto y la unión de abiertos es abierta, entonces el complemento de $A$ es abierto y por lo tanto $A$ es un conjunto cerrado.
+    \end{proof}
+
+\end{example}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Ejes coordenados
+        \draw[thick,->] (-3,0) -- (3,0) node[anchor=north west] {\small $x$};
+        \draw[thick,->] (0,-3) -- (0,3) node[anchor=south east] {\small $y$};
+    
+        % Región del conjunto A (x*y con x,y >= 0)
+        \fill[blue!30,opacity=0.7] (0,0) rectangle (3,3);
+        \node at (1.5,2.5) {\small $A = \{x \times y \mid x, y \geq 0\}$};
+    
+        % Región del complemento A^c (parte negativa)
+        \fill[red!30,opacity=0.5] (-3,-3) rectangle (0,0);
+        \node[red] at (-1.5,-1.5) {\small $A^c$};
+        \fill[red!30,opacity=0.5] (-3,3) rectangle (0,0);
+        \node[red] at (-1.5,-1.5) {\small $A^c$};
+        \fill[red!30,opacity=0.5] (3,-3) rectangle (0,0);
+        \node[red] at (-1.5,-1.5) {\small $A^c$};
+    
+        % Etiquetas
+        \node[blue] at (2.5,-0.5) {\small Conjunto Cerrado};
+        \node[red] at (-2.5,0.5) {\small Conjunto Abierto};
+    
+        % Línea divisoria en x=0 e y=0
+        \draw[dashed] (0,0) -- (3,3);
+    \end{tikzpicture}
+    \label{fig:cerrado}
+    \caption{Ilustración del suconjunto $A$}
+    
+\end{figure}
+
+\begin{definition}[Interior de un conjunto]
+    Sea $X$ un espacio topológico y $A$ un subconjunto de $X$.
+    El \textbf{interior} de $A$ se define como la unión de todos los conjuntos abiertos contenidos en $A$, es decir \[
+    Int A = \displaystyle \bigcup_{i \in \mathcal{I}} A_i \hspace{5pt} | \hspace{5pt} A_i \subset A\] con $A_i$ abierto para $i \in \mathcal{I}$.   
+\end{definition}
+
+\begin{definition}[Cerradura de un conjunto]
+    Sea $X$ un espacio topológico y $A$ un subconjunto de $X$.
+    La \textbf{cerradura} de $A$ se define como la intersección de todos los conjuntos cerrados que conitienen a $A$, es decir \[
+    \bar{A} = \displaystyle \bigcap_{i \in \mathcal{I}} A_i \hspace{5pt} | \hspace{5pt} A \subset A_i\] con $A_i$ cerrado para $i \in \mathcal{I}$.
+\end{definition}
+
+\begin{definition}[Frontera de un conjunto]
+    Sea $X$ un espacio topológico y $A$ un subconjunto de $X$. Un punto $x \in \bar{A} \cap \overline{X-A} $ se denomina \textbf{punto frontera} de $A$; al conjunto  $\bar{A} \cap \overline{X-A}$ se le llama \textbf{frontera} de $A$.
+    
 \end{definition}
 
 \begin{definition}(Espacio de Hausdorf)
-    \\Sea $(X,\mathcal{A})$ un espacio topológico  es un \textbf{Espacio de Hausdorf}, si para cualesquiera dos puntos distintos de $X$ poseen vecindades ajenas, es decir para dos puntos $x \neq y $ en $X$ existe $U \in \mathcal{N}_x$ y $V \in \mathcal{N}_Y$ tal que $U \cap V = \emptyset$ .
+    \\Sea $(X,\mathcal{A})$ un espacio topológico.Se dice que $X$  es un \textbf{Espacio de Hausdorf}, si para cada par $x_1, x_2$ de puntos distintos de $X$, existen vecindades $U_1,U_2$ de $x_1,x_2$ respectivamente, que son ajenas. Es decir $U_1 \cap U_2 = \emptyset$
 \end{definition}
 
 \begin{definition}(Cubierta abierta)
@@ -76,13 +133,10 @@ Para entender el objeto de estudio principal de esta tesis, comenzaremos por def
     \centering
     \begin{center}
         \begin{tikzpicture}[scale=8]
-            % Eje x
             \draw[->] (-0.05,0) -- (1.1,0) node[below] {$\mathbb{R}$};
-    
-            % Punto límite en 0
             \filldraw[red] (0,0) circle (0.4pt) node[below left] {$0$};
     
-            % Puntos de la secuencia 1, 1/2, 1/3, ..., 1/7
+            
             \foreach \n in {1,2,3,4,5,6,7} {
                 \filldraw[blue] ({1/\n},0) circle (0.4pt) node[above] {$\frac{1}{\n}$};
             }
@@ -107,14 +161,29 @@ Para entender el objeto de estudio principal de esta tesis, comenzaremos por def
     
 \end{figure}
 
+\begin{definition}(Base de vecindades)
+    \\Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
+\end{definition}
+
+\begin{definition}(Base numerable)
+    Sea un espacio toplógico $X$. Se dice que $X$ tiene una base numerable en $x$ si existe una base de vecindades numerable.
+
+\end{definition}
+
 
 \begin{definition}(Primer axioma de numerabilidad)
     Sea $X$ un espacio topológico. Se dice que $X$ satisface el primer axioma de numerabilidad o que es 1-numerable, si cumple que, cada punto de $X$ tiene una base de vecindades numerable.
 \end{definition}
 
-\begin{definition}(Espacio 2-numerable)
+\begin{definition}(Segundo axioma de numerabilidad)
     Sea $X$ un espacio topológico, se dice que $X$ satisface el segundo axioma de numerabilidad, o que es 2-numerable, si la topología $X$ admite una base numerable.
 \end{definition}
+
+\begin{example}
+    Observamos que en la topología uniforme $\mathbb{R}^\omega$ satisface el primer axioma de numerabilidad por ser metrizable.Sin embargo no satisface el segundo. Para comprobar este hecho mostraremos que si $X$ es un espacio que tiene base numerable $\mathcal{B}$, entonces cualquies subespacio discreto $A$ de $X$ debe ser numerable. Elijamos para cada $a \in A$ un elemento $B_a$ de la base que interseque a $A$ unicamente en el punto a, si a y b son distintos de A , los conjuntos $B_a$ y $B_b$ son distintos , puesto que el primero contiene a $a$ y el segundo no. Se sigue que l aplicación $a \rightarrow B_a$ es una inyección de $A$ en $\mathcal{B}$, por lo que $A$ debe ser numerable.
+    Ahora bien, el subespacio $A$ de $\mathbb{R}^\omega$ formado por todas las suscesiones de ceros y unos no es umerable y tiene la topologóa discreta porque $\bar{\rho}(a,b) = 1$ no tiene una base numerable.
+\end{example}
+
 
 \begin{definition}(Variedad topológica)
     Un espacio topológico $X$, de Hausdorff, 2-numerable es una \textbf{variedad topológica} de dimensión n, también llamada n-variedad, si cada punto $x \in X$ tiene una vecindad homeomorfa a un abierto $U$ en la n-bola cerrada $\mathbb{B}^n$
