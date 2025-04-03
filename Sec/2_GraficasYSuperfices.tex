@@ -1,4 +1,4 @@
-\section{Gráficas y Superficies}
+\chapter{Gráficas y Superficies}
 La teoría de gráficas y el estudio de superficies son dos ramas de las matemáticas que en primera instancia podrían parecer agenas entre sí. Sin embargo a lo largo de este capítulo veremos que ambas están relacionadas a través de la implementación de triangulaciones sobre las superficies. 
 En particular la representación de superficies a través de gráficas proporciona una nueva perspectiva que permite estudiar propiedades topológicas de otros objetos matemáticos conocidos cómo nudos.\\
 Una gráfica es un conjunto de vértices que están conectados por aristas, mientras que una superficie puede entenderse como un objeto que es localmente homeomorfo 
@@ -7,10 +7,9 @@ posibilidad de abordar la superficie con los teoremas y algoritmos existentes pa
 de superficies.\\
 Este capítulo explora la relación entre ambas áreas, enfocándose en como la triangulación de superficies nos proporciona una herramienta para la comprensión de propiedades 
 topólogicas básicas, así cómo algoritmos utilizados para el estudio de dichas áreas.La gran mayoría de las definiciones, conceptos y algoritmos que se estudian son basadas 
-en los textos: \cite{haru}, \cite{diestel}, \cite{pressley}, las cuales utilizaremos para capítulos posteriores. 
+en los textos: \cite{haru}, \cite{diestel}, \cite{pressley}, las cuales utilizaremos para capítulos posteriores. \cite{diestel}
 
-
-\subsection{Definiciones y conceptos}
+\section{Superficies}
 Para entender el objeto de estudio principal de esta tesis, comenzaremos por definir uno de los objetos matemáticos que utilizaremos en primera instancia, el concepto de superficie, para ello dependemos de conceptos previos que iremos definiendo uno a uno hasta llegar a la definición de superficie.
 
 \begin{definition}(Espacio topológico)
@@ -256,16 +255,103 @@ Demostraremos que $\mathrm{S}$ es una superficie, entonces , tenemos que demostr
 \end{example}
 Habiendo establecido una forma rigurosa de definir superficies, es útil explorar cómo podemos representar estas superficies mediante estructuras más manejables y adecuadas para los objetivos de esta tesis. Una técnica clave es la triangulación, que nos permite descomponer una superficie en elementos simples, como triángulos, preservando su estructura topológica. En este contexto, el teorema de triangulación de Radó desempeña un papel central, ya que garantiza que cualquier superficie puede ser triangulada. Este proceso nos permite asociar una gráfica a la superficie al considerar los vértices y aristas de la triangulación, facilitando su estudio como gráfica.
 
-\begin{definition}(Trigángulo topológico)\\
+\begin{definition}(Triángulo curvo)\\
+    Sea $X$ un espacio de Hausdorff compacto. Un \textbf{triángulo curvo} en $X$ es un par $(A,h)$ formado por un subespacio $A$ de $X$ y un homeomorfismo $h: T \rightarrow A$ donde $T$ es una región triangular cerrada del plano. 
+    Si $e$ es una arista de $T$, entonces $h(e)$ es una artista de $A$: si $v$ es in vértice de $T$,entonces $h(v)$ es un vértice de $A$.
     
 \end{definition}
 
+
+\begin{figure}[H]
+	\centering
+    \begin{tikzpicture}
+
+        % Triángulo en el plano
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (2,0);
+        \coordinate (C) at (1,2);
+
+        \draw[thick] (A) -- (B) -- (C) -- cycle;
+        \node[left] at (A) {\small $v_1$};
+        \node[right] at (B) {\small $v_2$};
+        \node[above] at (C) {\small $v_3$};
+
+        \node at (1,-0.5) {\small $T$};
+
+        % Flecha que indica el homeomorfismo
+        \draw[->] (2.5,1) to[out=0,in=180] (4,1);
+        \node at (3.3,1.5) {\small $h$};
+
+        % Imagen del triángulo curvo en X
+        \coordinate (A2) at (5,0.5);
+        \coordinate (B2) at (7,0.8);
+        \coordinate (C2) at (6.2,2);
+
+        \draw[thick] (A2) to[out=30,in=200] (B2) 
+                     to[out=50,in=270] (C2) 
+                     to[out=200,in=100] (A2);
+
+        \node[left] at (A2) {\small $h(v_1)$};
+        \node[right] at (B2) {\small $h(v_2)$};
+        \node[above] at (C2) {\small $h(v_3)$};
+
+        \node at (6,-0.8) {\small $A=h(T) \subset X$};
+
+        % Correspondencias entre aristas
+        \draw[dashed,->] (0.5,1) to[out=20,in=160] (5.3,1.4);
+        \node at (2.5,1.8) {\small $h(e_1)$};
+
+        \draw[dashed,->] (1,2) to[out=20,in=160] (6.2,2);
+        \node at (2.5,1.8) {\small $h(e_1)$};
+
+       
+
+        % Espacio X
+        \draw[rounded corners, dashed] (4.5,-0.5) rectangle (7.5,2.5);
+        \node at (7.7,2.3) {\small $X$};
+
+    \end{tikzpicture}
+    \label{fig:Triangulo}
+    \caption{Ejemplo de triángulo curvo}
+\end{figure}
+
 \begin{definition}(Triangulación)\\
-    Una \textbf{}{triangulación} de una superficie \textbf{S} es una subdivisón de S en triángulos topológicos que se itersectan en aristas o en vértices.
+    Sea $X$ un espacio topológico.Una \textbf{triangulación} de una superficie $X$ es una colección de triángulos curvos $A_1, \cdots , A_n$ en $X$ cuya unión es $X$, tal que para $i \neq j$, la intersección $A_i \cup A_j$ es: vacía, un vértice de ambos o una arista de ambos.  Si $X$ poseé una triangulación, se dira que $X$ es \textbf{triangulable}.
 \end{definition}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Definir los nodos de los vértices
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (3,0.5);
+        \coordinate (C) at (1,2);
+        \coordinate (D) at (4,2);
+        \coordinate (E) at (2,-1);
+        \coordinate (F) at (5,0);
+    
+        % Dibujar los triángulos curvos
+        \draw[thick] (A) .. controls (1,1) .. (B) .. controls (2,1.5) .. (C) .. controls (0.5,1.5) .. (A);
+        \draw[thick] (B) .. controls (3.5,1.5) .. (D) .. controls (2.5,2.5) .. (C);
+        \draw[thick] (B) .. controls (3,-0.5) .. (E) .. controls (1,-1) .. (A);
+        \draw[thick] (B) .. controls (4,0.5) .. (F) .. controls (4,-0.5) .. (E);
+        \draw[thick] (D) .. controls (5,1.5) .. (F) .. controls (4.5,0.5) .. (B);
+        
+        % Marcar los puntos
+        \filldraw[black] (A) circle (2pt) node[left] {$A$};
+        \filldraw[black] (B) circle (2pt) node[above] {$B$};
+        \filldraw[black] (C) circle (2pt) node[left] {$C$};
+        \filldraw[black] (D) circle (2pt) node[right] {$D$};
+        \filldraw[black] (E) circle (2pt) node[below] {$E$};
+        \filldraw[black] (F) circle (2pt) node[right] {$F$};
+    
+    \end{tikzpicture}
+    \label{fig:Triangulación}
+    \caption{Ejemplo de triangulación en una superficie}
+\end{figure}
+
 \begin{teorema}(Teorema de Radó)\\
-    Toda superficie \textbf{S} se puede triangular 
+    Toda superficie cerrada \textbf{S} es homeomorfa a ua superficie triangulada.
 \end{teorema}
 
 \begin{definition}[Gráfica] 
