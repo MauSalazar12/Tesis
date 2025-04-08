@@ -1,16 +1,18 @@
 \chapter{Gráficas y Superficies}
-La teoría de gráficas y el estudio de superficies son dos ramas de las matemáticas que en primera instancia podrían parecer agenas entre sí. Sin embargo a lo largo de este capítulo veremos que ambas están relacionadas a través de la implementación de triangulaciones sobre las superficies. 
-En particular la representación de superficies a través de gráficas proporciona una nueva perspectiva que permite estudiar propiedades topológicas de otros objetos matemáticos conocidos cómo nudos.\\
-Una gráfica es un conjunto de vértices que están conectados por aristas, mientras que una superficie puede entenderse como un objeto que es localmente homeomorfo 
-al plano $\mathbb{R}^2$, tales como una esfera, o un toro. Al triangular la superficie, podemos relacionarla posteriormente con una gráfica, lo cual permite la 
-posibilidad de abordar la superficie con los teoremas y algoritmos existentes para la teoría de gráficas.Esta relación también permite investigar temas como la clasificación 
-de superficies.\\
-Este capítulo explora la relación entre ambas áreas, enfocándose en como la triangulación de superficies nos proporciona una herramienta para la comprensión de propiedades 
-topólogicas básicas, así cómo algoritmos utilizados para el estudio de dichas áreas.La gran mayoría de las definiciones, conceptos y algoritmos que se estudian son basadas 
-en los textos: \cite{haru}, \cite{diestel}, \cite{pressley}, las cuales utilizaremos para capítulos posteriores.
+La teoría de gráficas y el estudio de superficies son dos ramas de las matemáticas que, a primera vista, podrían parecer independientes. Sin embargo, a lo largo de este capítulo veremos que están profundamente relacionadas a través de la implementación de triangulaciones sobre superficies.
+
+En particular, la representación de superficies mediante gráficas ofrece una nueva perspectiva que permite estudiar propiedades topológicas de los objetos que analizaremos en este trabajo. Una \textbf{gráfica} es un conjunto de \textbf{vértices} conectados mediante \textbf{aristas}, mientras que una \textbf{superficie} puede entenderse como un objeto que localmente es homeomorfo al plano \(\mathbb{R}^2\), como lo son la esfera o el toro. Al triangular una superficie —definición que abordaremos en este capítulo— es posible inducir una gráfica sobre ella. Esta construcción nos permite aplicar teoremas y algoritmos de la teoría de gráficas al estudio de superficies, facilitando, por ejemplo, su clasificación.
+
+Este capítulo explora la relación entre ambas áreas, enfocándose en cómo la triangulación de superficies se convierte en una herramienta clave para comprender propiedades topológicas fundamentales, así como para implementar algoritmos relevantes en su análisis.
+
+La primera parte, dedicada a definiciones y conceptos topológicos, se basa en los textos de \cite{munkres_topology_2000} y \cite{prieto_topologia_2003}. La segunda parte, enfocada en definiciones, conceptos y algoritmos relacionados con gráficas y su aplicación en superficies, toma como referencia los textos de \cite{haru}, \cite{diestel} y \cite{pressley}, los cuales serán también fundamentales en capítulos posteriores.
 
 \section{Superficies}
-Para entender el objeto de estudio principal de esta tesis, comenzaremos por definir uno de los objetos matemáticos que utilizaremos en primera instancia, el concepto de superficie, para ello dependemos de conceptos previos que iremos definiendo uno a uno hasta llegar a la definición de superficie.
+Para comprender adecuadamente el objeto de estudio que se construye a lo largo de esta tesis, comenzaremos por introducir uno de los conceptos fundamentales que utilizaremos desde el inicio: el de superficie. Sin embargo, para poder definirlo con rigor, es necesario establecer previamente una serie de conceptos sobre los cuales se apoya esta definición.
+
+El primer concepto clave es el de espacio topológico, que servirá como punto de partida y proporcionará el contexto necesario para este capítulo.
+
+Algunas definiciones no se utilizarán en este capítulo ya que podrían considerarse básicas, pero para mantenerlas en contexto se incluyen en el apéndice \ref{ap:basicas}.
 
 \begin{definition}(Espacio topológico)
     \\Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{T}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.

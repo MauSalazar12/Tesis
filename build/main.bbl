@@ -5,6 +5,11 @@ Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
 \newblock {\em Introduction to Algorithms}.
 \newblock MIT Press, Cambridge, MA, 3rd edition, 2009.
 
+\bibitem{prieto_topologia_2003}
+Carlos~Prieto de~Castro.
+\newblock {\em Topología básica}.
+\newblock Ciencia y Tecnología. Fondo de Cultura Económica, México, 2003.
+
 \bibitem{diestel}
 Reinhard Diestel.
 \newblock {\em Graph Theory}.
@@ -26,10 +31,10 @@ D~Knuth.
 \newblock {\em The Art of Computer Programming}.
 \newblock ADDISON-WESLEY An Imprint of Addison Wesley Longman, Inc., 1998.
 
-\bibitem{pressley}
-Andrew Pressley.
-\newblock {\em Elementary Differential Geometry}.
-\newblock Springer, Undergraduate Texts in Mathematics, 2000.
+\bibitem{munkres_topology_2000}
+James~R. Munkres.
+\newblock {\em Topology}.
+\newblock Prentice Hall, Upper Saddle River, NJ, 2 edition, 2000.
 
 \bibitem{pointnet}
 Charles~R. Qi, Hao Su, Kaichun Mo, and Leonidas~J. Guibas.
