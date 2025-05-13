@@ -6,13 +6,19 @@ En particular, la representación de superficies mediante gráficas ofrece una n
 Este capítulo explora la relación entre ambas áreas, enfocándose en cómo la triangulación de superficies se convierte en una herramienta clave para comprender propiedades topológicas fundamentales, así como para implementar algoritmos relevantes en su análisis.
 
 La primera parte, dedicada a definiciones y conceptos topológicos, se basa en los textos de \cite{munkres_topology_2000} y \cite{prieto_topologia_2003}. La segunda parte, enfocada en definiciones, conceptos y algoritmos relacionados con gráficas y su aplicación en superficies, toma como referencia los textos de \cite{haru}, \cite{diestel} y \cite{pressley}, los cuales serán también fundamentales en capítulos posteriores.
+El capítulo lo presentaremos de una manero rigurosa y formal presentando las definiciones con una estructura predeterminada, además iremos comentando cada definición para que su lectura sea de una forma más comprensible.
 
 \section{Superficies}
 Para comprender adecuadamente el objeto de estudio que se construye a lo largo de esta tesis, comenzaremos por introducir uno de los conceptos fundamentales que utilizaremos desde el inicio: el de superficie. Sin embargo, para poder definirlo con rigor, es necesario establecer previamente una serie de conceptos sobre los cuales se apoya esta definición.
 
-El primer concepto clave es el de espacio topológico, que servirá como punto de partida y proporcionará el contexto necesario para este capítulo.
+Algunas definiciones no se mencionarán en este capítulo ya que podrían considerarse básicas, pero para mantenerlas en contexto se incluyen en el apéndice \ref{ap:basicas}.
 
-Algunas definiciones no se utilizarán en este capítulo ya que podrían considerarse básicas, pero para mantenerlas en contexto se incluyen en el apéndice \ref{ap:basicas}.
+
+\subsection{Conceptos básicos de Topología}
+
+\subsubsection{Espacio Topológico}
+En primer lugar definiremos uno de los conceptos que servirán como punto de partida para poder estructurar y poner en contexto los objetos que trataremos a partir de este momento. Un \textbf{espacio topológico} lo podemos entender como un conjunto en el que se ha especificado una colección de subconjuntos que cumplen con ciertas propiedades. Estos subconjuntos reciben el nombre de abiertos,los cuales definimos en el apéndice \ref{ap:basicas}, y su elección no es arbitraria, sino que debe satisfacer una serie de condiciones que permiten capturar nociones fundamentales como continuidad, convergencia y proximidad, sin necesidad de recurrir a medidas de distancia.
+
 
 \begin{definition}(Espacio topológico)
     \\Sea $X$ un conjunto, una topología en $X$ es una familia $\mathcal{T}$ de subconjuntos abiertos de $X$, tal que cumple con los siguientes axiomas.
@@ -20,9 +26,12 @@ Algunas definiciones no se utilizarán en este capítulo ya que podrían conside
         \item Si $\{T_i\}_{i \in \mathcal{I}} \subseteq \mathcal{T}$, $\mathcal{I}$ arbitrario, entonces \(\displaystyle \bigcup_{i \in \mathcal{I}} T_i \in \mathcal{T}\).
         \item Si $\{T_i\}_{i \in \mathcal{I}} \subseteq \mathcal{T}$, $\mathcal{I}$ finito, entonces $\displaystyle \bigcap_{i \in \mathcal{I}} T_i \in \mathcal{T}$
     \end{enumerate}
-    Por ser $T$ la intersección de una familia vacía, entonces $X \in \mathcal{T}$, además por ser $\emptyset$ la unión de una familia vacía también yace en $\mathcal{T}$.
+    Por ser $T$ la intersección de una familia vacía, entonces $X \in \mathcal{T}$, además, por ser $\emptyset$ la unión de una familia vacía, también yace en $\mathcal{T}$. Por lo tanto, $(X, \mathcal{T})$ es un espacio topológico.
     \\ A la pareja $(X,\mathcal{T})$ se le denomina \textbf{\textit{espacio topológico}}.
 \end{definition}
+
+A la familia $\mathcal{T}$ se le denomina \textbf{topología} sobre $X$, y sus elementos se consideran los abiertos del espacio.La presente definición nos  proporciona un marco general para trabajar con nociones geométricas de manera más flexible, lo cual resulta útil en contextos que, a asimple vista , podrían parecer triviales.
+\\A continuación, presentaremos un ejemplo que, a pesar de su simplicidad aparente, ilustra de una manera adecuada la estructura de un espacio topológico y revela propiedades interesantes.
 
 \begin{example}
     Sea $X$ un conjunto de dos elementos $X = \{x,y\}$, podemos definir una topología sobre este conjunto de la siguiente forma:
@@ -37,9 +46,20 @@ Algunas definiciones no se utilizarán en este capítulo ya que podrían conside
     
 \end{example}
 
+Este espacio, aunque pequeño, nos muestra propiedades útiles en el estudio de conceptos como separación y continuidad.
+
+Su importancia radica en que sirve como el ejemplo más sencillo de un espacio no trivial que distingue entre puntos, y es frecuentemente utilizado como caso de prueba en demostraciones, en la caracterización de funciones continuas, y en demás propiedades.
+
+\subsubsection{Conjuntos cerrados y regiones}
+
+Otro de los conceptos en el que nos auxiliaremos para construir y tratar las superficies trabajadas es el concepto de \textbf{Conjunto cerrado}, el cual no es más que la contraparte de la definición de conjunto abierto. Notaremos que la relación entre ambos es directa: un conjunto cerrrado es aquel cuyo complemento es un conjunto abierto.
+
+
 \begin{definition}[Conjunto cerrado]
     Sea $X$ un espacio topológico. Decimos que un subconjunto $A$ de $X$ es \textbf{cerrado} si el conjunto $X-A$ es abierto.   
 \end{definition}
+
+El siguiente ejemplo es bastante útil visualmente ya que se muestra explícitamente cómo se aplica la definición de conjunto cerrado en un caso concreto.
 
 \begin{example}
     Sea $A = \{x \times y | x\geq 0 \hspace{5pt} e \hspace{5pt} y \geq 0\} \subset \mathbb{R}^2$,entonces el conjunto A es cerrado.
@@ -81,6 +101,8 @@ Algunas definiciones no se utilizarán en este capítulo ya que podrían conside
     
 \end{figure}
 
+De la mano de las definiciones de conjuntos abierto y cerrados podemos entender que existe el uso de estos conceptos para definir y establecer regiones sobre un espacio topológico.Notaremos que a partir de las definiciones de interior,cerradura y frontera podemos llegar de forma natural a la consideración de un axioma para espacios topológicos, el cual abordaremos más adelante.
+
 \begin{definition}[Interior de un conjunto]
     Sea $X$ un espacio topológico y $A$ un subconjunto de $X$.
     El \textbf{interior} de $A$ se define como la unión de todos los conjuntos abiertos contenidos en $A$, es decir \[
@@ -98,9 +120,25 @@ Algunas definiciones no se utilizarán en este capítulo ya que podrían conside
     
 \end{definition}
 
-\begin{definition}(Espacio de Hausdorf)
+\subsubsection{Espacio de Hausdorff}
+
+Notemos que, en cierto modo, las definiciones anteriores nos hablan del comportamiento de los puntos respecto a un conjunto. Con la noción de \textbf{interior} podemos describir cuándo un punto ``pertenece cómodamente'' a la región; la \textbf{cerradura} nos indica cuándo un punto está lo suficientemente ``cerca'' de ella; y la \textbf{frontera} señala que un punto está justo ``en el límite'' de dicho conjunto. A partir de estas ideas surge de forma natural la condición que define un \textbf{espacio de Hausdorff}: que dos puntos distintos ``no se tocan'', es decir, que existen entornos abiertos disjuntos alrededor de cada uno, cuyas cerraduras tampoco se intersecan. En consecuencia, sus interiores quedan totalmente separados.
+
+Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $\mathbb{R}$ o $\mathbb{R}^2$, donde cada conjunto puntual $\{x_0\}$ es automáticamente cerrado, a topologías más generales en las que ese hecho ya no se cumple. Para evitar estudiar espacios en los que los puntos no puedan separarse nítidamente ---espacios que a menudo resultan menos útiles para nuestras intenciones--- introducimos la definición de espacios de Hausdorff. En el contexto de esta tesis, este criterio nos permitirá centrar nuestro análisis exclusivamente en superficies que satisfagan dicha condición de separación.
+
+
+\begin{definition}(Espacio de Hausdorff)
     \\Sea $(X,\mathcal{A})$ un espacio topológico.Se dice que $X$  es un \textbf{Espacio de Hausdorf}, si para cada par $x_1, x_2$ de puntos distintos de $X$, existen vecindades $U_1,U_2$ de $x_1,x_2$ respectivamente, que son ajenas. Es decir $U_1 \cap U_2 = \emptyset$
 \end{definition}
+
+\begin{example}
+    Sea $X = \mathbb{R}$ y definamos la topología dada por el conjunto $\mathcal{B} = \{(a,b) | \hspace{5pt} 0 \in (a,b) \subset \mathbb{R} \}$.
+
+    Tomemos dos puntos distintos arbitrarios, es decir $x \neq y \in X$, entonces queremos ver sI existen dos vecindades $U,V$ de $x,y$ tales que $U \cap V = \emptyset$. Pero por la construcción de $\mathcal{B}$, toda vecindad contiene al punto 0, por tanto $U \cap V \neq \emptyset$ y por lo tanto no es de Hausdorf.
+    
+\end{example}
+
+\subsubsection{Compacidad}
 
 \begin{definition}(Cubierta abierta)
     \\Sea $X$ un espacio topológico, sea $\mathcal{A} = \{\mathcal{A}_i\}_{i \in \mathcal{I}}$ una familia de subconjuntos abiertos de $X$.
