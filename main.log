@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  12 MAY 2025 21:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  9 JUN 2025 08:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -821,114 +821,123 @@ LaTeX Info: Redefining \% on input line 56.
 LaTeX Info: Redefining \. on input line 108.
 LaTeX Info: Redefining \% on input line 108.
  [9]
-LaTeX Info: Redefining \. on input line 146.
-LaTeX Info: Redefining \% on input line 146.
+Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 113.
+LaTeX Info: Redefining \. on input line 147.
+LaTeX Info: Redefining \% on input line 147.
  [10]
-LaTeX Info: Redefining \. on input line 219.
-LaTeX Info: Redefining \% on input line 219.
+Package hyperref Info: bookmark level for unknown teorema defaults to 0 on input line 151.
+LaTeX Info: Redefining \. on input line 224.
+LaTeX Info: Redefining \% on input line 224.
  [11]
-LaTeX Info: Redefining \. on input line 265.
-LaTeX Info: Redefining \% on input line 265.
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 224.
+LaTeX Info: Redefining \. on input line 272.
+LaTeX Info: Redefining \% on input line 272.
  [12]
-LaTeX Info: Redefining \. on input line 357.
-LaTeX Info: Redefining \% on input line 357.
+LaTeX Info: Redefining \. on input line 336.
+LaTeX Info: Redefining \% on input line 336.
  [13]
-Package hyperref Info: bookmark level for unknown teorema defaults to 0 on input line 393.
-LaTeX Info: Redefining \. on input line 414.
-LaTeX Info: Redefining \% on input line 414.
+LaTeX Info: Redefining \. on input line 435.
+LaTeX Info: Redefining \% on input line 435.
  [14]
-LaTeX Info: Redefining \. on input line 478.
-LaTeX Info: Redefining \% on input line 478.
+LaTeX Info: Redefining \. on input line 485.
+LaTeX Info: Redefining \% on input line 485.
  [15]
-Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 515.
-Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 542.
-LaTeX Info: Redefining \. on input line 543.
-LaTeX Info: Redefining \% on input line 543.
+LaTeX Info: Redefining \. on input line 545.
+LaTeX Info: Redefining \% on input line 545.
  [16]
-Underfull \hbox (badness 10000) in paragraph at lines 550--551
+Underfull \hbox (badness 10000) in paragraph at lines 593--594
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 553--554
+Underfull \hbox (badness 10000) in paragraph at lines 596--597
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 557--558
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 561--562
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 563--564
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 566--567
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 569--570
-
- []
-
-LaTeX Info: Redefining \. on input line 577.
-LaTeX Info: Redefining \% on input line 577.
+LaTeX Info: Redefining \. on input line 600.
+LaTeX Info: Redefining \% on input line 600.
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 585--586
+Underfull \hbox (badness 10000) in paragraph at lines 600--601
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 607--608
+Underfull \hbox (badness 10000) in paragraph at lines 604--605
 
  []
 
-LaTeX Info: Redefining \. on input line 629.
-LaTeX Info: Redefining \% on input line 629.
+
+Underfull \hbox (badness 10000) in paragraph at lines 606--607
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 612--613
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 628--629
+
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 650--651
+
+ []
+
+LaTeX Info: Redefining \. on input line 651.
+LaTeX Info: Redefining \% on input line 651.
 [18]
-LaTeX Info: Redefining \. on input line 689.
-LaTeX Info: Redefining \% on input line 689.
+LaTeX Info: Redefining \. on input line 672.
+LaTeX Info: Redefining \% on input line 672.
  [19]
-Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 717.
-LaTeX Info: Redefining \. on input line 719.
-LaTeX Info: Redefining \% on input line 719.
+LaTeX Info: Redefining \. on input line 732.
+LaTeX Info: Redefining \% on input line 732.
  [20]
-Underfull \hbox (badness 10000) in paragraph at lines 735--736
+Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 760.
+LaTeX Info: Redefining \. on input line 762.
+LaTeX Info: Redefining \% on input line 762.
+ [21]
+Underfull \hbox (badness 10000) in paragraph at lines 778--779
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 737--738
+Underfull \hbox (badness 10000) in paragraph at lines 780--781
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 739--745
+Underfull \hbox (badness 10000) in paragraph at lines 782--788
 
  []
 
-LaTeX Info: Redefining \. on input line 774.
-LaTeX Info: Redefining \% on input line 774.
-[21]
-LaTeX Info: Redefining \. on input line 811.
-LaTeX Info: Redefining \% on input line 811.
- [22]) (Sec/3_GNNs.tex
+LaTeX Info: Redefining \. on input line 817.
+LaTeX Info: Redefining \% on input line 817.
+[22]
+LaTeX Info: Redefining \. on input line 854.
+LaTeX Info: Redefining \% on input line 854.
+ [23]) (Sec/3_GNNs.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [24
+
+]
 Cap\'{\i }tulo 3.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 7.
 
-[23
-
-]
+[25]
 
 LaTeX Font Warning: Command \boldmath invalid in math mode on input line 78.
 
@@ -937,7 +946,7 @@ LaTeX Font Warning: Command \mathversion invalid in math mode on input line 78.
 
 LaTeX Info: Redefining \. on input line 94.
 LaTeX Info: Redefining \% on input line 94.
-[24] [25]
+[26] [27]
 Overfull \hbox (0.42885pt too wide) in paragraph at lines 143--144
 [][]\OT1/cmr/bx/n/10 Definici^^Son 44 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/n/10 . []\OT1/cmr/m/it/10 Sea $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : 
  \OMS/cmsy/m/n/10 ^^Z \U/msb/m/n/10 R[] [][]\OMS/cmsy/m/n/10 ! \U/msb/m/n/10 R$\OT1/cmr/m/it/10 ,una fun-ci^^Son di-fe-ren-cia-ble en $\OML/cmm/m/it/10 x[]$\OT1/cmr/m/it/10 .Entonces
@@ -946,48 +955,48 @@ Overfull \hbox (0.42885pt too wide) in paragraph at lines 143--144
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 159.
 LaTeX Info: Redefining \. on input line 184.
 LaTeX Info: Redefining \% on input line 184.
-[26]
+[28]
 Package hyperref Info: bookmark level for unknown observation defaults to 0 on input line 185.
- [27]
+ [29]
 LaTeX Info: Redefining \. on input line 290.
 LaTeX Info: Redefining \% on input line 290.
- [28]
+ [30]
 
-LaTeX Warning: Citation `Goodfellow-et-al-2016' on page 29 undefined on input line 296.
+LaTeX Warning: Citation `Goodfellow-et-al-2016' on page 31 undefined on input line 296.
 
-[29]
-<img/conv_illustration.png, id=489, 365.365pt x 219.82124pt>
+[31]
+<img/conv_illustration.png, id=508, 365.365pt x 219.82124pt>
 File: img/conv_illustration.png Graphic file (type png)
 <use img/conv_illustration.png>
 Package pdftex.def Info: img/conv_illustration.png  used on input line 336.
 (pdftex.def)             Requested size: 219.22069pt x 131.89375pt.
 LaTeX Info: Redefining \. on input line 377.
 LaTeX Info: Redefining \% on input line 377.
- [30 <./img/conv_illustration.png>] [31]
+ [32 <./img/conv_illustration.png>] [33]
 LaTeX Info: Redefining \. on input line 472.
 LaTeX Info: Redefining \% on input line 472.
- [32]
+ [34]
 Underfull \hbox (badness 10000) in paragraph at lines 500--505
 
  []
 
-<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=525, 284.39583pt x 154.5775pt>
+<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=543, 284.39583pt x 154.5775pt>
 File: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png Graphic file (type png)
 <use img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>
 Package pdftex.def Info: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png  used on input line 507.
 (pdftex.def)             Requested size: 284.39513pt x 154.5771pt.
-[33 <./img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>]
+[35 <./img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>]
 LaTeX Info: Redefining \. on input line 554.
 LaTeX Info: Redefining \% on input line 554.
- [34]
+ [36]
 Underfull \hbox (badness 10000) in paragraph at lines 559--561
 
  []
 
-) (Sec/4_MuestreoGeneral.tex [35]
+) (Sec/4_MuestreoGeneral.tex [37]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [36
+ [38
 
 ]
 Cap\'{\i }tulo 4.
@@ -995,80 +1004,80 @@ Cap\'{\i }tulo 4.
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 6.
 
-[37]
+[39]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 43.
 LaTeX Info: Redefining \% on input line 43.
- [38] [39]
+ [40] [41]
 
-LaTeX Warning: Citation `Knuth' on page 40 undefined on input line 75.
+LaTeX Warning: Citation `Knuth' on page 42 undefined on input line 75.
 
 
 Underfull \vbox (badness 6364) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 116.
 LaTeX Info: Redefining \% on input line 116.
- [40]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [41]
-Underfull \vbox (badness 1917) has occurred while \output is active []
-
-LaTeX Info: Redefining \. on input line 208.
-LaTeX Info: Redefining \% on input line 208.
  [42]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [43]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1917) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 297.
-LaTeX Info: Redefining \% on input line 297.
+LaTeX Info: Redefining \. on input line 208.
+LaTeX Info: Redefining \% on input line 208.
  [44]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [45]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 297.
+LaTeX Info: Redefining \% on input line 297.
+ [46]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [47]
 Underfull \vbox (badness 1178) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 391.
 LaTeX Info: Redefining \% on input line 391.
- [46]
+ [48]
 
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 47 undefined on input line 428.
+LaTeX Warning: Citation `Introduction-toalgorithm' on page 49 undefined on input line 428.
 
 
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 47 undefined on input line 429.
+LaTeX Warning: Citation `Introduction-toalgorithm' on page 49 undefined on input line 429.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [47]) (Sec/5_ResultadosYConclusiones.tex
+ [49]) (Sec/5_ResultadosYConclusiones.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [48]
+ [50]
 Cap\'{\i }tulo 5.
 
-LaTeX Warning: Citation `pointnet' on page 49 undefined on input line 7.
+LaTeX Warning: Citation `pointnet' on page 51 undefined on input line 7.
 
 
-LaTeX Warning: Citation `pointnet' on page 49 undefined on input line 11.
+LaTeX Warning: Citation `pointnet' on page 51 undefined on input line 11.
 
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 13.
 
-[49
+[51
 
 ]
-<img//pointnet.png, id=644, 672.01062pt x 237.38687pt>
+<img//pointnet.png, id=662, 672.01062pt x 237.38687pt>
 File: img//pointnet.png Graphic file (type png)
 <use img//pointnet.png>
 Package pdftex.def Info: img//pointnet.png  used on input line 39.
 (pdftex.def)             Requested size: 397.48499pt x 140.41202pt.
 
 
-LaTeX Warning: Citation `pointnet' on page 50 undefined on input line 41.
+LaTeX Warning: Citation `pointnet' on page 52 undefined on input line 41.
 
 
 LaTeX Warning: Command \i invalid in math mode on input line 55.
@@ -1078,7 +1087,7 @@ LaTeX Warning: Command \i invalid in math mode on input line 55.
 
 LaTeX Info: Redefining \. on input line 65.
 LaTeX Info: Redefining \% on input line 65.
-[50 <./img//pointnet.png>]
+[52 <./img//pointnet.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1087,12 +1096,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 )
 No file main.bbl.
-(apendice.tex [51]
+(apendice.tex [53]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [52]
+ [54]
 Ap\'{e}ndice A.
-) [53
+) [55
 
 ] (main.aux
 LaTeX Info: Redefining \. on input line 21.
@@ -1105,17 +1114,17 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 37D422D95545C8C3BBFBF61A9F17F59A;5747.
  ) 
 Here is how much of TeX's memory you used:
- 38224 strings out of 478906
- 868721 string characters out of 2851448
- 2828434 words of memory out of 3000000
+ 38236 strings out of 478906
+ 868896 string characters out of 2851448
+ 2832905 words of memory out of 3000000
  55085 multiletter control sequences out of 15000+600000
  418893 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  88i,11n,86p,1464b,2638s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (53 pages, 871485 bytes).
+Output written on main.pdf (55 pages, 876380 bytes).
 PDF statistics:
- 888 PDF objects out of 1000 (max. 8388607)
- 338 named destinations out of 1000 (max. 500000)
+ 909 PDF objects out of 1000 (max. 8388607)
+ 350 named destinations out of 1000 (max. 500000)
  276 words of extra memory for PDF output out of 10000 (max. 10000000)
 

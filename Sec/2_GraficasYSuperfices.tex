@@ -109,11 +109,20 @@ De la mano de las definiciones de conjuntos abierto y cerrados podemos entender 
     Int A = \displaystyle \bigcup_{i \in \mathcal{I}} A_i \hspace{5pt} | \hspace{5pt} A_i \subset A\] con $A_i$ abierto para $i \in \mathcal{I}$.   
 \end{definition}
 
+\begin{proposition}
+    Sea $X$ un espacio topológico y $A$ un conjunto abierto.
+    Entonces $A$ es abierto en $X$ si y sólo si $IntA = A$
+\end{proposition}
+
 \begin{definition}[Cerradura de un conjunto]
     Sea $X$ un espacio topológico y $A$ un subconjunto de $X$.
     La \textbf{cerradura} de $A$ se define como la intersección de todos los conjuntos cerrados que conitienen a $A$, es decir \[
     \bar{A} = \displaystyle \bigcap_{i \in \mathcal{I}} A_i \hspace{5pt} | \hspace{5pt} A \subset A_i\] con $A_i$ cerrado para $i \in \mathcal{I}$.
 \end{definition}
+\begin{proposition}
+    Sea $X$ un espacio topológico y $A$ un conjunto cerrado.
+    Entonces $A$ es cerrado en $X$ si y sólo si $\bar{A} = A$
+\end{proposition}
 
 \begin{definition}[Frontera de un conjunto]
     Sea $X$ un espacio topológico y $A$ un subconjunto de $X$. Un punto $x \in \bar{A} \cap \overline{X-A} $ se denomina \textbf{punto frontera} de $A$; al conjunto  $\bar{A} \cap \overline{X-A}$ se le llama \textbf{frontera} de $A$.
@@ -124,7 +133,7 @@ De la mano de las definiciones de conjuntos abierto y cerrados podemos entender 
 
 Notemos que, en cierto modo, las definiciones anteriores nos hablan del comportamiento de los puntos respecto a un conjunto. Con la noción de \textbf{interior} podemos describir cuándo un punto ``pertenece cómodamente'' a la región; la \textbf{cerradura} nos indica cuándo un punto está lo suficientemente ``cerca'' de ella; y la \textbf{frontera} señala que un punto está justo ``en el límite'' de dicho conjunto. A partir de estas ideas surge de forma natural la condición que define un \textbf{espacio de Hausdorff}: que dos puntos distintos ``no se tocan'', es decir, que existen entornos abiertos disjuntos alrededor de cada uno, cuyas cerraduras tampoco se intersecan. En consecuencia, sus interiores quedan totalmente separados.
 
-Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $\mathbb{R}$ o $\mathbb{R}^2$, donde cada conjunto puntual $\{x_0\}$ es automáticamente cerrado, a topologías más generales en las que ese hecho ya no se cumple. Para evitar estudiar espacios en los que los puntos no puedan separarse nítidamente ---espacios que a menudo resultan menos útiles para nuestras intenciones--- introducimos la definición de espacios de Hausdorff. En el contexto de esta tesis, este criterio nos permitirá centrar nuestro análisis exclusivamente en superficies que satisfagan dicha condición de separación.
+Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $\mathbb{R}$ o $\mathbb{R}^2$, donde cada conjunto puntual $\{x_0\}$ es automáticamente cerrado, a topologías más generales en las que ese hecho ya no se cumple. Para evitar estudiar espacios en los que los puntos no puedan separarse nítidamente ---espacios que a menudo resultan menos útiles para nuestras intenciones--- introducimos la definición de espacios de Hausdorff. En el contexto de esta tesis, este criterio nos permitirá centrar nuestro análisis exclusivamente en objetos que satisfagan dicha condición de separación.
 
 
 \begin{definition}(Espacio de Hausdorff)
@@ -134,11 +143,23 @@ Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $
 \begin{example}
     Sea $X = \mathbb{R}$ y definamos la topología dada por el conjunto $\mathcal{B} = \{(a,b) | \hspace{5pt} 0 \in (a,b) \subset \mathbb{R} \}$.
 
-    Tomemos dos puntos distintos arbitrarios, es decir $x \neq y \in X$, entonces queremos ver sI existen dos vecindades $U,V$ de $x,y$ tales que $U \cap V = \emptyset$. Pero por la construcción de $\mathcal{B}$, toda vecindad contiene al punto 0, por tanto $U \cap V \neq \emptyset$ y por lo tanto no es de Hausdorf.
+    Tomemos dos puntos distintos arbitrarios, es decir $x \neq y \in X$, entonces queremos ver si existen dos vecindades $U,V$ de $x,y$ tales que $U \cap V = \emptyset$. Pero por la construcción de $\mathcal{B}$, toda vecindad contiene al punto 0, por tanto $U \cap V \neq \emptyset$ y por lo tanto no es de Hausdorf.
     
 \end{example}
 
+\begin{teorema}
+    Sea $X$ un espacio topológico de Hausdorf. Sea $U$ un conjunto con un número finito de puntos. Entonces $U$ es cerrado.
+\end{teorema}
+
+\begin{proof}
+    Sean $x,x_0$ en $X$ tales que $x \neq x_0$. Como $X$ es de Hausdorf entonces existen vecindades $U,V$ tales que $U \cap V = \emptyset$.
+
+    Cómo $U$ no interseca al conjunto ${x_0}$ entonces el punto $x$ no puede pertenecer a la cerradura del conjunto ${x_0}$.Como consecuencia $\overline{\{x_0\}} = {x_0}$, por lo tanto es cerrado.
+\end{proof}
+
 \subsubsection{Compacidad}
+Otra de las propiedades importantes que necesitamos para estudiar los objetos centrales , es el concepto de compacidad. De manera intuitiva podemos decir que un espacio es compacto su podemos "cubrirlo " por completo por conjuntos más pequeños pero que en la suma, den el espacio total.
+Comencemos por definir en primera instancia a que nos referimos por "Cubierta", en específico por "Cubierta abierta".
 
 \begin{definition}(Cubierta abierta)
     \\Sea $X$ un espacio topológico, sea $\mathcal{A} = \{\mathcal{A}_i\}_{i \in \mathcal{I}}$ una familia de subconjuntos abiertos de $X$.
@@ -151,6 +172,7 @@ Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $
     \\Decimos que $\mathcal{A}'$ es una subcubierta de $\mathcal{A}$ si $\mathcal{A}' \subset \mathcal{A}$, en particular si $\mathcal{A}'$ es finito, entonces es una \textbf{subcubierta finita}.
     
 \end{definition}
+Por último buscamos cubrr en su totalidad de manera controlada y finita por estos objetos que definimos anteriormente, de esta forma la defición de espacio compacto queda como sigue:
 
 \begin{definition}(Espacio Compacto)
     \\Sea $X$ un espacio topológico, se dice que $X$ es \textbf{compacto} si de cada cubierta abierta podemos extraer una subcubierta finita de $X$.
@@ -196,9 +218,30 @@ Este requisito cobra especial relevancia al pasar de ejemplos familiares, como $
     \end{center}
     \label{fig:compacto}
     \caption{Ilustración de la compacidad del espacio $X$}
-    
-    
+
 \end{figure}
+\begin{lemma}
+    Sea $X$ un espacio topológico.Sea $Y$ un subspacio de $X$. Entonces $Y$ es compacto si, y sólo sí , cada cuberta de $Y$ por abiertos de $X$ contiene una subcolección finita que cubre a $Y$.
+\end{lemma}
+
+\begin{proof}
+Supongamos primero que $Y$ es compacto y que $\mathcal{A} = \{A_{\alpha}\}_{\alpha \in J}$ es una cubierta de $Y$ por abiertos de $X$, entocnes la colección:
+
+\[
+\{A_{\alpha} \cup Y\ | \alpha \in J\}
+\]
+es una buierta de $Y$ por conjuntos abertos en $Y$
+\end{proof}
+Notamos además que, existe una relación entre los espacios compactos y los espacios de Hausdorf que definimos anteriormente: 
+\begin{teorema}
+    Sea $X$ un espacio topológico de Hausdorf. Sea $Y$ un subespacio compacto de $X$, entonces $Y$ es cerrado.
+\end{teorema}
+
+\begin{proof}
+    Sea $Y$ un subespacio compacto 
+\end{proof}
+
+
 
 \begin{definition}(Base de vecindades)
     \\Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
