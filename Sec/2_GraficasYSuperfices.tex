@@ -50,6 +50,19 @@ Este espacio, aunque pequeño, nos muestra propiedades útiles en el estudio de 
 
 Su importancia radica en que sirve como el ejemplo más sencillo de un espacio no trivial que distingue entre puntos, y es frecuentemente utilizado como caso de prueba en demostraciones, en la caracterización de funciones continuas, y en demás propiedades.
 
+Veamos que las propiedades de un espacio topológico las podemos restringir hacía subconjuntos más pequeños de este.
+
+\begin{definition}[Topología relativa]
+    Sea $X$ un espacio topológico, con topología $\mathcal{T}$. Si $Y$ es un subconjunto de $X$, entonces la colección:
+
+    \[
+    \mathcal{T}_y = \{ Y \cap U | U \in \mathcal{T}\}
+    \]
+
+    es una topología sobre $Y$ denominada , topología relativa.
+    
+\end{definition}
+
 \subsubsection{Conjuntos cerrados y regiones}
 
 Otro de los conceptos en el que nos auxiliaremos para construir y tratar las superficies trabajadas es el concepto de \textbf{Conjunto cerrado}, el cual no es más que la contraparte de la definición de conjunto abierto. Notaremos que la relación entre ambos es directa: un conjunto cerrrado es aquel cuyo complemento es un conjunto abierto.
@@ -228,9 +241,13 @@ Por último buscamos cubrr en su totalidad de manera controlada y finita por est
 Supongamos primero que $Y$ es compacto y que $\mathcal{A} = \{A_{\alpha}\}_{\alpha \in J}$ es una cubierta de $Y$ por abiertos de $X$, entocnes la colección:
 
 \[
-\{A_{\alpha} \cup Y\ | \alpha \in J\}
+\{A_{\alpha} \cap Y\ | \alpha \in J\}
 \]
-es una buierta de $Y$ por conjuntos abertos en $Y$
+es una cubierta de $Y$ por conjuntos abiertos en $Y$; como $Y$ es compacto entonces existe una subcubierta abierta finita de la forma 
+\[
+\{A_{\alpha_1} \cap Y, \cdots , A_{\alpha_n} \cap Y\}
+\]
+
 \end{proof}
 Notamos además que, existe una relación entre los espacios compactos y los espacios de Hausdorf que definimos anteriormente: 
 \begin{teorema}
@@ -238,10 +255,23 @@ Notamos además que, existe una relación entre los espacios compactos y los esp
 \end{teorema}
 
 \begin{proof}
-    Sea $Y$ un subespacio compacto 
+    Sea $Y$ un subespacio compacto de un espacio topológico de Hausdorff $X$. Queremos mostrar que  $X-Y$ es abierto, y por tanto $Y$ será cerrado.
+
+    Sea $x_0$ un punto en $X-Y$.Procederemos a demostrar que existe un entorno de $x_0$ que no interseca a $Y$. 
+
+    Cómo $X$ es de Hausdorf, elegimos entornos disjuntos $U_{y}$ y $V_y$ de los puntos $x_0$ y $y$ respectivamente, para cada punto $y \in Y$.
+    Ahora, notamos que la colección
+    \[
+    \{V_y | y \in Y \}
+    \] es una cubierta de de $Y$ por abiertos de $X$, como $Y$ es compacto, entonces existe una subcolección finita de la forma $V = \{V_{y_1},\cdots , V_{y_n}\}$ que cubre a $Y$.
+    Además notamos que el conjunto 
+    \[
+    U = \{ U_{y_1} \cap \cdots \cap U_{y_n} \}
+    \] formado de tomar las intersecciones de los correspondientes entornos $x_0$ es disjunto con $V$. Ya que si $z \in V$ entonces $z \in V_{y_i}$ para algún $i$, por lo tanto $z \notin U_{y_i}$, y por tanto $z \notin U$. Así $U$ es un entorno de $x_0$ que no interseca a $Y$, lo que implica que $X-Y$ es abierto. Por tanto $Y$ es cerrado.
 \end{proof}
 
-
+\subsubsection{Espacios numerables}
+Por últmo, definiremos otra de las propiedas que nos sirven como base para llegar a definir nuestro objetivo, la cual es la de \textbf{numerabilidad}. Esta propiedad nos permite establecer una relación entre los puntos de un espacio topológico y las vecindades que estos poseen. En particular, nos interesa saber si cada punto tiene una base de vecindades numerable, lo que nos permitirá trabajar con espacios más manejables y estructurados.
 
 \begin{definition}(Base de vecindades)
     \\Sea $X$ un espacio topológico y $x \in X$. Decimos que una familia $\mathcal{B}_x$ de vecindades de $x$ es una \textbf{base de vecindades} de $x$ si para cualquier vecindad $U$ de $x$ existe una vecindad $V \in  \mathcal{B}_x$ tal que $V \subset U$
@@ -257,6 +287,7 @@ Notamos además que, existe una relación entre los espacios compactos y los esp
     Sea $X$ un espacio topológico. Se dice que $X$ satisface el primer axioma de numerabilidad o que es 1-numerable, si cumple que, cada punto de $X$ tiene una base de vecindades numerable.
 \end{definition}
 
+
 \begin{definition}(Segundo axioma de numerabilidad)
     Sea $X$ un espacio topológico, se dice que $X$ satisface el segundo axioma de numerabilidad, o que es 2-numerable, si la topología $X$ admite una base numerable.
 \end{definition}
@@ -266,6 +297,9 @@ Notamos además que, existe una relación entre los espacios compactos y los esp
     Ahora bien, el subespacio $A$ de $\mathbb{R}^\omega$ formado por todas las suscesiones de ceros y unos no es umerable y tiene la topologóa discreta porque $\bar{\rho}(a,b) = 1$ no tiene una base numerable.
 \end{example}
 
+\subsubsection{Variedades topológicas}
+
+Para poder definir una superficie de forma rigurosa, es necesario establecer un contexto adecuado que nos permita trabajar con objetos que cumplan ciertas propiedades topológicas. En este sentido, las \textbf{variedades topológicas} son espacios que cumplen con condiciones específicas, como ser de Hausdorff y 2-numerables, lo que garantiza que cada punto tiene una base de vecindades numerable. Estas condiciones son fundamentales para asegurar que los puntos de la variedad se comporten de manera controlada y predecible, lo cual es esencial para el estudio de superficies.
 
 \begin{definition}(Variedad topológica)
     Un espacio topológico $X$, de Hausdorff, 2-numerable es una \textbf{variedad topológica} de dimensión n, también llamada n-variedad, si cada punto $x \in X$ tiene una vecindad homeomorfa a un abierto $U$ en la n-bola cerrada $\mathbb{B}^n$
@@ -434,18 +468,37 @@ Habiendo establecido una forma rigurosa de definir superficies, es útil explora
 \end{figure}
 
 \begin{teorema}(Teorema de Radó)\\
-    Toda superficie cerrada \textbf{S} es homeomorfa a ua superficie triangulada.
+    Toda superficie cerrada \textbf{S} es homeomorfa a una superficie triangulada.
 \end{teorema}
 
 \section{Gráficas}
+
+A partir de las definiciones previas y del Teorema de Radó, es posible introducir nuevos objetos que servirán como base para la caracterización formal de las superficies de interés. De este modo, estableceremos una relación entre superficies y gráficas que facilitará el estudio y análisis eficiente de las superficies consideradas en este trabajo.
+\begin{definition}[Encaje]
+    Sea $A \subset X$ un espacio topológico y $e : A \rightarrow X$ una aplicación continua.
+    A $e$ se le llama encaje si la restricción $e':A \rightarrow e(A)$, tal que $e'(a) = e(a)$ es un homeomorfismo al dotar a $e(A)$ con la topología relativa.
+\end{definition}
+
+\begin{definition}[Arco simple]
+    Sea $X$ un espacio topológico y $\alpha$ un encaje.
+    Definimos un \textbf{arco simple} en $X$ como la imagen de un encaje $\alpha: I \rightarrow X$, donde $I = [0,1]$ es el intervalo unitario. Es decir, un arco simple es una trayectoria continua e inyectiva en $X$, cuya imagen no se cruza a sí misma.
+\end{definition}
+
+\begin{definition}[Curva cerrada simple]
+    Una curva cerrada simple es una trayectoria $\alpha$ tal que su restricción al intervalo abierto $(0,1)$ es inyectiva, pero $\alpha(0) = \alpha(1)$.
+\end{definition}
+
+
 \begin{definition}[Gráfica] 
-Una gráfica simple $G$ está definida por un par ordenado $G = (V,E)$, donde V es un conjunto cuyos elementos son llamados vértices (o nodos) de la gráfica y E un conjunto cuyos elementos son las aristas de la gráfica. Regularmente denotamos a $V$ y $E$ como $V(G)$ y $E(G)$ que hacen referencia a la gráfica G, entonces $G=(V(G),E(G))$
+Una gráfica simple $G$ está definida por un par ordenado $G = (V,E)$, donde V es un conjunto cuyos elementos son llamados vértices (o nodos) de la gráfica y E un conjunto cuyos elementos son las aristas de la gráfica. 
+\end{definition}
+
+Regularmente denotamos a $V$ y $E$ como $V(G)$ y $E(G)$ que hacen referencia a la gráfica G, entonces $G=(V(G),E(G))$
 Definimos a $E$ como:
 \begin{center}
 $E(V)$ = $\{\{u,v\} | u,v \in V, u \neq v \}$
 \end{center}
 Usualmente denotamos al par $\{u,v\}$ simplemente como $uv$.
-\end{definition}
 
 \begin{definition}[Orden y tamaño] 
 Para una gráfica $G$ , tenemos que:

@@ -7,12 +7,14 @@
 \contentsline {subsubsection}{Conjuntos cerrados y regiones}{9}{section*.3}%
 \contentsline {subsubsection}{Espacio de Hausdorff}{10}{section*.4}%
 \contentsline {subsubsection}{Compacidad}{11}{section*.5}%
-\contentsline {section}{\numberline {2.2}Gr^^c3^^a1ficas}{15}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Matriz de adyacencia}{16}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Grado de un v^^c3^^a9rtice}{16}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Subgr^^c3^^a1ficas}{18}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Caminos y ciclos}{20}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}^^c3^^81rboles}{20}{subsection.2.2.5}%
+\contentsline {subsubsection}{Espacios numerables}{13}{section*.6}%
+\contentsline {subsubsection}{Variedades topol^^c3^^b3gicas}{13}{section*.7}%
+\contentsline {section}{\numberline {2.2}Gr^^c3^^a1ficas}{16}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Matriz de adyacencia}{17}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Grado de un v^^c3^^a9rtice}{18}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Subgr^^c3^^a1ficas}{20}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Caminos y ciclos}{21}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}^^c3^^81rboles}{22}{subsection.2.2.5}%
 \contentsline {chapter}{\numberline {3}Redes Neuronales Gr^^c3^^a1ficas}{25}{chapter.3}%
 \contentsline {subsection}{\numberline {3.0.1}Redes Neuronales}{25}{subsection.3.0.1}%
 \contentsline {subsection}{\numberline {3.0.2}Redes convolucionales CNN}{31}{subsection.3.0.2}%
