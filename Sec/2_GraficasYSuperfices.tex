@@ -473,32 +473,22 @@ Habiendo establecido una forma rigurosa de definir superficies, es útil explora
 
 \section{Gráficas}
 
-A partir de las definiciones previas y del Teorema de Radó, es posible introducir nuevos objetos que servirán como base para la caracterización formal de las superficies de interés. De este modo, estableceremos una relación entre superficies y gráficas que facilitará el estudio y análisis eficiente de las superficies consideradas en este trabajo.
-\begin{definition}[Encaje]
-    Sea $A \subset X$ un espacio topológico y $e : A \rightarrow X$ una aplicación continua.
-    A $e$ se le llama encaje si la restricción $e':A \rightarrow e(A)$, tal que $e'(a) = e(a)$ es un homeomorfismo al dotar a $e(A)$ con la topología relativa.
-\end{definition}
+A partir de las definiciones previas y del Teorema de Radó, es posible introducir nuevos objetos que servirán como base para la caracterización formal de las superficies de interés. De este modo, comenzaremos definiendo las \textbf{gráficas}, que son estructuras matemáticas compuestas por vértices y aristas. Estas gráficas nos permitirán representar las superficies de manera más manejable y eficiente, facilitando su estudio y análisis. En particular, al considerar la triangulación de una superficie, cada triángulo curvo puede ser representado como una gráfica, donde los vértices corresponden a los vértices del triángulo y las aristas a sus lados. Así, estableceremos una relación entre superficies y gráficas que facilitará el estudio y análisis eficiente de las superficies consideradas en este trabajo.
 
-\begin{definition}[Arco simple]
-    Sea $X$ un espacio topológico y $\alpha$ un encaje.
-    Definimos un \textbf{arco simple} en $X$ como la imagen de un encaje $\alpha: I \rightarrow X$, donde $I = [0,1]$ es el intervalo unitario. Es decir, un arco simple es una trayectoria continua e inyectiva en $X$, cuya imagen no se cruza a sí misma.
-\end{definition}
+\subsection{Gráficas simples y propiedades básicas}
 
-\begin{definition}[Curva cerrada simple]
-    Una curva cerrada simple es una trayectoria $\alpha$ tal que su restricción al intervalo abierto $(0,1)$ es inyectiva, pero $\alpha(0) = \alpha(1)$.
-\end{definition}
-
-
-\begin{definition}[Gráfica] 
+\begin{definition}[Gráfica simple] 
 Una gráfica simple $G$ está definida por un par ordenado $G = (V,E)$, donde V es un conjunto cuyos elementos son llamados vértices (o nodos) de la gráfica y E un conjunto cuyos elementos son las aristas de la gráfica. 
 \end{definition}
 
-Regularmente denotamos a $V$ y $E$ como $V(G)$ y $E(G)$ que hacen referencia a la gráfica G, entonces $G=(V(G),E(G))$
+\noindent Regularmente denotamos a $V$ y $E$ como $V(G)$ y $E(G)$ que hacen referencia a la gráfica G, entonces $G=(V(G),E(G))$
 Definimos a $E$ como:
 \begin{center}
 $E(V)$ = $\{\{u,v\} | u,v \in V, u \neq v \}$
 \end{center}
 Usualmente denotamos al par $\{u,v\}$ simplemente como $uv$.
+
+También, observemos las propiedades de las gráficas simples:
 
 \begin{definition}[Orden y tamaño] 
 Para una gráfica $G$ , tenemos que:
@@ -507,7 +497,7 @@ Para una gráfica $G$ , tenemos que:
     \item $\varepsilon_{G}$ = $|\mathbf{E(G)}|$ es llamado  el tamaño de $G$.
     \item Para cada arista $e = uv \in E$ los vértices $u$ y $v$ son llamados extremos de la arista.
     \item Los vértices $u$ y $v$ son adyacentes o vecinos si $e = uv \in E$.
-    \item Dos aristas $e_1 = uv$ y $e_2 = uw$ tienen un extremo común, entonces son adaycentes entre sí.
+    \item Dos aristas $e_1 = uv$ y $e_2 = uw$ tienen un extremo común, entonces son adyacentes entre sí.
 \end{enumerate}
 \end{definition}
 
@@ -537,11 +527,13 @@ Para una gráfica $G$ , tenemos que:
 En la figura \ref{fig:G} podemos observar que $\nu_{G}$ = 6, $\varepsilon_{G}$ =7, los extremos de la arista $ab$ son los vértices $a$ y $b$, también los vértices $a$ y $b$ son vecinos y por último las aristas $ab$ y $bf$ son adyacentes ya que comparten el vértice $b$.
 \end{flushleft}
 
+\subsection{Representación de gráficas}
+\subsubsection{Matriz de adyacencia}
 
- 
+Existen diversas formas de representar gráficas, podemos encontrarlas en su forma visual como la de la figura \ref{fig:G}, o bien podemos encontrarlas en su forma matricial conocidad como \textbf{matriz de adyacencia}. 
+La matriz de adyacencia es una representación matricial de una gráfica que permite identificar rápidamente la conexión entre los vértices. En esta matriz, las filas y columnas representan los vértices de la gráfica, y los elementos de la matriz indican si existe una arista entre los vértices correspondientes.
+A continuación, definiremos formalmente la matriz de adyacencia de una gráfica simple y presentaremos un ejemplo para ilustrar su uso.
 
-\subsection{Matriz de adyacencia}
-\noindent Sabemos que las figuras planas mostradas en la sección anterior, son fácilmente comprensibles para nuestros ojos, pero al momento de crear algoritmos o de computarlas es muy costoso en términos de memoria por lo cual, es necesario el manejo de estos objetos de una forma un poco más \"comprensible\" para cualquier computadora, de esta forma nace la  \textbf{matriz de adyacencia} que definiremos a continuación.
 \begin{definition}[Matriz de Adyacencia]
     Sea $V_G = \{v_1,...,v_n\}$ ordenado. 
     La matriz de adyacencia $\mathbf{A}$ de $\mathbf{G}$ está definida cómo \begin{center}
@@ -552,7 +544,9 @@ En la figura \ref{fig:G} podemos observar que $\nu_{G}$ = 6, $\varepsilon_{G}$ =
         $a_{ij}$=$\left\lbrace\begin{array}{c} 1~si~v_iv_j \in \mathbf{E_G} \\0~si~no \end{array}\right.$
     \end{center}
 \end{definition}
-La matriz de adyacencia de la figura \ref{fig:G} quedaría de la siguiente forma:
+
+\begin{example}
+    La matriz de adyacencia de la figura \ref{fig:G} quedaría de la siguiente forma:
 \begin{center}
 \begin{equation}
 A(G) =
@@ -567,28 +561,63 @@ A(G) =
 \end{equation}
     
 \end{center}
+\end{example}
+\noindent Notamos que la matriz de adyacencia es una matriz simétrica, ya que si $v_i$ y $v_j$ son vecinos entonces $v_j$ y $v_i$ también lo son, por lo tanto $a_{ij}$ = $a_{ji}$.
+\noindent Además, notamos que la diagonal principal de la matriz de adyacencia es cero, ya que no existe una arista que conecte un vértice consigo mismo en una gráfica simple.
 
-\subsection{Grado de un vértice}
+\subsubsection{Lista de adyacencia}
+Otra forma de representar gráficas es mediante la \textbf{lista de adyacencia}, que es una representación más compacta y eficiente en términos de espacio. En esta representación, cada vértice se asocia con una lista de sus vecinos, lo que permite identificar rápidamente las conexiones entre los vértices sin necesidad de utilizar una matriz completa.
+\begin{definition}[Lista de adyacencia]
+    Sea $G = (V,E)$ una gráfica simple. La \textbf{lista de adyacencia} de $G$ es un conjunto de listas $\{L_v\}_{v \in V}$ donde cada lista $L_v$ contiene los vértices adyacentes a $v$. Es decir, para cada vértice $v \in V$, tenemos:
+    \begin{center}
+        $L_v = \{u \in V \mid vu \in E\}$
+    \end{center}
+\end{definition}
+\noindent En la figura \ref{fig:G}, la lista de adyacencia sería:
+\begin{example}
+    Sea $G = (V,E)$ la gráfica de la figura \ref{fig:G}, entonces la lista de adyacencia de $G$ sería:
+    \begin{center}
+        \begin{tabular}{c|c}
+            Vértice & Lista de adyacencia \\
+            \hline
+            $a$ & $\{b\}$ \\
+            $b$ & $\{a, c, f\}$ \\
+            $c$ & $\{b, d, f\}$ \\
+            $d$ & $\{c, e\}$ \\
+            $e$ & $\{d, f\}$ \\
+            $f$ & $\{b, c, e\}$
+        \end{tabular}
+    \end{center}
+\end{example}
+
+
+
+\subsubsection{Grado de un vértice}
+\noindent Dada una gráfica $G = (V,E)$, podemos definir el grado de un vértice como el número de aristas que inciden en él. Esto nos permite entender mejor la estructura de la gráfica y las relaciones entre sus vértices. A continuación, definiremos formalmente el vecindario de un vértice y su grado, así como el grado mínimo y máximo de la gráfica.
 \begin{definition}[Vecindario]
     Sea $v \in \mathbf{G}$ un vértice de la gráfica $\mathbf{G}$. El \textbf{vecindario} de $v$ es el conjunto dado por:
     \begin{center}
         $N_G(v)$ = $\{u \in G \hspace{5pt} | \hspace{5pt} vu \in \mathbf{E(G)}\}$
     \end{center}
-    \end{definition}
+\end{definition}
+
+\noindent El vecindario de un vértice $v$ es el conjunto de todos los vértices que son vecinos de $v$, es decir, aquellos que están conectados a $v$ por una arista. Este concepto es fundamental para entender la estructura local de la gráfica y las relaciones entre sus vértices.
     
-    \begin{definition}[Grado de un vértice]
+\begin{definition}[Grado de un vértice]
     El \textbf{grado} de $v$ es el numero de sus vecinos.
     \begin{center}
         $d_{G}(v)$ = $|N_G(v)|$.
     \end{center}  
-    \end{definition}
-    \noindent De la definición anterior podemos notar que para cualquier vértice $v$, podría suceder que $v$ no tenga vecinos o por el otro lado que el resto de los vértices de $G$ sean sus vecinos, recordando que $v$ no puede ser vecino de sí mismo. Así, se tiene que 
+\end{definition}
+
+\noindent De la definición anterior podemos notar que para cualquier vértice $v$, podría suceder que $v$ no tenga vecinos o por el otro lado que el resto de los vértices de $G$ sean sus vecinos, recordando que $v$ no puede ser vecino de sí mismo. Así, se tiene que:
     \begin{center}
         0 $\leq$ $d_G(v)$ $\leq$ $n-1$
     \end{center} 
     donde $n$ es el orden la gráfica $G$.
 
     \begin{definition}[Vértice aislado]
+
     Cuando $d_G(v)$= 0 decimos que $v$ es un vértice aislado.
     \end{definition}
     
@@ -607,6 +636,8 @@ A(G) =
     \noindent Para la gráfica de la figura \ref{fig:G} tenemos que $\delta(G)$ = 1 y que $\Delta(G)$ = 3.
 
 
+
+
 \begin{lemma}
     \textbf{(Lema del saludo de manos)}
     Para cada gráfica $G$ tenemos que:
@@ -618,7 +649,15 @@ Además, el número de vértices de grado impar es par.
    
 \end{lemma}
 \begin{proof}
-
+    \noindent Por definición de grado de un vértice, tenemos que:
+    
+    \[\sum_{v \in V(G)}d_G (v) = \sum_{v \in V(G)}|N_G(v)|\]
+    
+    \noindent Ahora, notamos que cada arista $e$ de $G$ contribuye al grado de sus dos extremos, es decir, si $e = uv$, entonces $d_G(u) + d_G(v)$ cuenta la arista $uv$ dos veces. Por lo tanto, al sumar los grados de todos los vértices, contamos cada arista dos veces. Así, tenemos que:
+    
+    \[\sum_{v \in V(G)}d_G (v) = 2\hspace{3pt}\varepsilon_G\]
+    
+    \noindent Por otro lado, notamos que el número de vértices de grado impar es par, ya que cada arista conecta dos vértices y por lo tanto contribuye a la paridad del grado de ambos extremos. Si tuviéramos un número impar de vértices de grado impar, entonces la suma total de los grados sería impar, lo cual contradice el hecho de que la suma total es igual a $2\hspace{3pt}\varepsilon_G$, un número par.
 \end{proof}
 
 \begin{definition}[Grado promedio]
@@ -641,46 +680,43 @@ Dada una gráfica $G$, tenemos que
 \end{proposition}
 
 \begin{proof}
-    \noindent Sabemos que;
-     
-     \[\nu_G \cdot \delta(G) \leq \sum_{v\in V(G)}d_G (v) \]\\
+    Sabemos que, por definición de grado mínimo y máximo, para todo $v \in V(G)$ se cumple que $\delta(G) \leq d_G(v) \leq \Delta(G)$. Sumando sobre todos los vértices:
 
-     Pues
-     \[\delta(G) \leq d_G(v_i) \hspace{5pt} \forall i \in \{1,...,n\}\]\\
-     
-     Como  $0 \leq \frac{1}{\nu_G}$ entonces ;
-     
-      \[\delta(G) \leq \frac{1}{\nu_G}\sum_{v\in V(G)}d_G (v) \] \\
-      
-      Por tanto 
-      
-      \[\delta(G) \leq d(G).\] \\
+    \[
+    \sum_{v \in V(G)} \delta(G) \leq \sum_{v \in V(G)} d_G(v) \leq \sum_{v \in V(G)} \Delta(G)
+    \]
 
-      Por otro lado cómo \[d_G(v_i) \leq \Delta(G) \hspace{5pt} \forall i \in \{1,...,n\}\]\\
+    Como $\delta(G)$ y $\Delta(G)$ son constantes respecto a la suma, esto se puede escribir como:
 
-      Entonces;
-      \[\sum_{v\in V(G)}d_G (v) \leq \nu_G \cdot \Delta(G)\]\\
-      
-      Y por lo observado arriba;
-        \[\frac{1}{\nu_G}\sum_{v\in V(G)}d_G (v) \leq \Delta(G)\]\\
-        
-       Así;
-        
-       \[d(G) \leq \Delta(G)\]
+    \[
+    \nu_G \cdot \delta(G) \leq \sum_{v \in V(G)} d_G(v) \leq \nu_G \cdot \Delta(G)
+    \]
 
-       \[\therefore \hspace{5pt} \delta(G) \leq d(G) \leq \Delta(G)\]
-      
+    Dividiendo entre $\nu_G$ en toda la desigualdad, obtenemos:
+
+    \[
+    \delta(G) \leq \frac{1}{\nu_G} \sum_{v \in V(G)} d_G(v) \leq \Delta(G)
+    \]
+
+    Por definición, el término central es el grado promedio $d(G)$, así que finalmente:
+
+    \[
+    \delta(G) \leq d(G) \leq \Delta(G)
+    \]
 \end{proof}
 
 
 
 \subsection{Subgráficas}
-\noindent Debido a los métodos que se utilizarán más adelante en el estudio de los objetos y debido al gran número de datos a procesar, es necesario introducir conceptos que se púeden emplear para el estudio local de las gráficas. De este modo introduciremos el concepto de subgráfica. 
-\begin{definition}[Subgráfica]
 
-    Una gráfica $H$ es subgráfica de una gráfica $G$ denotado por $H \subseteq G$, si $V(H) \subseteq  V(G)$ Y $E(H) \subseteq E(G)$. \\
+Debido a los métodos que se utilizarán más adelante en el estudio de los objetos y debido al gran número de datos a procesar, es necesario introducir conceptos que se púeden emplear para el estudio local de las gráficas. De este modo introduciremos el concepto de subgráfica. 
+\begin{definition}[Subgráfica]
+Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H = (V_H,E_H)$ tal que: $\subseteq G $, si $V(H) \subseteq  V(G)$ Y $E(H) \subseteq E(G)$.
 \end{definition}
-\begin{center}
+
+\begin{example}
+    Sea $G = (V,E)$ la gráfica de la figura \ref{fig:G}, entonces una subgráfica de $G$ podría ser $H = (V_H,E_H)$ donde:
+    \begin{center}
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
@@ -699,9 +735,15 @@ Dada una gráfica $G$, tenemos que
     \label{fig:SG}
 \end{figure}
 \end{center}
+    
+\end{example}
+
 \begin{definition}
+    Sea $G$ una gráfica simple y $H$ una subgráfica de $G$. 
     Decimos que una subgráfica $H \subseteq G$ abarca $G$ (y $H$ es una subgráfica generadora de $G$) si cada vértice de $G$ está en $H$, i.e $V(H) = V(G)$\\
 \end{definition}
+
+\begin{example}
 \begin{center}
 \begin{figure}[h]
     \centering
@@ -722,11 +764,17 @@ Dada una gráfica $G$, tenemos que
     \label{fig:GA}
 \end{figure}
 \end{center}
-\newpage
+
+\end{example}
+
 
 \begin{definition} 
+    Sea $G$ una gráfica simple.
     Decimos que una subgráfica $H \subseteq G$, es una subgráfica inducida, si $E(H) = E(G) \cap E(V_H)$. En este caso $H$ es inducido por el conjunto $V(H)$ de vértices.
 \end{definition}
+\noindent En otras palabras, una subgráfica inducida es aquella que contiene todas las aristas de $G$ que conectan los vértices de $H$. Esto significa que si dos vértices en $H$ están conectados por una arista en $G$, entonces esa arista también estará presente en $H$.
+
+\begin{example}
 \begin{center}
 \begin{figure}[h]
     \centering
@@ -745,6 +793,8 @@ Dada una gráfica $G$, tenemos que
     \label{fig:GI}
 \end{figure}
 \end{center}
+\end{example}
+
  \subsection{Caminos y ciclos}
  Uno de los conceptos fundamentales que se introducirán y además se implmentarán en la creación de los algoritmos de la sección final es el concepto de caminos, este concepto se utilizará cómo herrramienta para el estudio y recorrido de la gráfica completa.
 
