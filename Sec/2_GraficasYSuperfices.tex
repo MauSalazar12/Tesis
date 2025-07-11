@@ -439,7 +439,7 @@ Habiendo establecido una forma rigurosa de definir superficies, es útil explora
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-        % Definir los nodos de los vértices
+        
         \coordinate (A) at (0,0);
         \coordinate (B) at (3,0.5);
         \coordinate (C) at (1,2);
@@ -447,14 +447,14 @@ Habiendo establecido una forma rigurosa de definir superficies, es útil explora
         \coordinate (E) at (2,-1);
         \coordinate (F) at (5,0);
     
-        % Dibujar los triángulos curvos
+        
         \draw[thick] (A) .. controls (1,1) .. (B) .. controls (2,1.5) .. (C) .. controls (0.5,1.5) .. (A);
         \draw[thick] (B) .. controls (3.5,1.5) .. (D) .. controls (2.5,2.5) .. (C);
         \draw[thick] (B) .. controls (3,-0.5) .. (E) .. controls (1,-1) .. (A);
         \draw[thick] (B) .. controls (4,0.5) .. (F) .. controls (4,-0.5) .. (E);
         \draw[thick] (D) .. controls (5,1.5) .. (F) .. controls (4.5,0.5) .. (B);
         
-        % Marcar los puntos
+        
         \filldraw[black] (A) circle (2pt) node[left] {$A$};
         \filldraw[black] (B) circle (2pt) node[above] {$B$};
         \filldraw[black] (C) circle (2pt) node[left] {$C$};
@@ -715,8 +715,7 @@ Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H =
 \end{definition}
 
 \begin{example}
-    Sea $G = (V,E)$ la gráfica de la figura \ref{fig:G}, entonces una subgráfica de $G$ podría ser $H = (V_H,E_H)$ donde:
-    \begin{center}
+\begin{center}
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
@@ -796,7 +795,7 @@ Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H =
 \end{example}
 
  \subsection{Caminos y ciclos}
- Uno de los conceptos fundamentales que se introducirán y además se implmentarán en la creación de los algoritmos de la sección final es el concepto de caminos, este concepto se utilizará cómo herrramienta para el estudio y recorrido de la gráfica completa.
+ Uno de los conceptos fundamentales que se introducirán y además se implementarán en la creación de los algoritmos de la sección final es el concepto de caminos, este concepto se utilizará cómo herrramienta para el estudio y recorrido de la gráfica completa.
 
  \begin{definition}[Camino, ciclo y caminos cerrados]
     
@@ -818,10 +817,85 @@ Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H =
      
      Además, el número $l(W)$ es el tamaño o longitud del camino y está dado por $l(W)=|E(W)|$
  \end{definition}
+
+ \begin{example}
+    \begin{figure}[h]
+    \centering
+    
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}
+        [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+        \node (n1) at (0,0) {a};
+        \node (n2) at (2,1) {b};
+        \node (n3) at (4,0) {c};
+        \node (n4) at (6,1) {d};
+        \node (n5) at (8,0) {e};
+
+        \foreach \from/\to in {n1/n2,n2/n3,n3/n4,n4/n5}
+            \draw (\from) -- (\to);
+        \end{tikzpicture}
+        \caption{Ejemplo de camino}
+        \label{fig:camino}
+    \end{minipage}
+    \hfill
+
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}
+        [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+        \node (n1) at (0,0) {a};
+        \node (n2) at (2,2) {b};
+        \node (n3) at (4,0) {c};
+        \node (n4) at (2,-2) {d};
+
+        \foreach \from/\to in {n1/n2,n2/n3,n3/n4,n4/n1}
+            \draw (\from) -- (\to);
+        \end{tikzpicture}
+        \caption{Ejemplo de ciclo}
+        \label{fig:ciclo}
+    \end{minipage}
+\end{figure}
+
+
+ \end{example}
+
+
  \subsection{Árboles}
  Una forma de reducir el número de vértices sin que la gráfica pierda gran parte de su información, es mediante el estudio de los árboles, veremos su definición y los conceptos más importantes relacionados con el estudio de estas estructuras.
+
   \begin{definition}[Gráfica conexa]
-     Una gráfica $G=(V,G)$ es conexa si para cualquier par de vértices $u \hspace{5pt} y \hspace{5pt} v$ de G si existe un camino que inicia en $u$ y termina en $v$ \end{definition}
+     Una gráfica $G=(V,G)$ es conexa si para cualquier par de vértices $u \hspace{5pt} y \hspace{5pt} v$ de G si existe un camino que inicia en $u$ y termina en $v$ 
+\end{definition}
+
+\begin{example}
+   \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+    
+    \node (n1) at (0,0) {a};
+    \node (n2) at (2,2) {b};
+    \node (n3) at (4,0) {c};
+    \node (n4) at (6,2) {d};
+    \node (n5) at (3,-2) {e};
+
+    \foreach \from/\to in {n1/n2, n2/n3, n3/n4, n3/n5, n5/n1}
+        \draw (\from) -- (\to);
+
+    
+    \draw (n2) -- (n4);
+    \draw (n1) -- (n5);
+
+    \end{tikzpicture}
+    \caption{Ejemplo de gráfica conexa}
+    \label{fig:conexa}
+\end{figure}
+\end{example}
+
+
+
+
  \begin{definition}[Componente conexo]
      Sea $G=(V,E)$ una gráfica.
      Un \textbf{componente conexo} de $G$ es una subgráfica $H$ tal que:
@@ -830,10 +904,74 @@ Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H =
          \item $H$ es maximal con respecto a la propiedad de ser conexa.Es decir, no existe una subgráfica conexa más grande  que contenga a $H$.
      \end{enumerate}
  \end{definition}
+
+ \begin{example}
+    \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+    [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+    
+    
+    \node (a1) at (0,0) {a};
+    \node (a2) at (2,1) {b};
+    \node (a3) at (2,-1) {c};
+    \node (a4) at (4,0) {d};
+
+    \foreach \from/\to in {a1/a2,a1/a3,a2/a4,a3/a4}
+        \draw (\from) -- (\to);
+    
+    
+    \node (b1) at (7,1) {e};
+    \node (b2) at (9,1) {f};
+    \node (b3) at (8,-1) {g};
+
+    \foreach \from/\to in {b1/b2,b2/b3,b3/b1}
+        \draw (\from) -- (\to);
+
+    \end{tikzpicture}
+    \caption{Ejemplo de un grafo con dos componentes conexas}
+    \label{fig:componentes}
+\end{figure}
+
+ \end{example}
+
+ Notamos que una gráfica $G$ es conexa si y sólo si tiene una única componente conexa, es decir, si no se puede dividir en subgráficas conexas más pequeñas. En caso contrario, si $G$ no es conexa, entonces se puede dividir en múltiples componentes conexas, cada una de las cuales es maximal con respecto a la propiedad de ser conexa.
  \begin{definition}[Puente]
  Dada un gráfica $G$ conexa y una arista $e \in E_G$. Decimos que \textbf{e} es un puente de la gráfica $G$, si $G - e$ es disconexa.
  \end{definition}
- \noindent Si tomamos como ejemplo la gráfica de la figura \ref{fig:G} notamos que el vértice $e =ab$ es un puente de $G$.Pues la gráfica $G-e$ queda en dos componentes, la conformada por el vértice $\{a\}$ y la que contiene a los vértices $\{b,c,d,e,f\}$.
+
+ \begin{example}
+    \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+    [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+    
+    
+    \node (a1) at (0,0) {a};
+    \node (a2) at (2,1) {b};
+    \node (a3) at (2,-1) {c};
+
+    \foreach \from/\to in {a1/a2,a1/a3,a2/a3}
+        \draw (\from) -- (\to);
+
+    
+    \node (b1) at (6,1) {d};
+    \node (b2) at (8,1) {e};
+    \node (b3) at (7,-1) {f};
+
+    \foreach \from/\to in {b1/b2,b2/b3,b3/b1}
+        \draw (\from) -- (\to);
+
+    
+    \draw[very thick] (a2) -- (b1);
+
+    \end{tikzpicture}
+    \caption{Ejemplo de grafo con un puente (arista de corte)}
+    \label{fig:puente}
+\end{figure}
+
+ \end{example}
+En la figura \ref{fig:puente} notamos que la arista $de$ es un puente, ya que si la eliminamos, la gráfica resultante se vuelve disconexa, separando los vértices $a$, $b$ y $c$ de los vértices $d$, $e$ y $f$.
  
  \begin{proposition}
      Sea una gráfica $G$.
@@ -853,20 +991,48 @@ Sea $G = (V,E)$ una gráfica simple. Una subgráfica de $G$ es una gráfica $H =
  \begin{definition}[Gráfica acíclica]
      Una gráfica es llamada acíclica si no contiene ciclos.
  \end{definition}
+
+
  \begin{definition}[Árbol]
   Un árbol es una gráfica acíclica y conexa.
  \end{definition}
+
+ \begin{example}
+    \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+    [scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+    
+    % Nodos del árbol
+    \node (a) at (0,0) {a};
+    \node (b) at (2,1) {b};
+    \node (c) at (2,-1) {c};
+    \node (d) at (4,1.5) {d};
+    \node (e) at (4,0.5) {e};
+    \node (f) at (4,-1) {f};
+    \node (g) at (6,-1) {g};
+
+    % Aristas del árbol
+    \draw (a) -- (b);
+    \draw (a) -- (c);
+    \draw (b) -- (d);
+    \draw (b) -- (e);
+    \draw (c) -- (f);
+    \draw (f) -- (g);
+
+    \end{tikzpicture}
+    \caption{Ejemplo de una gráfica acíclica (un árbol)}
+    \label{fig:aciclica}
+\end{figure}
+
+ \end{example}
  
  De la \textbf{Proposición 2.2} y la \textbf{Definición 22} se deriva el siguiente corolario.
  
  \begin{corollary}
      Una gráfica conexa es un árbol sí y sólo sí todas sus aristas son puentes.
  \end{corollary}
- \newpage
- 
-
-
-
+\noindent Notamos que un árbol es una gráfica conexa y acíclica, además de que todas sus aristas son puentes. Esto implica que si eliminamos cualquier arista de un árbol, la gráfica resultante se vuelve disconexa, lo cual es una propiedad clave de los árboles.
  \begin{teorema}
  Los siguientes enunciados son equivalentes:
   \begin{enumerate}
@@ -906,13 +1072,7 @@ Entonces:
     \[n-1 = \varepsilon_T = \sum_{i=1}^{k} (|V_i| - 1)= \sum_{i=1}^{k}|V_i| - k = n-k\] 
     \[\therefore k =1\]
 \end{center}
-Lo cual quiere decir que $T$ es un sólo componente conexo, por lo tanto $T$ es un árbol.
-
-
-
-
-
-    
+Lo cual quiere decir que $T$ es un sólo componente conexo, por lo tanto $T$ es un árbol.    
 \end{proof}
 
 \begin{definition}[Árbol generador]
@@ -948,12 +1108,3 @@ Donde $w(u,v)$ es el peso que hay entre el vértice $u$ y la arista $v$.
 
 Hablar de raices de un árbol dado que el mst se inicializa en una raíz
 
-\begin{definition}[Característica de Euler]
-    Dado un grafo plano $G$, la característica de Euler se define como:
-    \begin{center}
-        $\chi(G) = V-E+F$
-    \end{center}
-    Y esta propiedad es un \textbf{invariante topológico}.
-    \newpage
-    
-\end{definition}

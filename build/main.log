@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  4 JUL 2025 08:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  10 JUL 2025 20:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -842,54 +842,61 @@ LaTeX Info: Redefining \% on input line 605.
 LaTeX Info: Redefining \. on input line 661.
 LaTeX Info: Redefining \% on input line 661.
  [19]
-LaTeX Info: Redefining \. on input line 719.
-LaTeX Info: Redefining \% on input line 719.
- [20]
-Underfull \hbox (badness 10000) in paragraph at lines 742--744
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+LaTeX Info: Redefining \. on input line 741.
+LaTeX Info: Redefining \% on input line 741.
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 741--743
 
  []
 
-LaTeX Info: Redefining \. on input line 799.
-LaTeX Info: Redefining \% on input line 799.
+LaTeX Info: Redefining \. on input line 800.
+LaTeX Info: Redefining \% on input line 800.
 [21]
-LaTeX Info: Redefining \. on input line 844.
-LaTeX Info: Redefining \% on input line 844.
- [22]
-Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 857.
-LaTeX Info: Redefining \. on input line 859.
-LaTeX Info: Redefining \% on input line 859.
+Overfull \hbox (19.03006pt too wide) in paragraph at lines 837--838
+ [][] 
+ []
+
+LaTeX Info: Redefining \. on input line 894.
+LaTeX Info: Redefining \% on input line 894.
+[22]
+LaTeX Info: Redefining \. on input line 979.
+LaTeX Info: Redefining \% on input line 979.
  [23]
-Underfull \hbox (badness 10000) in paragraph at lines 875--876
+Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 1033.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1048
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 877--878
+Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 879--885
-
- []
-
-LaTeX Info: Redefining \. on input line 914.
-LaTeX Info: Redefining \% on input line 914.
+LaTeX Info: Redefining \. on input line 1050.
+LaTeX Info: Redefining \% on input line 1050.
 [24]
-LaTeX Info: Redefining \. on input line 951.
-LaTeX Info: Redefining \% on input line 951.
- [25]) (Sec/3_GNNs.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1051--1057
+
+ []
+
+LaTeX Info: Redefining \. on input line 1095.
+LaTeX Info: Redefining \% on input line 1095.
+[25]) (Sec/3_GNNs.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [26
-
-]
+ [26]
 Cap\'{\i }tulo 3.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 7.
 
-[27]
+[27
+
+]
 
 LaTeX Font Warning: Command \boldmath invalid in math mode on input line 78.
 
@@ -900,7 +907,7 @@ LaTeX Info: Redefining \. on input line 94.
 LaTeX Info: Redefining \% on input line 94.
 [28] [29]
 Overfull \hbox (0.42885pt too wide) in paragraph at lines 143--144
-[][]\OT1/cmr/bx/n/10 Definici^^Son 46 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/n/10 . []\OT1/cmr/m/it/10 Sea $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : 
+[][]\OT1/cmr/bx/n/10 Definici^^Son 45 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/n/10 . []\OT1/cmr/m/it/10 Sea $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : 
  \OMS/cmsy/m/n/10 ^^Z \U/msb/m/n/10 R[] [][]\OMS/cmsy/m/n/10 ! \U/msb/m/n/10 R$\OT1/cmr/m/it/10 ,una fun-ci^^Son di-fe-ren-cia-ble en $\OML/cmm/m/it/10 x[]$\OT1/cmr/m/it/10 .Entonces
  []
 
@@ -913,7 +920,7 @@ Package hyperref Info: bookmark level for unknown observation defaults to 0 on i
 LaTeX Info: Redefining \. on input line 290.
 LaTeX Info: Redefining \% on input line 290.
  [32] [33]
-<img/conv_illustration.png, id=546, 365.365pt x 219.82124pt>
+<img/conv_illustration.png, id=559, 365.365pt x 219.82124pt>
 File: img/conv_illustration.png Graphic file (type png)
 <use img/conv_illustration.png>
 Package pdftex.def Info: img/conv_illustration.png  used on input line 336.
@@ -928,7 +935,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 500--505
 
  []
 
-<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=581, 284.39583pt x 154.5775pt>
+<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=594, 284.39583pt x 154.5775pt>
 File: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png Graphic file (type png)
 <use img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>
 Package pdftex.def Info: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png  used on input line 507.
@@ -1001,7 +1008,7 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 [53
 
 ]
-<img//pointnet.png, id=708, 672.01062pt x 237.38687pt>
+<img//pointnet.png, id=721, 672.01062pt x 237.38687pt>
 File: img//pointnet.png Graphic file (type png)
 <use img//pointnet.png>
 Package pdftex.def Info: img//pointnet.png  used on input line 39.
@@ -1045,17 +1052,17 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 9BED465069A6C6C6E395E0106D4EBF8F;5884.
  ) 
 Here is how much of TeX's memory you used:
- 38271 strings out of 478906
- 870108 string characters out of 2851448
- 2829619 words of memory out of 3000000
- 55087 multiletter control sequences out of 15000+600000
+ 38388 strings out of 478906
+ 871553 string characters out of 2851448
+ 2829992 words of memory out of 3000000
+ 55190 multiletter control sequences out of 15000+600000
  419061 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  88i,11n,86p,1464b,2640s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on "c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf" (59 pages, 909450 bytes).
+Output written on "c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf" (59 pages, 916196 bytes).
 PDF statistics:
- 977 PDF objects out of 1000 (max. 8388607)
- 379 named destinations out of 1000 (max. 500000)
+ 992 PDF objects out of 1000 (max. 8388607)
+ 393 named destinations out of 1000 (max. 500000)
  276 words of extra memory for PDF output out of 10000 (max. 10000000)
 
