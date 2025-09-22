@@ -4,22 +4,31 @@ En las últimas décadas, las redes neuronales han emergido como una herramienta
 Aunque la literatura actual ha abordado ampliamente las redes neuronales convencionales, la creciente demanda de resolver problemas más complejos ha impulsado la evolución hacia arquitecturas más especializadas. Entre estas, las Redes Neuronales Gráficas (Graph Neural Networks o GNN) se han destacado por su capacidad para trabajar con datos estructurados en forma de gráficas, lo que las hace especialmente útiles para el objetivo de este trabajo.
 
 Este capítulo ofrecerá una introducción formal a las redes neuronales gráficas y explorará la necesidad de adoptar estas estructuras avanzadas para el estudio de dominios donde la naturaleza de los datos es inherentemente no lineal o interdependiente.
-\subsection{Redes Neuronales}
-A continuación se dará la definición formal del modelo de red neuronal partiendo de la unidad más básica denominada como perceptrón
-\begin{definition}[Perceptrón]
-Sea $f:\mathbb{R}^d \longrightarrow \{0,1\}$ una función dada por:
 
+\section{Redes Neuronales}
+
+\subsection{Conceptos básicos}
+Una red neuronal puede entenderse cómo la composición de múltiples funciones no lineales, que en conjunto forman un modelo capaz de aprender representaciones complejas de los datos. Estas redes están inspiradas en la estructura y funcionamiento del cerebro humano, donde las neuronas se conectan entre sí para procesar información y tomar decisiones.
+
+A continuación se dará la definición formal del modelo de red neuronal partiendo de la unidad más básica denominada como perceptrón.
+
+\begin{definition}[Perceptrón]  
+Sea $\mathbf{w} \in \mathbb{R}^d$ un vector de pesos, $\mathbf{x} \in \mathbb{R}^d$ un vector de entrada y $b \in \mathbb{R}$ un sesgo (umbral). Definimos la función  
 \[
-f(x)= \left\{ \begin{array}{lcc}1 & si & \mathbf{w}^T\mathbf{x} + b > 0 \\ \\
-0 & si & \mathbf{w}^T\mathbf{x} + b \leq 0 \end{array} \right.
+f:\mathbb{R}^d \to \{0,1\}, \qquad f(\mathbf{x}) = \chi_{\{\, \mathbf{y} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{y} + b > 0 \,\}}(\mathbf{x}),
 \]
-Donde $\mathbf{w},\mathbf{x} \in \mathbb{R}^d$:
-\begin{itemize}
-    \item $\mathbf{x}$ representa el vector de entradas del perceptrón.
-    \item $\mathbf{w}$ corresponde con el vector de pesos de cada entrada.
-    \item $b$ es el umbral que se considera para una mejor flexibilidad a la hora de implementar el perceptrón.
-\end{itemize}
+donde $\chi_{A}$ denota la función característica del conjunto $A \subseteq \mathbb{R}^d$.  
+En forma explícita,  
+\[
+f(\mathbf{x}) = \begin{cases} 
+1, & \text{si } \mathbf{w}^T \mathbf{x} + b > 0, \\[6pt]
+0, & \text{si } \mathbf{w}^T \mathbf{x} + b \leq 0. 
+\end{cases}
+\]
 \end{definition}
+
+De la anterior definición, podemos observar que el perceptrón es un clasificador lineal que toma una decisión binaria basada en una combinación lineal de las entradas ponderadas por los pesos y ajustada por un sesgo. La función característica $\chi_{A}$ actúa como una función de activación que determina si la salida es 1 o 0, dependiendo de si la combinación lineal supera el umbral definido por el sesgo.
+
 
 \begin{figure}[H]
     \centering
@@ -51,28 +60,99 @@ Donde $\mathbf{w},\mathbf{x} \in \mathbb{R}^d$:
     \label{fig:perceptron}
 \end{figure}
 
+Con el perceptrón definido, podemos construir redes neuronales más complejas al combinar múltiples perceptrones en capas. Una capa, cómo lo veremos a continuación, es la combinación de funciones entre un perceptrón y una función de activación.
 
 
+\begin{definition}[Capa de una red neuronal]
+Sea $L \in \mathbb{N}$ el índice de una capa en una red neuronal.  
+Sean:
+$\mathbf{W}^{(L)} \in \mathbb{R}^{n_L \times n_{L-1}}$ la matriz de pesos que conecta la capa $(L-1)$ con la capa $L$, $\mathbf{b}^{(L)} \in \mathbb{R}^{n_L}$ el vector de sesgos (bias), $\sigma : \mathbb{R} \to \mathbb{R}$ una función de activación (aplicada componente a componente).
 
-\begin{definition}[Capa]
-Sea $\mathbf{W} \in \mathbb{R}^{n\times m}$ una matriz de pesos, $\mathbf{h} \in \mathbb{R}^n$ un vector de entradas (resultado de la salida de una capa anterior) y $\mathbf{b} \in \mathbb{R}^n$ un vector de bias, $\sigma : \mathbb{R} \longrightarrow \mathbb{R}$ una función de activación.
-La capa L-ésima $f^{(L)}$ de una red neuronal, está definida por:
-
+Definimos la \textbf{capa $L$-ésima} como la aplicación
 \[
-f^{(L)} = \sigma \circ \mathbf{h}^{(L)}
+f^{(L)} : \mathbb{R}^{n_{L-1}} \longrightarrow \mathbb{R}^{n_L},
 \]
+dada por
+\[
+f^{(L)}(\mathbf{x}) = \sigma\!\left(\mathbf{W}^{(L)} \mathbf{x} + \mathbf{b}^{(L)}\right),
+\]
+donde la función de activación $\sigma$ se aplica de manera componente a componente sobre el vector $\mathbf{W}^{(L)} \mathbf{x} + \mathbf{b}^{(L)}$.
 
-Donde:
-\begin{itemize}
-    \item $\mathbf{h}^{(L)}$ = $\mathbf{W}^{(L)}f^{(L-1)}+b^{(i)}$ es la combinación lineal entre la matriz de pesos $\mathbf{W}$ que conecta la capa $L$ con la capa $L-1$ y la salida de la capa anterior.
-    \item $\sigma(\cdot)$ es la función de activación.
-    \item $\mathbf{h}^{(0)} = \mathbf{X}$ tal que $\mathbf{X} \in \mathbb{R}^{d}$, con $d$ el número de entradas.
-    
-\end{itemize}
-
-
+En particular:
+\[
+f^{(0)}(\mathbf{x}) = \mathbf{x}, \qquad \mathbf{x} \in \mathbb{R}^{n_0}.
+\]
 \end{definition}
 
+\begin{figure}[H]
+ \begin{tikzpicture}[
+    neuron/.style={circle, draw, minimum size=8mm, thick},
+    arrow/.style={->, thick}
+]
+
+% =======================
+% Neuronas de la capa L-1 (entrada)
+% =======================
+\node[neuron] (x1) {$x^{(L-1)}_1$};
+\node[neuron, below=0.8cm of x1] (x2) {$x^{(L-1)}_2$};
+\node at ($(x2) - (0,1.2)$) {$\vdots$};
+\node[neuron, below=2.4cm of x2] (xn) {$x^{(L-1)}_{n_{L-1}}$};
+
+% Caja de entrada
+\node[draw, thick, fit=(x1) (x2) (xn), inner sep=12pt] (inputbox) {};
+
+% =======================
+% Bloque lineal (W y b)
+% =======================
+\node[draw, rectangle, thick, right=2.5cm of inputbox, minimum width=2cm, minimum height=5cm, align=center] (linear) {$\mathbf{W}^{(L)}$ \\ $+$ \\ $\mathbf{b}^{(L)}$};
+
+% =======================
+% Bloque de activación sigma
+% =======================
+\node[draw, rectangle, thick, right=2.5cm of linear, minimum width=1.5cm, minimum height=5cm, align=center] (sigma) {$\sigma$};
+
+% =======================
+% Neuronas de salida (capa L)
+% =======================
+\node[neuron, right=2.5cm of sigma] (y1) {$f^{(L)}_1$};
+\node[neuron, below=0.8cm of y1] (y2) {$f^{(L)}_2$};
+\node at ($(y2) - (0,1.2)$) {$\vdots$};
+\node[neuron, below=2.4cm of y2] (yn) {$f^{(L)}_{n_L}$};
+
+% Caja de salida
+\node[draw, thick, fit=(y1) (y2) (yn), inner sep=12pt] (outputbox) {};
+
+% =======================
+% Conexiones
+% =======================
+% Entradas hacia bloque lineal
+\foreach \i in {x1,x2,xn}
+    \draw[arrow] (\i.east) -- (linear.west);
+
+% Lineal hacia sigma
+\draw[arrow] (linear.east) -- (sigma.west);
+
+% Sigma hacia salidas
+\foreach \j in {y1,y2,yn}
+    \draw[arrow] (sigma.east) -- (\j.west);
+
+\end{tikzpicture}
+    \caption{Capa de una red neuronal}
+    \label{fig:capa_red_neuronal}   
+    
+\end{figure}
+
+
+
+\begin{observation}
+    La función de activación $\sigma$ introduce no linealidad en la red neuronal, lo cual es de suma importancia para que la red pueda aprender representaciones complejas y no lineales de los datos. 
+    Algunas funciones de activación comunes son:
+    \begin{itemize}
+        \item \textbf{Función sigmoide}: $\sigma(x) = \frac{1}{1 + e^{-x}}$
+        \item \textbf{Función ReLU (Rectified Linear Unit)}: $\sigma(x) = \max(0, x)$
+        \item \textbf{Función tanh}: $\sigma(x) = \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$
+    \end{itemize}
+\end{observation}
 
 \begin{definition}[Red Neuronal]
 Una \textbf{Red Neuronal} con $\boldmath{\mathbf{L}}$ capas es la composición de las funciones $f_i$ , $i \in \{1, \dotsc , \mathbf{L}\}$ tales que:
