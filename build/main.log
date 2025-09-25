@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  25 SEP 2025 11:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  25 SEP 2025 11:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -664,7 +664,7 @@ Package: appendix 2020/02/08 v1.2c extra appendix facilities
 File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count345
 \l__pdf_internal_box=\box76
-) (main.aux
+) (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
@@ -754,7 +754,7 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 6.
 LaTeX Info: Redefining \pageref on input line 6.
 LaTeX Info: Redefining \nameref on input line 6.
- (main.out) (main.out)
+ (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out) (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
@@ -769,7 +769,7 @@ Package pgfplots notification 'compat/show suggested version=true': document has
 
 {C:/Users/mauri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]) [2
 
-] (main.toc
+] (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
@@ -800,18 +800,6 @@ LaTeX Info: Redefining \% on input line 1.
 
 ]
 Cap\'{\i }tulo 2.
-
-LaTeX Warning: Citation `munkres_topology_2000' on page 7 undefined on input line 8.
-
-
-LaTeX Warning: Citation `prieto_topologia_2003' on page 7 undefined on input line 8.
-
-
-LaTeX Warning: Citation `haru' on page 7 undefined on input line 8.
-
-
-LaTeX Warning: Citation `diestel' on page 7 undefined on input line 8.
-
 
 LaTeX Warning: Citation `pressley' on page 7 undefined on input line 8.
 
@@ -938,13 +926,10 @@ LaTeX Info: Redefining \% on input line 410.
 LaTeX Info: Redefining \. on input line 410.
 LaTeX Info: Redefining \% on input line 410.
  [34]
-
-LaTeX Warning: Citation `Goodfellow-et-al-2016' on page 35 undefined on input line 416.
-
 LaTeX Info: Redefining \. on input line 448.
 LaTeX Info: Redefining \% on input line 448.
-[35]
-<img/conv_illustration.png, id=569, 365.365pt x 219.82124pt>
+ [35]
+<img/conv_illustration.png, id=579, 365.365pt x 219.82124pt>
 File: img/conv_illustration.png Graphic file (type png)
 <use img/conv_illustration.png>
 Package pdftex.def Info: img/conv_illustration.png  used on input line 456.
@@ -962,7 +947,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 620--625
 
  []
 
-<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=604, 284.39583pt x 154.5775pt>
+<img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png, id=614, 284.39583pt x 154.5775pt>
 File: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png Graphic file (type png)
 <use img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png>
 Package pdftex.def Info: img//Example-of-a-message-passing-neural-network-The-left-side-is-an-example-of-a-graphical.png  used on input line 627.
@@ -997,10 +982,6 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 43.
 LaTeX Info: Redefining \% on input line 43.
  [44] [45]
-
-LaTeX Warning: Citation `Knuth' on page 46 undefined on input line 75.
-
-
 Underfull \vbox (badness 6364) has occurred while \output is active []
 
 LaTeX Info: Redefining \. on input line 116.
@@ -1030,13 +1011,6 @@ Underfull \vbox (badness 1178) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 391.
 LaTeX Info: Redefining \% on input line 391.
  [52]
-
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 53 undefined on input line 428.
-
-
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 53 undefined on input line 429.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [53]) (Sec/5_ResultadosYConclusiones.tex
@@ -1045,26 +1019,17 @@ LaTeX Info: Redefining \% on input line 1.
  [54]
 Cap\'{\i }tulo 5.
 
-LaTeX Warning: Citation `pointnet' on page 55 undefined on input line 7.
-
-
-LaTeX Warning: Citation `pointnet' on page 55 undefined on input line 11.
-
-
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 13.
 
 [55
 
 ]
-<img//pointnet.png, id=722, 672.01062pt x 237.38687pt>
+<img//pointnet.png, id=740, 672.01062pt x 237.38687pt>
 File: img//pointnet.png Graphic file (type png)
 <use img//pointnet.png>
 Package pdftex.def Info: img//pointnet.png  used on input line 39.
 (pdftex.def)             Requested size: 397.48499pt x 140.41202pt.
-
-
-LaTeX Warning: Citation `pointnet' on page 56 undefined on input line 41.
 
 
 LaTeX Warning: Command \i invalid in math mode on input line 55.
@@ -1081,40 +1046,40 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-)
-No file main.bbl.
-(apendice.tex [57]
+) (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.bbl [57]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [58]
-Ap\'{e}ndice A.
-) [59
+ [58]) (apendice.tex [59
 
-] (main.aux
+]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [60
+
+]
+Ap\'{e}ndice A.
+) [61] (c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D100FFDCEE77CDCED84DC0EBA06DEECC;6002.
  ) 
 Here is how much of TeX's memory you used:
- 38617 strings out of 478906
- 875545 string characters out of 2851448
- 2831403 words of memory out of 3000000
- 55421 multiletter control sequences out of 15000+600000
- 418893 words of font info for 83 fonts, out of 8000000 for 9000
+ 38634 strings out of 478906
+ 876439 string characters out of 2851448
+ 2831763 words of memory out of 3000000
+ 55423 multiletter control sequences out of 15000+600000
+ 419061 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  88i,17n,86p,1464b,2640s stack positions out of 5000i,500n,10000p,200000b,80000s
- <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (59 pages, 917004 bytes).
+ <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
+Output written on "c:\Users\mauri\Documents\Facultad de Ciencias\Tesis\Tesis\build\main.pdf" (61 pages, 937207 bytes).
 PDF statistics:
- 979 PDF objects out of 1000 (max. 8388607)
- 389 named destinations out of 1000 (max. 500000)
+ 1017 PDF objects out of 1200 (max. 8388607)
+ 400 named destinations out of 1000 (max. 500000)
  284 words of extra memory for PDF output out of 10000 (max. 10000000)
 

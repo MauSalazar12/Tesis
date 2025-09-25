@@ -85,57 +85,42 @@ f^{(0)}(\mathbf{x}) = \mathbf{x}, \qquad \mathbf{x} \in \mathbb{R}^{n_0}.
 \end{definition}
 
 \begin{figure}[H]
- \begin{tikzpicture}[
-    neuron/.style={circle, draw, minimum size=8mm, thick},
-    arrow/.style={->, thick}
-]
+\begin{tikzpicture}[node distance=1.2cm, every node/.style={scale=0.9}]
+    % Capa (L-1)
+    \node[draw,circle] (x1) {$x^{(L-1)}_1$};
+    \node[draw,circle,below=of x1] (x2) {$x^{(L-1)}_2$};
+    \node[below=of x2] (dots) {$\vdots$};
+    \node[draw,circle,below=of dots] (xm) {$x^{(L-1)}_{n_{L-1}}$};
 
-% =======================
-% Neuronas de la capa L-1 (entrada)
-% =======================
-\node[neuron] (x1) {$x^{(L-1)}_1$};
-\node[neuron, below=0.8cm of x1] (x2) {$x^{(L-1)}_2$};
-\node at ($(x2) - (0,1.2)$) {$\vdots$};
-\node[neuron, below=2.4cm of x2] (xn) {$x^{(L-1)}_{n_{L-1}}$};
+    % Rectángulo que encierra entradas
+    \node[draw,fit=(x1)(x2)(xm),inner sep=1cm,label=above:{Capa $L-1$}] (capaLmenos1) {};
 
-% Caja de entrada
-\node[draw, thick, fit=(x1) (x2) (xn), inner sep=12pt] (inputbox) {};
+    % Pesos y bias
+    \node[draw,rectangle,right=2.5cm of x2,minimum width=1.5cm,minimum height=3cm] (W) 
+        {\textbf{W}$^{(L)}$ \\[2mm] + \\[2mm] \textbf{b}$^{(L)}$};
 
-% =======================
-% Bloque lineal (W y b)
-% =======================
-\node[draw, rectangle, thick, right=2.5cm of inputbox, minimum width=2cm, minimum height=5cm, align=center] (linear) {$\mathbf{W}^{(L)}$ \\ $+$ \\ $\mathbf{b}^{(L)}$};
+    % Activación σ
+    \node[draw,rectangle,right=2.5cm of W,minimum width=0.8cm,minimum height=3cm] (sigma) {$\sigma$};
 
-% =======================
-% Bloque de activación sigma
-% =======================
-\node[draw, rectangle, thick, right=2.5cm of linear, minimum width=1.5cm, minimum height=5cm, align=center] (sigma) {$\sigma$};
+    % Salidas capa L (alineadas en columna)
+    \node[draw,circle,right=2.5cm of x1-|sigma] (y1) {$f^{(L)}_1$};
+    \node[draw,circle,right=2.5cm of x2-|sigma] (y2) {$f^{(L)}_2$};
+    \node[right=2.5cm of dots-|sigma] (dots2) {$\vdots$};
+    \node[draw,circle,right=2.5cm of xm-|sigma] (ym) {$f^{(L)}_{n_L}$};
 
-% =======================
-% Neuronas de salida (capa L)
-% =======================
-\node[neuron, right=2.5cm of sigma] (y1) {$f^{(L)}_1$};
-\node[neuron, below=0.8cm of y1] (y2) {$f^{(L)}_2$};
-\node at ($(y2) - (0,1.2)$) {$\vdots$};
-\node[neuron, below=2.4cm of y2] (yn) {$f^{(L)}_{n_L}$};
+    % Rectángulo que encierra salidas
+    \node[draw,fit=(y1)(y2)(ym),inner sep=1cm,label=above:{Capa $L$}] (capaL) {};
 
-% Caja de salida
-\node[draw, thick, fit=(y1) (y2) (yn), inner sep=12pt] (outputbox) {};
+    % Conexiones
+    \draw[->] (x1) -- (W);
+    \draw[->] (x2) -- (W);
+    \draw[->] (xm) -- (W);
 
-% =======================
-% Conexiones
-% =======================
-% Entradas hacia bloque lineal
-\foreach \i in {x1,x2,xn}
-    \draw[arrow] (\i.east) -- (linear.west);
+    \draw[->] (W) -- (sigma);
 
-% Lineal hacia sigma
-\draw[arrow] (linear.east) -- (sigma.west);
-
-% Sigma hacia salidas
-\foreach \j in {y1,y2,yn}
-    \draw[arrow] (sigma.east) -- (\j.west);
-
+    \draw[->] (sigma) -- (y1);
+    \draw[->] (sigma) -- (y2);
+    \draw[->] (sigma) -- (ym);
 \end{tikzpicture}
     \caption{Capa de una red neuronal}
     \label{fig:capa_red_neuronal}   
@@ -154,18 +139,73 @@ f^{(0)}(\mathbf{x}) = \mathbf{x}, \qquad \mathbf{x} \in \mathbb{R}^{n_0}.
     \end{itemize}
 \end{observation}
 
-\begin{definition}[Red Neuronal]
-Una \textbf{Red Neuronal} con $\boldmath{\mathbf{L}}$ capas es la composición de las funciones $f_i$ , $i \in \{1, \dotsc , \mathbf{L}\}$ tales que:
+Con la definición anterior podemos ahora entender cómo se compone una red neuronal a partir de múltiples capas.
 
-\[y = f(x;\theta) = f^{(\mathbf{L})}(f^{(\mathbf{L}-1)}(\dotsc f^{(2)}(f^{(1)}(x))))\]
-Donde:
-\begin{itemize}
-    \item $\mathbf{x}$ es el vector de entrada.
-    \item $f_i$ es la transformación realizada por la capa i-ésima.
-    \item $\theta$ son los paramétros de la red (pesos y bias).
-    \item $\mathbf{y}$ es la salida.
-\end{itemize}    
+
+
+\begin{definition}[Red neuronal]
+Sea $L \in \mathbb{N}$ el número de capas. Una \textbf{red neuronal} con $L$ capas es una función
+\[
+f(x;\theta) : \mathbb{R}^{d_{\text{in}}} \longrightarrow \mathbb{R}^{d_{\text{out}}}
+\]
+definida como la composición
+\[
+f(x;\theta) = f^{(L)} \circ f^{(L-1)} \circ \dotsb \circ f^{(2)} \circ f^{(1)} (x),
+\]
+donde: 
+$x \in \mathbb{R}^{d_{\text{in}}}$ es el vector de entrada, para cada $i \in \{1,\dotsc,L\}$, $f^{(i)} : \mathbb{R}^{d_{i-1}} \to \mathbb{R}^{d_i}$ es la transformación asociada a la $i$-ésima capa, $\theta = \{W^{(i)}, b^{(i)} \mid i=1,\dotsc,L\}$ es el conjunto de parámetros de la red (matrices de pesos y vectores de sesgo),$y = f(x;\theta) \in \mathbb{R}^{d_{\text{out}}}$ es la salida de la red.
 \end{definition}
+
+En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red, y a la capa $f^{(L)}$ se le conoce como la capa de salida. A las capas restantes se les conoce como capas ocultas
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=1.2cm and 2.5cm, every node/.style={scale=0.9}]
+    \tikzstyle{neuron}=[draw,circle,minimum size=1cm]
+
+    % Capa de entrada (alineada en columna)
+    \matrix[column sep=0mm, row sep=8mm] (entrada) {
+        \node[neuron] (x1) {$x_1$}; \\
+        \node[neuron] (x2) {$x_2$}; \\
+        \node[neuron] (x3) {$x_3$}; \\
+    };
+
+    % Capa oculta (alineada con respecto a la entrada)
+    \matrix[column sep=0mm, row sep=8mm, right=of entrada] (oculta) {
+        \node[neuron] (h1) {$h_1$}; \\
+        \node[neuron] (h2) {$h_2$}; \\
+        \node[neuron] (h3) {$h_3$}; \\
+        \node[neuron] (h4) {$h_4$}; \\
+    };
+
+    % Capa de salida (alineada con respecto a oculta)
+    \matrix[column sep=0mm, row sep=8mm, right=of oculta] (salida) {
+        \node[neuron] (y1) {$y_1$}; \\
+        \node[neuron] (y2) {$y_2$}; \\
+    };
+
+    % Conexiones entrada -> oculta
+    \foreach \i in {1,2,3}
+        \foreach \j in {1,2,3,4}
+            \draw[->] (x\i) -- (h\j);
+
+    % Conexiones oculta -> salida
+    \foreach \i in {1,2,3,4}
+        \foreach \j in {1,2}
+            \draw[->] (h\i) -- (y\j);
+
+    % Rectángulos con etiquetas
+    \node[draw,fit=(x1)(x3),inner sep=0.5cm,label=above:{Entrada}] {};
+    \node[draw,fit=(h1)(h4),inner sep=0.5cm,label=above:{Capa oculta}] {};
+    \node[draw,fit=(y1)(y2),inner sep=0.5cm,label=above:{Salida}] {};
+
+\end{tikzpicture}
+    \caption{Ejemplo de red neuronal con una capa oculta}
+    \label{fig:red_neuronal}
+
+    
+\end{figure}
+
+
 
 \begin{definition}[Función de pérdida]
 Sea $y$ el valor verdadero del resultado de una tarea de aprendizaje,$\hat{y} = f(x;\theta)$
