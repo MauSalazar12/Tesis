@@ -201,17 +201,33 @@ En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red,
 \end{tikzpicture}
     \caption{Ejemplo de red neuronal con una capa oculta}
     \label{fig:red_neuronal}
-
     
 \end{figure}
 
+\subsection{Entrenamiento de redes neuronales}
 
+El entrenamiento de una red neuronal implica ajustar sus parámetros $\theta$ para minimizar la función de pérdida $\mathbf{L}(y,\hat{y})$. Este proceso se lleva a cabo mediante un conjunto de datos de entrenamiento, que consiste en pares de entrada-salida $(x_i, y_i)$. La función de pérdida cuantifica la discrepancia entre las predicciones de la red $\hat{y}_i = f(x_i;\theta)$ y los valores reales $y_i$. El objetivo del entrenamiento es encontrar los parámetros $\theta$ que minimicen esta función de pérdida en promedio sobre todo el conjunto de datos. A continuación, se presentan las definiciones formales de los conceptos clave involucrados en el entrenamiento de redes neuronales.
 
 \begin{definition}[Función de pérdida]
-Sea $y$ el valor verdadero del resultado de una tarea de aprendizaje,$\hat{y} = f(x;\theta)$
-una red neuronal,entonces la función de pérdida \[\mathbf{L}(y,\hat{y})\]
-mide la diferencia entre ambos, valor verdadero y valor predicho, donde el objetivo es encontrar los parametros $\theta$ que minimicen dicha función, es decir:
-\[ \underset{\theta}{\textbf{min}} \frac{1}{N}\sum_{i=1}^N L(y_i,f(x_i;\theta))\]
+Sea $\mathcal{D} = \{(x_i,y_i)\}_{i=1}^N \subset \mathcal{X} \times \mathcal{Y}$ un conjunto de datos de entrenamiento, donde $x_i \in \mathcal{X}$ son las entradas y $y_i \in \mathcal{Y}$ las etiquetas verdaderas asociadas. 
+Sea $f(\,\cdot\,;\theta): \mathcal{X} \to \mathcal{Y}$ una red neuronal parametrizada por $\theta \in \Theta$.
+
+Una \textbf{función de pérdida} es un mapeo
+\[
+L : \mathcal{Y} \times \mathcal{Y} \longrightarrow \mathbb{R}_{\geq 0},
+\]
+tal que $L(y,\hat{y})$ mide el error incurrido al predecir $\hat{y}$ cuando el valor verdadero es $y$, es decir $L(y,\hat{y})$ cuantifica la discrepancia entre la predicción de la red $f(x;\theta)$ y la etiqueta verdadera $y$.
+\end{definition}
+
+
+El objetivo del entrenamiento es minimizar la función de pérdida en promedio sobre todo el conjunto de datos, es decir el objetivo del aprendizaje consiste en resolver el problema de optimización
+\[
+\min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i;\theta)\bigr).
+\]
+
+
+
+
 \begin{example}
 La función de pérdida puede variar dependiendo de la tarea que se realice, aquí tenemos una serie de ejemplo de dicha función dependiendo del contexto
 \begin{itemize}
@@ -233,7 +249,7 @@ L(y,\hat{y}) = - \sum_{i=1}^{K}y_ilog(\hat{y}_i)
 
 
     
-\end{definition}
+
 
 \begin{definition}[Función de riesgo]
 Sea $\mathbf{X}$ el vector de características de entrada y sea $\mathbf{y}$ la variable objetivo, dada la red neuronal $f(x;\theta)$ la función de riesgo se define cómo:
