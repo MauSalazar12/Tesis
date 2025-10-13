@@ -220,51 +220,35 @@ tal que $L(y,\hat{y})$ mide el error incurrido al predecir $\hat{y}$ cuando el v
 \end{definition}
 
 
-El objetivo del entrenamiento es minimizar la función de pérdida en promedio sobre todo el conjunto de datos, es decir el objetivo del aprendizaje consiste en resolver el problema de optimización
-\[
-\min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i;\theta)\bigr).
-\]
+Como ya se ha mencionado, el proceso de entrenamiento de una red neuronal tiene como propósito ajustar los parámetros del modelo $\theta \in \Theta$ para minimizar la discrepancia entre las predicciones $f(x_i; \theta)$ y los valores reales $y_i$.
 
+De manera teórica, este objetivo puede formularse a través de la \textbf{función de riesgo}, definida como la esperanza del error del modelo bajo la distribución conjunta de las variables aleatorias $(\mathbf{x}, \mathbf{y})$:
 
+\begin{equation}
+\mathcal{R}(\theta) = \mathbb{E}_{(\mathbf{x},\mathbf{y}) \sim \mathcal{D}} \left[ L\bigl(y, f(x; \theta)\bigr) \right],
+\end{equation}
 
+donde $\mathcal{D}$ representa la distribución desconocida de los datos, y $L(y, f(x; \theta))$ es una función de pérdida que mide el error entre la predicción y el valor real.
 
-\begin{example}
-La función de pérdida puede variar dependiendo de la tarea que se realice, aquí tenemos una serie de ejemplo de dicha función dependiendo del contexto
-\begin{itemize}
-    \item \textbf{Error cuadrático medio (MSE)}\\
-    Esta función de pérdida es comúnmente usada en problemas de regresión.Mide la diferencia entre lso valores $y$, $\hat{y}$ elevando al cuadrado dicha diferencia:
-    \[L(y,\hat{y}) = \frac{1}{N} \sum_{i=1}^{N}(y_i - \hat{y}_i)^2\]
-\item \textbf{Error absoluto medio (MAE)}\\
-Utilizada también para tareas de regresión que mide la magnitud de los erores de manera más robusta, se define como:
-\[
-L(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N}|y_i - \hat{y}_i|
-\]
-\item \textbf{Entropía cruzada}\\
-Esta función es utilizada habitualmente en problemas de clasificación midiendo la similitud entre la probabildad predicha $\hat{y}$ y la real $y$, de forma generalizada para $\mathbf{K}$ número de clases se tiene que:
-\[
-L(y,\hat{y}) = - \sum_{i=1}^{K}y_ilog(\hat{y}_i)
-\]
-\end{itemize}
-\end{example}
+Sin embargo, en la práctica esta distribución $\mathcal{D}$ es desconocida. Por ello, el riesgo teórico se aproxima mediante su \textbf{riesgo empírico}, calculado sobre una muestra finita $\{(x_i, y_i)\}_{i=1}^N$ proveniente de $\mathcal{D}$:
 
+\begin{equation}
+\widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i; \theta)\bigr).
+\end{equation}
 
-    
+De esta forma, el problema de aprendizaje se plantea como una tarea de \textit{minimización del riesgo empírico} (Empirical Risk Minimization, ERM):
 
+\begin{equation}
+\min_{\theta \in \Theta} \; \widehat{\mathcal{R}}(\theta) 
+= \min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i; \theta)\bigr).
+\end{equation}
 
-\begin{definition}[Función de riesgo]
-Sea $\mathbf{X}$ el vector de características de entrada y sea $\mathbf{y}$ la variable objetivo, dada la red neuronal $f(x;\theta)$ la función de riesgo se define cómo:
+En este contexto, la función de pérdida $L$ cuantifica el error a nivel individual, mientras que la función de riesgo $\mathcal{R}(\theta)$ expresa dicho error en promedio —ya sea teóricamente (riesgo esperado) o empíricamente (riesgo observado). 
 
-\[
-\mathcal{R}(\theta) = \mathbb{E}[\mathbf{L}(y,f(x;\theta))]
-\]
-Donde:
-\begin{itemize}
-    \item $\mathbb{E}$ es  la esperanza de la distribución conjunta ($\mathbf{x}$,$\mathbf{y}$).
-    \item $\mathbf{L}(y,f(x;\theta))$ es la función de pérdida, entre $y$ , $f(x;\theta)$
-\end{itemize}
-\end{definition}
+El proceso de entrenamiento de la red busca, por tanto, minimizar una estimación del riesgo esperado mediante técnicas de optimización numérica como el \textit{descenso del gradiente estocástico} (Stochastic Gradient Descent, SGD).
 
 Dado que en la práctica no conocemos la verdadera distribución $p(x,y)$ no podemos calcular directamente el riesgo esperado.En su lugar definimos otro tipo de función de riesgo:
+
 \begin{definition}[Función de riesgo empírico]
 Sea $\{(x_i,y_i)\}, i \in\{1,\cdots,N\}$ un conjunto finito de datos de entrenamiento, la función de riesgo empírico está dada por:
 
@@ -308,16 +292,18 @@ A continuación definiremos el algortimo que se utiliza para la actualización d
 \end{algorithm}
 \noindent Existen otras variantes del Descenso de Gradiente, pero para efectos de esta tesis, nos quedaremos con la definición más básica.
 A medida que va aumentando el número de capas en la red neuronal, también aumenta la complejidad de determinar los pesos de todas las conexiones de manera correcta para minimizar los errores, es por eso que nace la necesidad de implementar algoritmos más complejos para la optimización de redes multicapa, de ahí que nace el \textbf{BackPropagation}.
-(Pendiente)
+
+\subsection{Backpropagation}
+El algoritmo de \textbf{backpropagation} es un método eficiente para calcular los gradientes de la función de pérdida con respecto a los parámetros de una red neuronal. Este algoritmo se basa en la regla de la cadena del cálculo diferencial y permite propagar el error desde la capa de salida hacia las capas anteriores, ajustando los pesos y sesgos de manera iterativa para minimizar la función de pérdida.
+
+
 \begin{definition}[Derivada función de riesgo]
 Sea $f(x;\theta)$ una red neuronal con parametros $\theta$, la derivada de su función de riesgo $R(\theta)$ se define de la siguiente forma:
 \[
 \nabla_\theta R(\theta) = \nabla f^{(\mathbf{L})} \cdot \nabla f^{(\mathbf{L}-1)} \cdots \nabla f^{(2)} \cdot \nabla f^{(1)} 
 \]
 \end{definition}
-Notamos que esta definición es posible gracias a la regla de la cadena.
-
-(anexo)
+Notamos que esta definición es posible gracias a la regla de la cadena definida en el anexo.
 \begin{observation}[Propagación hacia adelante]
 Ya sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
 
