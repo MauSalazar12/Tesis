@@ -257,7 +257,7 @@ Sea $\{(x_i,y_i)\}, i \in\{1,\cdots,N\}$ un conjunto finito de datos de entrenam
 )
 \]    
 \end{definition}
-Una manera de minimizar las funciones de pérdida, es utilizando el algoritmno de Gradiente Descendente.
+Una manera de minimizar las funciones de pérdida, es utilizando el algoritmno de Gradiente Descendente. Para ello recordemos la definición de gradiente, así cómo visualizaremos el algoritmo de gradiente descendente.
 
 \begin{definition}[Gradiente]
 Sea $f: \Omega \subset \mathbb{R}^n \longrightarrow \mathbb{R}$,una función diferenciable en $x_0$.Entonces el vector cuyas compnentes son las derivadas parciales de $f$ en $x_0$ es el vector gradiente, denotado por $\nabla f$, donde:
@@ -267,15 +267,18 @@ Sea $f: \Omega \subset \mathbb{R}^n \longrightarrow \mathbb{R}$,una función dif
 Este vector contiene la información de cuanto crece o decrece la función en un punto en específico.
 
 \begin{definition}[Descenso por gradiente]
-Sea $J: \Theta \longrightarrow \mathbb{R}$ una función objetivo, donde $\Theta$ es el espacio de soluciones, $\eta$ la tasa de aprendizaje del modelo que determina el tamaño de los pasos en cada iteración, entonces,
-se define al gradiente descendente cómo un método para encontrar el mínimo de una función de forma iterativa, se basa en iterar los valores de $\theta$ en la dirección negativa del gradiente de $J(\theta)$ de la siguiente forma:
-
+Sea $J : \Theta \to \mathbb{R}$ una función diferenciable, denominada \textit{función objetivo}, donde $\Theta \subseteq \mathbb{R}^n$ representa el espacio de parámetros. 
+Dado un valor inicial $\theta_0 \in \Theta$ y una tasa de aprendizaje $\eta > 0$, el \textit{método de descenso por gradiente} genera una sucesión 
+$\{ \theta_k \}_{k \in \mathbb{N}}$ definida recursivamente por
 \[
-\theta \leftarrow \theta - \eta \nabla_\theta J(\theta)
-\] 
+    \theta_{k+1} = \theta_k - \eta \, \nabla_\theta J(\theta_k),
+\]
+donde $\nabla_\theta J(\theta_k)$ denota el gradiente de $J$ evaluado en $\theta_k$.
 \end{definition}
-A continuación definiremos el algortimo que se utiliza para la actualización de los valores $\theta$ utilizando el gradiente descendente:
-\begin{algorithm}
+
+Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta la velocidad y estabilidad de la convergencia hacia el mínimo.
+
+\begin{algorithm}[H]
 \caption{Algoritmo de actualización GD}\label{alg:cap}
 \begin{algorithmic}
 \Inputs{ $J:\Theta \longrightarrow \mathbb{R}$, $\mathbf{T} > 0$ número de iteraciones, $\eta$ rango de aprendizaje.}
@@ -290,7 +293,8 @@ A continuación definiremos el algortimo que se utiliza para la actualización d
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-\noindent Existen otras variantes del Descenso de Gradiente, pero para efectos de esta tesis, nos quedaremos con la definición más básica.
+\noindent 
+
 A medida que va aumentando el número de capas en la red neuronal, también aumenta la complejidad de determinar los pesos de todas las conexiones de manera correcta para minimizar los errores, es por eso que nace la necesidad de implementar algoritmos más complejos para la optimización de redes multicapa, de ahí que nace el \textbf{BackPropagation}.
 
 \subsection{Backpropagation}
@@ -303,13 +307,17 @@ Sea $f(x;\theta)$ una red neuronal con parametros $\theta$, la derivada de su fu
 \nabla_\theta R(\theta) = \nabla f^{(\mathbf{L})} \cdot \nabla f^{(\mathbf{L}-1)} \cdots \nabla f^{(2)} \cdot \nabla f^{(1)} 
 \]
 \end{definition}
-Notamos que esta definición es posible gracias a la regla de la cadena definida en el anexo.
-\begin{observation}[Propagación hacia adelante]
-Ya sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
+
+A partir de la definición anterior, podemos describir el algortimo de manera más general y dividirlo en dos partes principales: la propagación hacia adelante y la propagación hacia atrás.
+
+\noindent \textbf{Propagación hacía delante}\\
+En esta fase, los datos de entrada se pasan a través de la red capa por capa, calculando las activaciones en cada capa utilizando los pesos y sesgos actuales. La salida final de la red se compara con la etiqueta verdadera para calcular el error utilizando una función de pérdida.
+
+Sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
 
 \begin{itemize}
     \item \textbf{Preactivación} \\
-    Dada la matriz de pesos $\mathbf{W}^{(L)}$ , el vector de sesgos $\mathbf{b}^(L)$ en la capa $L$ y $\mathbf{h}^(L-1)$ la salida de la capa anterior, entonces la preactivación está dada por: 
+    Dada la matriz de pesos $\mathbf{W}^{(L)}$ , el vector de sesgos $\mathbf{b}^{(L)}$ en la capa $L$ y $\mathbf{h}^{(L-1)}$ la salida de la capa anterior, entonces la preactivación está dada por: 
     \[
     \mathbf{z}^{(L)} = \mathbf{W}^{(L)}\mathbf{h}^{(L-1)} + \mathbf{b}^{(L)}
     \]
@@ -319,11 +327,11 @@ Ya sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{
     \mathbf{h}^{(L)} = \sigma \left( \mathbf{z}^{(L)} \right)
     \]
 \end{itemize}
-De esta forma la salida de la última capa se compara con la etiqueta verdadera $y$ utilizando alguna función de pérdida $\mathbf{J}(\mathbf{h}^{(L)},y)$
-\end{observation}
+De esta forma la salida de la última capa se compara con la etiqueta verdadera $\mathbf{y}$ utilizando alguna función de pérdida $\mathbf{J}(\mathbf{h}^{(L)},\mathbf{y})$ para calcular el error de la red.
 
-\begin{observation}[Minimización del error en la capa de salida]\
-Para minimizar el error en la función de pérdida utilizamos la definición 32, por una serie de pasos dados de la siguiente manera:
+
+\noindent \textbf{Propagación hacía atrás}\\
+Para minimizar el error en la función de pérdida utilizamos la definición 45, por una serie de pasos dados de la siguiente manera:
 \begin{itemize}
     \item \textbf{Error en la capa de salida}\\
     Sea $\frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} $ el gradiente de la función de pérdida con respecto a la salida de la red, $\sigma ' (\mathbf{z}^{(L)})$, la derivada de la función de activación de la última capa, entonces el error en la capa de salida está dado por:
@@ -333,7 +341,7 @@ Para minimizar el error en la función de pérdida utilizamos la definición 32,
     \item \textbf{Propagación del error hacía atrás}\\
         Sea $\delta ^{(L+1)}$ el error de la capa siguiente y $\sigma ' (z^{(L)})$ la derivada de la función de activación de la capa L, entonces la propagación del error se da mediante la siguiente expresión: 
         \[
-        \delta^{(L)} = \left( W^{(L+1)}\right)^T \delta ^{(L+1)} \cdot \sigma ' (z^(L)) 
+        \delta^{(L)} = \left( W^{(L+1)}\right)^T \delta ^{(L+1)} \cdot \sigma ' (z^{(L)}) 
         \]
     \item \textbf{Gradiente de los parámetros}\\
     Para calcular los gradientes de los parametros, vemos que se realiza de la siguiente forma:
@@ -348,8 +356,8 @@ Para minimizar el error en la función de pérdida utilizamos la definición 32,
         \]
     \end{itemize}
     
-    \item \textbf{Actualización de los parámetros}\\
-    Una vez que se tienen los pesos y sesgos calculados de la red, se actualizan utilizando un método de optimización ya mencionado anteriormente llamado descenso del gradiente, de esta forma la actualización está dada por: 
+    \noindent \textbf{Actualización de los parámetros}\\
+    Una vez que se tienen los pesos y sesgos calculados de la red, se actualizan utilizando descenso del gradiente, de esta forma la actualización está dada por: 
     \begin{itemize}
         \item \textbf{Pesos}:
         \[
@@ -365,8 +373,9 @@ Para minimizar el error en la función de pérdida utilizamos la definición 32,
     
 \end{itemize}
 
-\end{observation}
-Con lo observado anteriormente, podemos definir el algoritmo \textbf{backpropagation} enunciado en el siguiente pseudocódigo:
+
+
+Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf{backpropagation}.
 
 \begin{algorithm}
 \caption{Algoritmo Backpropagation}
@@ -408,109 +417,208 @@ Con lo observado anteriormente, podemos definir el algoritmo \textbf{backpropaga
     
 \end{algorithmic}
 \end{algorithm}
-Así, hemos definido los componentes de una red neuronal, su forma de optimización y su entrenamiento.
-\newpage
+
+De esta forma hemos definido los componentes principales de una red neuronal, así como los algoritmos necesarios para su entrenamiento. A continuación, nos enfocaremos en un tipo específico de redes neuronales conocidas como \textbf{redes convolucionales (CNN)}, que son especialmente efectivas para procesar datos con estructura espacial, como imágenes y series temporales.
+
+
 \subsection{Redes convolucionales CNN}
 Las \textbf{redes neuronales convolucionales (CNN)} son una clase especializada de redes neuronales diseñadas para procesar datos que poseen una estructura de malla o grilla, como imágenes y series de tiempo. Estas redes se emplean comúnmente en tareas de procesamiento de imágenes, donde los datos se organizan en una malla bidimensional, o en el caso de las series temporales, que pueden representarse como una malla unidimensional con muestras tomadas a lo largo de intervalos de tiempo.
 
 A diferencia de las redes neuronales tradicionales, donde se utiliza la multiplicación general de matrices, las CNN aplican la operación de convolución en al menos una de sus capas. Esto les permite extraer automáticamente características locales de los datos, como bordes, texturas o patrones, lo que mejora significativamente su capacidad para procesar datos con una estructura espacial clara.
 
-Estudiar las CNN es fundamental como antecedente para entender las redes gráficas convolucionales (GCN), ya que comparten la idea central de la convolución, pero aplicadas a estructuras de datos más complejas, como los grafos. En esta sección, exploraremos la importancia de las CNN como base teórica, profundizando en su arquitectura y en las matemáticas que subyacen a este tipo particular de redes.La mayoría de las definiciones fueron obtenidas del libro \cite{Goodfellow-et-al-2016}.
+Estudiar las CNN es fundamental como antecedente para entender las redes gráficas convolucionales (GCN), ya que comparten la idea central de la convolución, pero aplicadas a estructuras de datos más complejas, como las gráficas. En esta sección, exploraremos la importancia de las CNN como base teórica, profundizando en su arquitectura y en las matemáticas que subyacen a este tipo particular de redes.La mayoría de las definiciones fueron obtenidas del libro \cite{Goodfellow-et-al-2016}.
+
+\subsubsection{Operación de convolución}
+
+Para entender las redes convolucionales, es esencial comprender primero la operación matemática de la convolución. A continuación, se presentan las definiciones clave relacionadas con la convolución en diferentes contextos.
 \begin{definition}[Convolución]
-Sean $x,w$ : $\mathbb{R} \longrightarrow \mathbb{R}$ dos funciones. La convolución de $x$ y $w$ denotada por: $(x \ast w)(t)$ es una operación binaria que produce una nueva función dada por:
+Sean $x, w : \mathbb{R} \to \mathbb{R}$ dos funciones integrables. La \textbf{convolución} de $x$ y $w$, denotada por $x \ast w$, es la función
 \[
-s(t) = (x \ast w)(t) = \int x(a)w(t-a)da
+(x \ast w) : \mathbb{R} \to \mathbb{R}
 \]
-    
+definida, para todo $t \in \mathbb{R}$, por
+\[
+(x \ast w)(t) = \int_{-\infty}^{\infty} x(a)\, w(t - a)\, da,
+\]
+siempre que dicha integral exista.
 \end{definition}
+
 En el contexto de las redes neuronales convolucionales, el primer término (la función $x$) se refiere a la entrada, y el segundo término (la función $w$) es el kernel o filtro.
-Dado que en muchos escenarios, el tipo de datos es discreto, se maneja otro tipo de convolución, llamda convolución dicreta.
+
+Dado que en muchos escenarios, el tipo de datos es discreto, se maneja otro tipo de convolución, llamada convolución dicreta.
 \begin{definition}[Convolución discreta]
-Sean $x(n)$,$w(n)$ dos sucesiones, la convolución discreta, se define como:
- \[
- (x \ast w)(n) = \sum _{a = - \infty}^{\infty} x(n)w(n-a)
- \]
-    
-\end{definition}
-Finalmente, para el uso particular del procesamiento de imágenes en dos dimensiones, podemos utilizar la convolución discreta en dos dimensiones.
-\begin{definition}[Convolución en dos dimensiones]
-Sean $\mathbf{I}$ y $\mathbf{K}$ dos matrices definidas en $\mathbf{M}_{22}$, la convolución de matrices discretas se define cómo:
+Sean $x, w : \mathbb{Z} \to \mathbb{R}$ dos sucesiones absolutamente sumables.  
+La \textbf{convolución discreta} de $x$ y $w$, denotada por $x \ast w$, es la sucesión
 \[
-\mathbf{S}(i,j) = (\mathbf{I} \ast \mathbf{K})(i,j) = \sum_{m} \sum_{n} \mathbf{I}(m,n) \mathbf{K}(i-m,j-n)
+(x \ast w) : \mathbb{Z} \to \mathbb{R}
 \]
-\begin{observation}
-    Notamos que, como la convolución es conmutativa, entonces la definición anterior puede reescribirse de tal forma que:
-    \[
-    \mathbf{S}(i,j) = (\mathbf{K} \ast \mathbf{I})(i,j) = \sum_{m} \sum_{n} \mathbf{I}(i-m.j-n)\mathbf{K}(m,n)    
-    \]
-\end{observation}
-     
-\end{definition}
-\begin{definition}[Kernel (Filtro)]
-Sea $\mathbf{X} \in \mathbb{R}^{m\times n}$ un conjunto de datos de entrada.El kernel (o filtro) $\mathbf{K}$ es una matriz de pesos de tamaño $h \times w$ donde $m \geq h, n \geq w$. Tal que actúa sobre la entrada $\mathbf{X}$ mediante una convolución, es decir:
+definida, para todo $n \in \mathbb{Z}$, por
 \[
-(\mathbf{K} \ast \mathbf{X})(i,j) = \sum_{u=1}^{h} \sum_{v=1}^{w} \mathbf{X}(i+u-1,j+v-1)\mathbf{K}(u,v)
-\]    
-Donde se introduce el término -1 para alinear el kernel con la entrada de manera que este quede centrado.
+(x \ast w)(n) = \sum_{a=-\infty}^{\infty} x(a)\, w(n - a),
+\]
+siempre que dicha serie sea convergente.
 \end{definition}
+
+Finalmente, para el uso particular del procesamiento de imágenes en dos dimensiones, podemos utilizar la convolución discreta en dos dimensiones.
+
+\begin{definition}[Convolución discreta en dos dimensiones]
+Sean $\mathbf{I}, \mathbf{K} : \mathbb{Z}^2 \to \mathbb{R}$ dos funciones (o matrices discretas) absolutamente sumables.  
+La \textbf{convolución discreta bidimensional} de $\mathbf{I}$ y $\mathbf{K}$, denotada por $\mathbf{I} \ast \mathbf{K}$, es la función
+\[
+(\mathbf{I} \ast \mathbf{K}) : \mathbb{Z}^2 \to \mathbb{R}
+\]
+definida, para todo $(i,j) \in \mathbb{Z}^2$, por
+\[
+(\mathbf{I} \ast \mathbf{K})(i,j) = \sum_{m=-\infty}^{\infty} \sum_{n=-\infty}^{\infty} 
+\mathbf{I}(m,n)\, \mathbf{K}(i - m, j - n),
+\]
+siempre que la doble suma sea convergente.
+\end{definition}
+
+\begin{observation}
+La operación de convolución es conmutativa, es decir,
+\[
+\mathbf{I} \ast \mathbf{K} = \mathbf{K} \ast \mathbf{I}.
+\]
+\end{observation}
+
+\begin{proof}
+
+    Sean $(i,j) \in \mathbb{Z}^2$. Por definición de convolución discreta en dos dimensiones, tenemos:
+    \[
+        (\mathbf{I} \ast \mathbf{K})(i,j) = \sum_{m=-\infty}^{\infty} \sum_{n=-\infty}^{\infty} 
+        \mathbf{I}(m,n)\, \mathbf{K}(i - m, j - n).
+    \]
+
+    Observamos que cada suma converge, por lo que podemos intercambiar el orden de las sumas y reordenar los términos. Haciendo el cambio de variables $u = i - m$ y $v = j - n$, obtenemos:
+
+    \begin{align*}
+        (\mathbf{I} \ast \mathbf{K})(i,j) &= \sum_{u=-\infty}^{\infty} \sum_{v=-\infty}^{\infty} 
+        \mathbf{I}(i - u, j - v)\, \mathbf{K}(u, v) \\
+        &= \sum_{u=-\infty}^{\infty} \sum_{v=-\infty}^{\infty} 
+        \mathbf{K}(u, v)\, \mathbf{I}(i - u, j - v) \\
+            &= (\mathbf{K} \ast \mathbf{I}) (i,j)
+    \end{align*}
+
+    Además, observamos que las segunda igualdad es posible, debido a  la conmutatividad del producto en cada término de la suma. Cómo esto es válido para todo $(i,j) \in \mathbb{Z}^2$, concluimos que:
+    \[
+        \mathbf{I} \ast \mathbf{K} = \mathbf{K} \ast \mathbf{I}.    
+    \]
+\end{proof}
+
+En consecuencia, la expresión anterior puede reescribirse de manera equivalente como
+\[
+(\mathbf{K} \ast \mathbf{I})(i,j) =
+\sum_{m=-\infty}^{\infty} \sum_{n=-\infty}^{\infty}
+\mathbf{K}(m,n)\, \mathbf{I}(i - m, j - n).
+\]
+
+\subsubsection{Filtros y mapas de características}
+
+En el contexto de las redes neuronales convolucionales, los \textbf{filtros} (o kernels) son matrices de pesos que se utilizan para extraer características locales de los datos de entrada mediante la operación de convolución. A continuación, se presentan las definiciones clave relacionadas con los filtros y los mapas de características.
+
+\begin{definition}[Kernel (Filtro)]
+Sea $\mathbf{X} \in \mathbb{R}^{m \times n}$ una matriz que representa los datos de entrada.  
+Un \textbf{kernel} (o \textbf{filtro}) es una matriz de pesos 
+\[
+\mathbf{K} \in \mathbb{R}^{h \times w},
+\quad \text{con } 1 \leq h \leq m, \; 1 \leq w \leq n.
+\]
+tal que la acción del kernel sobre la entrada $\mathbf{X}$ se define mediante la \textbf{convolución discreta bidimensional}, dada por
+\[
+(\mathbf{K} \ast \mathbf{X})(i,j)
+= \sum_{u=1}^{h} \sum_{v=1}^{w}
+\mathbf{X}(i + u - 1,\, j + v - 1)\, \mathbf{K}(u,v),
+\]
+para todo $(i,j)$ tal que los índices sean válidos en la matriz resultante.
+\end{definition}
+  
+El desplazamiento en los índices por $-1$ se introduce para asegurar la alineación del kernel respecto al elemento central de la región de entrada sobre la cual actúa.
+
 
 \begin{center}
 \includegraphics[scale=0.6]{img/conv_illustration.png}
 
-    
 \end{center}
 
 A continuación, enunciaremos algunas propiedas clave de los filtros.
+
 \begin{definition}[Propiedades del kernel]
-Sea $\mathbf{K}$ un filtro de dimensiones $h \times w$.
+Sea $\mathbf{K} \in \mathbb{R}^{h \times w}$ un filtro (kernel) discreto de dimensiones $h \times w$. Entonces, se definen las siguientes propiedades:
+
 \begin{itemize}
-    \item \textbf{Dimensión} 
-    La dimensión del kernel está dado por: 
-    \[ dim(\mathbf{K}) = h \times w\]
-    \item \textbf{Simetría}
-    Un kernel es simétrico si satisface: 
+    \item \textbf{Dimensión.}  
+    La dimensión del kernel viene dada por el producto de sus componentes espaciales:
     \[
-    \mathbf{K}(i,j) = \mathbf{K}(h-i,w-j) \hspace{1cm} \forall \hspace{5pt} i,j \in \{0,\cdots,h\},\{0, \cdots,w\}
+    \dim(\mathbf{K}) = h \times w.
     \]
-    \item \textbf{Normalización}
-    Se dice que un kernel está normalizado si :
+
+    \item \textbf{Simetría.}  
+    El kernel $\mathbf{K}$ se dice \emph{simétrico} si sus valores son invariantes bajo reflexión respecto al centro del filtro, es decir:
     \[
-    \sum_{i=0}^h \sum_{j=0}^w \mathbf{K}(i,j)=1
+    \mathbf{K}(i,j) = \mathbf{K}(h - i + 1,\, w - j + 1), 
+    \quad \forall\, i \in \{1, \dots, h\},\; j \in \{1, \dots, w\}.
+    \]
+
+    \item \textbf{Normalización.}  
+    El kernel $\mathbf{K}$ está \emph{normalizado} si la suma total de sus coeficientes es igual a la unidad:
+    \[
+    \sum_{i=1}^{h} \sum_{j=1}^{w} \mathbf{K}(i,j) = 1.
     \]
 \end{itemize}
-
 \end{definition}
+
+Con las definiciones anteriores, podemos definir el concepto de mapa de características, que es el resultado de aplicar un filtro a una entrada mediante la operación de convolución.
 
 \begin{definition}[Mapa de características]
-Sea $\mathbf{I}$ un tensor de entrada, $\mathbf{K}$ el kernel, el mapa de características $\mathbf{F}$está dado por:
+Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ un tensor (o matriz) de entrada y sea $\mathbf{K} \in \mathbb{R}^{h \times w}$ un kernel (o filtro) de convolución.  
+El \textbf{mapa de características} asociado a $\mathbf{I}$ y $\mathbf{K}$ se define como la matriz $\mathbf{F} \in \mathbb{R}^{(m-h+1) \times (n-w+1)}$ cuyos elementos están dados por:
 \[
-\mathbf{F}(i,j)=(\mathbf{I} \ast \mathbf{K})(i,j)
+\mathbf{F}(i,j) = (\mathbf{I} \ast \mathbf{K})(i,j)
+= \sum_{u=1}^{h} \sum_{v=1}^{w} \mathbf{I}(i+u-1,\, j+v-1)\,\mathbf{K}(u,v),
 \]
+para todo $1 \leq i \leq m-h+1$ y $1 \leq j \leq n-w+1$.
+\end{definition}
 
-    
-\end{definition}
+Adicionalmente, existen dos conceptos importantes en el contexto de las redes convolucionales: el \textbf{stride} y el \textbf{padding}.
+El \textbf{stride} se refiere al paso con el que se mueve el filtro sobre la entrada durante la operación de convolución, mientras que el \textbf{padding} implica agregar bordes adicionales a la entrada para controlar las dimensiones del mapa de características resultante.
+
 \begin{definition}[Stride]
-Sea $\mathbf{K}$ un filtro de tamaño $h \times w$ aplicado en una entrada $\mathbf{I}$, entonces el stride $\mathbf{s}$ para cada entrada $i,j$ está determinado por:
+Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ una matriz de entrada y $\mathbf{K} \in \mathbb{R}^{h \times w}$ un kernel de convolución.  
+Definimos el \textbf{stride} (o paso de desplazamiento) como un entero positivo $s \in \mathbb{N}$ que determina el número de posiciones que se desplaza el kernel $\mathbf{K}$ sobre la entrada $\mathbf{I}$ en cada dirección.  
+
+De este modo, los índices $(i,j)$ del mapa de características $\mathbf{F}$ corresponden a las posiciones:
 \[
-(i \cdot s, j \cdot s)
+(i,j) = (p \cdot s,\, q \cdot s),
+\quad \text{para } p,q \in \mathbb{N}.
 \]
-por lo cual el mapa de características quedaría determinado por : \[
-\mathbf{F}(l,m) = \mathbf{F}(i\cdot s,j\cdot s) \hspace{1cm} l=i \cdot s, m = j\cdot s
+Por tanto, los elementos del mapa de características se definen como:
+\[
+\mathbf{F}(p,q) = (\mathbf{I} \ast_s \mathbf{K})(p,q)
+= \sum_{u=1}^{h} \sum_{v=1}^{w} 
+\mathbf{I}(p \cdot s + u - 1,\, q \cdot s + v - 1)\, \mathbf{K}(u,v),
 \]
+donde $\ast_s$ denota la convolución con stride $s$.
 \end{definition}
+
 \begin{definition}[Padding]
-Sea $\mathbf{I}$ una entrada de dimensiones $m \times n$ el padding $\mathbf{p}$ de tamaño $\rho$  es una función $\mathbf{p}_{\rho} : \mathbb{R}^{m \times n} \longrightarrow \mathbb{R}^{(m+2 \rho) \times (n+2 \rho)}$ tal que: 
+Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ una entrada y sea $\rho \in \mathbb{N}$ el tamaño del \textbf{padding}.  
+Definimos la función de padding
 \[
-\mathbf{p}_\rho(\mathbf{I})(i, j) = 
-\begin{cases} 
-\alpha, & \text{si } i \leq \rho \text{ , } j \leq \rho \text{ , } i > m + \rho \text{ , } j > n + \rho \\ 
-\mathbf{I}(i - \rho, j - \rho), & \text{en otro caso}.
+\mathbf{p}_{\rho} : \mathbb{R}^{m \times n} \longrightarrow \mathbb{R}^{(m + 2\rho) \times (n + 2\rho)}
+\]
+como
+\[
+\mathbf{p}_\rho(\mathbf{I})(i, j) =
+\begin{cases}
+\alpha, & \text{si } i \leq \rho \text{ o } i > m + \rho \text{ o } j \leq \rho \text{ o } j > n + \rho, \\[6pt]
+\mathbf{I}(i - \rho, j - \rho), & \text{en otro caso.}
 \end{cases}
 \]
-Donde $\alpha \in \mathbb{R}$.
-
-    
+donde $\alpha \in \mathbb{R}$ es el valor con el que se rellenan los bordes (por ejemplo, $\alpha = 0$ en el caso de \textit{zero-padding}).
 \end{definition}
+
+\subsubsection{Propiedades de convolución y pooling}
  \begin{definition}[Invarianza]
  Sea $f: \mathbf{X} \longrightarrow \mathbf{Y}$ una función, $\mathbf{T}$ una transformación en $\mathbf{X}$. Se dice que una función $f$ es invariante bajo $\mathbf{T}$ si:
  \[
@@ -689,7 +797,7 @@ En términos generales, el comportamiento lo podemos describir a continuación:
 En resumen, el modelo anterior expresa el proceso de \textbf{message passing} de una GNN,donde los mensajes de los vecinos de un nodo se combinan para actualizar la representación del nodo central,aprovechando las simetrías presentes en las gráficas.
 \subsection{Redes Gráficas Convolucionales (GCNs)}
 
-\begin{definition}Arquitectura de una GNN]
+\begin{definition}[Arquitectura de una GNN]
 Sea $G$ una gráfica, $A$ su matriz de adyacencia $\mathbf{F}$ una función de activación, $\Phi$ los parámetros de la red, entonces la arquitectura de una GCN está definida por:
 \begin{align*} 
 \mathbf{H}_1 &=  \mathbf{F}[\mathbf{X},\mathbf{A},\Phi_0] \\ 
