@@ -23,25 +23,27 @@
 \contentsline {subsection}{\numberline {3.1.1}Conceptos b^^c3^^a1sicos}{27}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Entrenamiento de redes neuronales}{30}{subsection.3.1.2}%
 \contentsline {subsection}{\numberline {3.1.3}Backpropagation}{32}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Redes convolucionales CNN}{34}{subsection.3.1.4}%
-\contentsline {subsubsection}{Operaci^^c3^^b3n de convoluci^^c3^^b3n}{35}{section*.11}%
-\contentsline {subsubsection}{Filtros y mapas de caracter^^c3^^adsticas}{36}{section*.12}%
-\contentsline {subsubsection}{Propiedades de convoluci^^c3^^b3n y pooling}{38}{section*.13}%
-\contentsline {subsection}{\numberline {3.1.5}Redes Neuronales Gr^^c3^^a1ficas}{41}{subsection.3.1.5}%
-\contentsline {subsection}{\numberline {3.1.6}Propagaci^^c3^^b3n de Mensajes Neuronales}{41}{subsection.3.1.6}%
-\contentsline {subsection}{\numberline {3.1.7}Descripci^^c3^^b3n general del mecanismo}{42}{subsection.3.1.7}%
-\contentsline {subsection}{\numberline {3.1.8}La GNN fundamental}{42}{subsection.3.1.8}%
-\contentsline {subsection}{\numberline {3.1.9}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{43}{subsection.3.1.9}%
-\contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{45}{chapter.4}%
-\contentsline {subsection}{\numberline {4.0.1}Superficies estudiadas}{45}{subsection.4.0.1}%
-\contentsline {subsection}{\numberline {4.0.2}M^^c3^^a9todos de Muestreo}{46}{subsection.4.0.2}%
-\contentsline {subsection}{\numberline {4.0.3}Orden por ^^c3^^a1rbol generador m^^c3^^adnimo}{46}{subsection.4.0.3}%
-\contentsline {subsection}{\numberline {4.0.4}Muestreo por Esferas}{48}{subsection.4.0.4}%
-\contentsline {subsection}{\numberline {4.0.5}Reasignaci^^c3^^b3n de Adyacencias para Preservar la Estructura}{52}{subsection.4.0.5}%
-\contentsline {subsection}{\numberline {4.0.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{55}{subsection.4.0.6}%
-\contentsline {subsection}{\numberline {4.0.7}An^^c3^^a1lisis de Complejidad}{56}{subsection.4.0.7}%
-\contentsline {chapter}{\numberline {5}Resultados y conclusiones}{57}{chapter.5}%
-\contentsline {subsection}{\numberline {5.0.1}Arquitectura PointNet}{57}{subsection.5.0.1}%
-\contentsline {subsection}{\numberline {5.0.2}Resultados de la evaluaci^^c3^^b3n}{59}{subsection.5.0.2}%
-\contentsline {subsection}{\numberline {5.0.3}Conclusiones}{60}{subsection.5.0.3}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{61}{appendix.Alph1}%
+\contentsline {section}{\numberline {3.2}Redes convolucionales CNN}{34}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Operaci^^c3^^b3n de convoluci^^c3^^b3n}{35}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Propiedades de convoluci^^c3^^b3n}{37}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Filtros y mapas de caracter^^c3^^adsticas}{38}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Arquitectura de una CNN}{40}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Redes Neuronales Gr^^c3^^a1ficas}{41}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Encoders y Decoders}{41}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{43}{subsection.3.3.2}%
+\contentsline {subsubsection}{Descripci^^c3^^b3n general del mecanismo}{43}{section*.11}%
+\contentsline {subsection}{\numberline {3.3.3}La GNN fundamental}{43}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{45}{subsection.3.3.4}%
+\contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{47}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}Superficies estudiadas}{47}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}M^^c3^^a9todos de Muestreo}{48}{subsection.4.0.2}%
+\contentsline {subsection}{\numberline {4.0.3}Orden por ^^c3^^a1rbol generador m^^c3^^adnimo}{48}{subsection.4.0.3}%
+\contentsline {subsection}{\numberline {4.0.4}Muestreo por Esferas}{50}{subsection.4.0.4}%
+\contentsline {subsection}{\numberline {4.0.5}Reasignaci^^c3^^b3n de Adyacencias para Preservar la Estructura}{54}{subsection.4.0.5}%
+\contentsline {subsection}{\numberline {4.0.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{57}{subsection.4.0.6}%
+\contentsline {subsection}{\numberline {4.0.7}An^^c3^^a1lisis de Complejidad}{58}{subsection.4.0.7}%
+\contentsline {chapter}{\numberline {5}Resultados y conclusiones}{59}{chapter.5}%
+\contentsline {subsection}{\numberline {5.0.1}Arquitectura PointNet}{59}{subsection.5.0.1}%
+\contentsline {subsection}{\numberline {5.0.2}Resultados de la evaluaci^^c3^^b3n}{61}{subsection.5.0.2}%
+\contentsline {subsection}{\numberline {5.0.3}Conclusiones}{62}{subsection.5.0.3}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{63}{appendix.Alph1}%
