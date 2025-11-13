@@ -820,9 +820,7 @@ En cada paso del mecanismo, los nodos intercambian mensajes que contienen inform
 Esto viene motivado por la necesidad de capturar relaciones y dependencias entre los vértices de una gráfica para estudiar su comportamiento estructural.\\
 El concepto de \textbf{Propagación de Mensajes Neuronales}, permite estudiar a la gráfica, no sólo a nivel de característica de vértice, sino también a nivel estructural de gráfica.\\
 
-\subsubsection{Descripción general del mecanismo}
-\noindent Cómo se mencionó en la motivación, durante cada iteración del mecanismo en una GNN (Red Neuronal Gráfica), los encajes ocultos $h_u^{(k)}$ correspondientes a cada nodo $u \in V$, son actualizadas de acuerdo a la información recopilada del vecinadrio de $u$.
-
+Cómo se mencionó anteriormente, durante cada iteración del mecanismo en una GNN (Red Neuronal Gráfica), los encajes ocultos $h_u^{(k)}$ correspondientes a cada nodo $u \in V$, son actualizadas de acuerdo a la información recopilada del vecinadrio de $u$.
 El mecanismo puede ser definido de la siguiente forma:
 
 \begin{definition}[Propagación de mensajes neuronales]
@@ -849,56 +847,83 @@ Después de K iteraciones del mecanismo, podemos utilizar la salida del final de
     $z_u$ = $h_u^{(K)}$.
 \end{center}
 
+Con lo anterior, se ha establecido el marco general para la propagación de mensajes en las GNN, que permite capturar la información estructural de las gráficas a través del intercambio iterativo de mensajes entre los nodos.
+
 \subsection{La GNN fundamental}
 Hasta el momento, se ha estudiado el marco de las GNN de una manera un poco abstracta utilizando las funciones que definimos en la sección anterior e iterando K veces.\\
 Para introducir una manera de abordarlas de forma más general, introducimos el modelo GNN más básico.
-El modelo GNN fundamental es definido por:
+Podemos definir el modelo GNN fundamental mediante la siguiente ecuación:
 
-\[h_u =  \phi\left(x_u, \bigoplus_{v \in \mathcal{N}(u)}
-    \psi(x_u,x_v)    \right)\]
-Donde:
+\begin{definition}[Modelo GNN fundamental]
+Sea $G = (V, E)$ una gráfica, $x_u$ la característica del nodo $u \in V$, y $\mathcal{N}(u)$ el conjunto de vecinos de $u$. La actualización de la representación del nodo $u$ en una capa de la GNN se define como:
+\[
+    h_u = \phi\!\left(x_u,\, \bigoplus_{v \in \mathcal{N}(u)} \psi(x_u, x_v)\right).
+\]
+\noindent En esta expresión, $\boldsymbol{h_u}$ representa la nueva representación del nodo $\boldsymbol{u}$ después de aplicar una capa de la red.  
 
-\begin{itemize}
-    \item $h_u$ es la nueva representación del nodo $u$ después de aplicar una capa de la GNN
-    \item $x_u$ Representa la característica del nodo $u$ antes de la actualización.
-    \item $\psi(x_u,x_v)$ Es una función de transformación que toma las características del nodo $u$ y de su vecino $v$,produciendo una especie de mensaje o interacción entre ambos nodos.
-    \item $\bigoplus_{v \in \mathcal{N}(u)}$ Es una operación de agregación como puede ser suma,media, max pooling,etc, sobre los vecinos de $u$ es decir sobre las transformaciones producidas por la función $\psi(\cdot)$.
-    \item $\phi(\cdot)$ es la función de actualización que toma las características originales del nodo $u (x_u)$ y el resultado de la agregación de los mensajes de sus vecinos para producir una nueva representación del nodo $u$.
-\end{itemize}
+\noindent La variable $\boldsymbol{x_u}$ corresponde a las características originales del nodo antes de la actualización.  
 
-En términos generales, el comportamiento lo podemos describir a continuación:
+\noindent La función $\boldsymbol{\psi}(\boldsymbol{x_u}, \boldsymbol{x_v})$ transforma las características del nodo $\boldsymbol{u}$ y de su vecino $\boldsymbol{v}$, generando un mensaje o interacción entre ambos.  
 
-\begin{enumerate}
-    \item \textbf{Mensajes entre nodos vecinos} ($\psi(x_u,x_v)$)\\
-          La función \boldmath{$\psi$} calcula la interacción entre las características del nodo $u$ y las caracterísiticas de cada unos de sus vecinos $v$.Esto permite capturar la relación entre los nodos de forma que dependa de sus características.\\
-    \item \textbf{Agregación} ($\bigoplus$)\\
-          Después de calcular las interacciones entre $u$ y sus vecinos, estas interacciones se agregan mediante una operación $\bigoplus$, que cómo comúnmente (cómo se vió anteriormente) es una suma, media o máximo.La agregación tiene comoobjetivo combinar toda la información recibida entre los vecinos de $u$ en un solo término.
-    \item \textbf{Actualización}($\phi$)\\
-          Finalmente, la función $\phi$ toma la característica original del nodo $u$,$x_u$ y el resultado de la agregación para producir la nueva representación $h_u$.La función $\phi$ puede ser una red neuronal feedforward o cualquier otra transformación no lineal que aprenda a integrar la información de $u$ con la de sus vecinos.
+\noindent La operación $\boldsymbol{\bigoplus_{v \in \mathcal{N}(u)}}$ denota una función de agregación —como la suma, el promedio o el \emph{max pooling}— que combina los mensajes provenientes de los vecinos de $\boldsymbol{u}$.  
 
-\end{enumerate}
-En resumen, el modelo anterior expresa el proceso de \textbf{message passing} de una GNN,donde los mensajes de los vecinos de un nodo se combinan para actualizar la representación del nodo central,aprovechando las simetrías presentes en las gráficas.
-\subsection{Redes Gráficas Convolucionales (GCNs)}
+\noindent Finalmente, $\boldsymbol{\phi}(\cdot)$ es la función de actualización que integra las características propias del nodo con la información agregada de su vecindario para producir la nueva representación $\boldsymbol{h_u}$.
+\end{definition}
+
+En términos generales, el comportamiento del modelo GNN fundamental basado en el mecanismo descrito anteriormente puede estructurarse en los siguientes pasos:
+
+\textbf{Mensajes entre nodos vecinos} ($\boldsymbol{\psi(x_u, x_v)}$).  
+La función $\boldsymbol{\psi}$ calcula la interacción entre las características del nodo $u$ y las de cada uno de sus vecinos $v$. Esta operación permite capturar las relaciones entre nodos de manera dependiente de sus características, es decir, la forma en que un nodo percibe a su entorno en función de su propio estado y el de sus vecinos.
+
+\textbf{Agregación} ($\boldsymbol{\bigoplus}$).  
+Una vez obtenidas las interacciones entre $u$ y sus vecinos, estas se combinan mediante una operación de agregación $\bigoplus$, que suele ser una suma, un promedio o una operación de \emph{max pooling}. El propósito de esta etapa es sintetizar la información proveniente de todos los vecinos de $u$ en un único vector representativo.
+
+\textbf{Actualización} ($\boldsymbol{\phi}$).  
+Finalmente, la función $\boldsymbol{\phi}$ toma la característica original del nodo $u$, representada por $x_u$, junto con el resultado de la agregación, para producir la nueva representación $\boldsymbol{h_u}$.  
+La función $\boldsymbol{\phi}$ suele implementarse como una red neuronal \emph{feedforward} o alguna otra transformación no lineal capaz de integrar la información propia del nodo con la de su vecindario.
+
+En síntesis, el modelo GNN fundamental expresa el proceso de \textbf{message passing} en una GNN, donde los mensajes de los vecinos de un nodo se combinan para actualizar la representación del nodo central, aprovechando las simetrías presentes en las gráficas.
+
+\section{Redes Gráficas Convolucionales (GCNs)}
+A lo largo de este capítulo se han revisado los conceptos fundamentales que abarcan desde las redes neuronales artificiales (RNA) hasta las redes neuronales gráficas (GNN).  
+Las definiciones y formulaciones previamente presentadas han permitido establecer una base teórica sólida para comprender las arquitecturas más avanzadas que se estudiarán a continuación.  
+En particular, el siguiente apartado se enfoca en una familia específica de modelos que representan una extensión natural de las redes neuronales convolucionales (CNN) al dominio de las estructuras de gráficas.
+
+Las \textbf{Redes Convolucionales Gráficas} (\emph{Graph Convolutional Networks}, GCNs) constituyen una clase particular dentro del marco general de las Redes Neuronales Gráficas. Su objetivo principal es generalizar el operador de convolución, ampliamente utilizado en el procesamiento de datos estructurados en forma de cuadrículas —como imágenes o señales espaciales—, hacia el contexto más general de las gráficas, donde la información está distribuida de manera irregular y las relaciones entre elementos se describen mediante aristas.
+
+En esencia, las GCNs trasladan los principios de las CNNs al dominio no euclidiano de las gráficas, permitiendo el aprendizaje de representaciones de nodos, aristas o incluso gráficas completas a partir de la topología de las conexiones y las características asociadas a cada entidad.  
+Este enfoque posibilita capturar dependencias estructurales complejas, manteniendo la eficiencia y la capacidad de generalización propias de los modelos convolucionales tradicionales.
 
 \begin{definition}[Arquitectura de una GNN]
-    Sea $G$ una gráfica, $A$ su matriz de adyacencia $\mathbf{F}$ una función de activación, $\Phi$ los parámetros de la red, entonces la arquitectura de una GCN está definida por:
-    \begin{align*}
-        \mathbf{H}_1 & =  \mathbf{F}[\mathbf{X},\mathbf{A},\Phi_0]          \\
-        \mathbf{H}_2 & =  \mathbf{F}[\mathbf{H}_!,\mathbf{A},\Phi_1]        \\
-        \vdots       & = \vdots                                             \\
-        \mathbf{H}_K & = \mathbf{F}[\mathbf{H}_{K-1},\mathbf{A},\Phi_{K-1}]
-    \end{align*}
-    Donde $\mathbf{X}$ es la entrada y $\mathbf{H}_K$ contiene los encajes de nodos modificados.
+Sea $G = (V, E)$ una gráfica, $\mathbf{A}$ su matriz de adyacencia, $\mathbf{F}$ una función de propagación neuronal (que incluye la activación no lineal), y $\Phi = \{\Phi_0, \Phi_1, \dots, \Phi_{K-1}\}$ el conjunto de parámetros entrenables de la red.  
+Entonces, la arquitectura general de una \textbf{Red Neuronal Gráfica} (GNN) de $K$ capas se define de manera recursiva como:
+\[
+\begin{aligned}
+    \mathbf{H}_1 &= \mathbf{F}(\mathbf{X},\, \mathbf{A},\, \Phi_0), \\
+    \mathbf{H}_2 &= \mathbf{F}(\mathbf{H}_1,\, \mathbf{A},\, \Phi_1), \\
+    &\ \vdots \\
+    \mathbf{H}_K &= \mathbf{F}(\mathbf{H}_{K-1},\, \mathbf{A},\, \Phi_{K-1}),
+\end{aligned}
+\]
+donde $\mathbf{X}$ representa la matriz de características iniciales de los nodos y $\mathbf{H}_K$ contiene las representaciones (o encajes) finales resultantes después de $K$ pasos de propagación de información.  
+En términos generales, cada capa aplica una transformación y agregación de información basada en la estructura de la gráfica y las características de sus nodos.
 \end{definition}
+
+Un aspecto fundamental de las GNNs es su capacidad para manejar la invariancia estructural de las gráficas, es decir, que el orden en que se indexan los nodos no debe afectar el resultado final de la red.  
+Esta propiedad se conoce como \textbf{equivarianza a permutaciones} y se define formalmente a continuación:
 
 \begin{definition}[Equivarianza]
-    Sea $\mathbf{F}$ una función de activación $\mathbf{H}$ la matriz de encajes ocultos de nodos, $\mathbf{P}$ una matriz de permutación, decimos que una capa es equivariante si:
-    \[
-        \mathbf{H}_{K+1}\mathbf{P}= \mathbf{F}[\mathbf{H}_K \mathbf{P},\mathbf{P}^T\mathbf{A}\mathbf{P},\Phi_K]
-    \]
-    Donde $A$ es la matriz de adyacencia para la gráfica $G$
-
+Sea $\mathbf{F}$ una función de propagación en una capa de la GNN, $\mathbf{H}$ la matriz de representaciones ocultas de los nodos, y $\mathbf{P}$ una matriz de permutación que reordena los nodos de la gráfica.  
+Decimos que una capa es \textbf{equivariante a permutaciones} si se cumple la siguiente relación:
+\[
+    \mathbf{H}_{K+1}\mathbf{P} = \mathbf{F}\!\left(\mathbf{H}_K \mathbf{P},\, \mathbf{P}^\top \mathbf{A}\mathbf{P},\, \Phi_K\right),
+\]
+donde $\mathbf{A}$ denota la matriz de adyacencia de la gráfica $G$.  
+Esta propiedad garantiza que el resultado de la red no depende del orden en que los nodos son indexados, lo cual es fundamental para preservar la invariancia estructural del grafo.
 \end{definition}
 
-Pointnet utiliza equivarianza y lo podemos mostrar.
-No importa la gráfica
+En conclusión, en este capítulo se han establecido los fundamentos teóricos necesarios para comprender el funcionamiento de las GNN's y, en particular, de las redes Convolucionales Gráficas (GCNs).
+Se han descrito sus componentes clave, como la propagación de mensajes y la actualización de representaciones, así como las propiedades estructurales que garantizan su correcta operación sobre datos en forma de gráficas.
+Este conocimiento servirá como base para explorar arquitecturas específicas de GCNs y sus aplicaciones en diversas tareas de aprendizaje automático sobre gráficas en los capítulos siguientes.
+En capítulos posteriores se introducirá el modelo \textbf{PointNet}, que es una arquitectura basada en GNNs diseñada específicamente para procesar nubes de puntos 3D, aprovechando las propiedades de las GCNs para capturar la estructura espacial y las relaciones entre los puntos en el espacio tridimensional. Aunque dicho modelo no emplea explícitamente convoluciones gráficas, su diseño se inspira en los principios fundamentales de las GNNs para manejar datos no estructurados de manera eficiente.
+Su análisis permitirá explorar cómo estos fundamentos pueden aplicarse a dominios no estructurados, ampliando así la comprensión y el alcance de las arquitecturas neuronales basadas en gráficas.

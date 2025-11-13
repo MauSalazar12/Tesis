@@ -31,9 +31,8 @@
 \contentsline {section}{\numberline {3.3}Redes Neuronales Gr^^c3^^a1ficas}{41}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Encoders y Decoders}{41}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{43}{subsection.3.3.2}%
-\contentsline {subsubsection}{Descripci^^c3^^b3n general del mecanismo}{43}{section*.11}%
 \contentsline {subsection}{\numberline {3.3.3}La GNN fundamental}{43}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{45}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{44}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{47}{chapter.4}%
 \contentsline {subsection}{\numberline {4.0.1}Superficies estudiadas}{47}{subsection.4.0.1}%
 \contentsline {subsection}{\numberline {4.0.2}M^^c3^^a9todos de Muestreo}{48}{subsection.4.0.2}%
