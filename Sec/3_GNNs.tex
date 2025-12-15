@@ -1,9 +1,27 @@
 \chapter{Redes Neuronales Gráficas}
 En las últimas décadas, las redes neuronales han emergido como una herramienta fundamental en el campo del aprendizaje automático y la inteligencia artificial. Su capacidad para aprender de grandes volúmenes de datos, reconocer patrones complejos y adaptarse a distintos entornos ha sido clave para su popularidad y adopción en una amplia gama de tareas. Estas aplicaciones abarcan desde el procesamiento del lenguaje natural y la visión por computadora hasta la predicción de series temporales y la toma de decisiones, consolidando a las redes neuronales como una tecnología esencial en desarrollos tan diversos como los sistemas de recomendación y la conducción autónoma.
-
 Aunque la literatura actual ha abordado ampliamente las redes neuronales convencionales, la creciente demanda de resolver problemas más complejos ha impulsado la evolución hacia arquitecturas más especializadas. Entre estas, las Redes Neuronales Gráficas (Graph Neural Networks o GNN) se han destacado por su capacidad para trabajar con datos estructurados en forma de gráficas, lo que las hace especialmente útiles para el objetivo de este trabajo.
-
 Este capítulo ofrecerá una introducción formal a las redes neuronales gráficas y explorará la necesidad de adoptar estas estructuras avanzadas para el estudio de dominios donde la naturaleza de los datos es inherentemente no lineal o interdependiente.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[x=2.2cm,y=1.4cm]
+        \readlist\Nnod{4,5,5,5,3}
+        \foreachitem \N \in \Nnod{
+            \foreach \i [evaluate={\x=\Ncnt; \y=\N/2-\i+0.5; \prev=int(\Ncnt-1);}] in {1,...,\N}{
+                    \node[mynode] (N\Ncnt-\i) at (\x,\y) {};
+                    \ifnum\Ncnt>1
+                        \foreach \j in {1,...,\Nnod[\prev]}{
+                                \draw[thick] (N\prev-\j) -- (N\Ncnt-\i);
+                            }
+                    \fi
+                }
+        }
+    \end{tikzpicture}
+    \caption{Ejemplo de red neuronal con múltiples capas}
+    \label{fig:red_neuronal_multicapa}
+
+\end{figure}
 
 \section{Redes Neuronales}
 
@@ -29,39 +47,70 @@ A continuación se dará la definición formal del modelo de red neuronal partie
 
 De la anterior definición, podemos observar que el perceptrón es un clasificador lineal que toma una decisión binaria basada en una combinación lineal de las entradas ponderadas por los pesos y ajustada por un sesgo. La función característica $\chi_{A}$ actúa como una función de activación que determina si la salida es 1 o 0, dependiendo de si la combinación lineal supera el umbral definido por el sesgo.
 
-
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[scale=1.0, transform shape]
+    \begin{tikzpicture}[x=2.7cm,y=1.6cm]
+        \message{^^JNeural network activation}
+        \def\NI{5} % number of nodes in input layers
+        \def\NO{1} % number of nodes in output layers
+        \def\yshift{0.4} % shift last node for dots
 
-        % Nodos de entrada
-        \node[circle, draw, minimum size=1cm] (x1) at (0, 2) {$x_1$};
-        \node[circle, draw, minimum size=1cm] (x2) at (0, 0) {$x_2$};
-        \node[circle, draw, minimum size=1cm] (x3) at (0, -2) {$x_3$};
+        % INPUT LAYER
+        \foreach \i [evaluate={\c=int(\i==\NI); \y=\NI/2-\i-\c*\yshift; \index=(\i<\NI?int(\i):"n");}]
+        in {1,...,\NI}{ % loop over nodes
+                \node[node in,outer sep=0.6] (NI-\i) at (0,\y) {$x_{\index}$};
+            }
 
-        % Nodo de salida
-        \node[circle, draw, minimum size=1cm] (y) at (4, 0) {$y$};
+        % OUTPUT LAYER
+        \foreach \i [evaluate={\c=int(\i==\NO); \y=\NO/2-\i-\c*\yshift; \index=(\i<\NO?int(\i):"m");}]
+        in {\NO,...,1}{ % loop over nodes
+                \ifnum\i=1 % high-lighted node
+                    \node[node hidden]
+                    (NO-\i) at (1,\y) {$y = H(z)$};
+                    \foreach \j [evaluate={\index=(\j<\NI?int(\j):"n");}] in {1,...,\NI}{ % loop over nodes in previous layer
+                            \draw[connect,white,line width=1.2] (NI-\j) -- (NO-\i);
+                            \draw[connect] (NI-\j) -- (NO-\i)
+                            node[pos=0.50] {\contour{white}{$w_{\index}$}};
+                        }
+                \else % other light-colored nodes (no se usa con \NO=1, pero se deja intacto)
+                    \node[node,blue!20!black!80,draw=myblue!20,fill=myblue!5]
+                    (NO-\i) at (1,\y) {$a_{\index}^{(1)}$};
+                    \foreach \j in {1,...,\NI}{ % loop over nodes in previous layer
+                            \draw[connect,myblue!20] (NI-\j) -- (NO-\i);
+                        }
+                \fi
+            }
 
-        % Pesos (etiquetas)
-        \node at (2, 1.5) {$w_1$};
-        \node at (2, 0) {$w_2$};
-        \node at (2, -1.5) {$w_3$};
+        % DOTS
+        \path (NI-\NI) --++ (0,1+\yshift) node[midway,scale=1.2] {$\vdots$};
 
-        % Conexiones
-        \draw[->] (x1.east) -- (y.west);
-        \draw[->] (x2.east) -- (y.west);
-        \draw[->] (x3.east) -- (y.west);
-
-        %
-        \node at (4.8, 0) {$\sigma$};
+        % EQUATIONS (corregidas y más claras)
+        \node[right=1cm of NO-1,text width=6.4cm] {
+            \[
+                \begin{array}{l}
+                    z = \mathbf{w}^{T}\mathbf{x} + b
+                    = \displaystyle\sum_{i=1}^{n} x_{i}w_{i} + b, \\[8pt]
+                    y = H(z)
+                    = \left\{
+                    \begin{array}{ll}
+                        1, & \text{si } z > 0,    \\[4pt]
+                        0, & \text{si } z \leq 0.
+                    \end{array}
+                    \right.
+                \end{array}
+            \]
+        };
 
     \end{tikzpicture}
-    \caption{Ejemplo de perceptrón}
+    \caption{Ejemplo de perceptrón con suma ponderada, sesgo y activación escalón.}
     \label{fig:perceptron}
 \end{figure}
 
-Con el perceptrón definido, podemos construir redes neuronales más complejas al combinar múltiples perceptrones en capas. Una capa, cómo lo veremos a continuación, es la combinación de funciones entre un perceptrón y una función de activación.
 
+\newpage
+
+Con el perceptrón definido, podemos construir redes neuronales más complejas al combinar múltiples perceptrones en capas.
+Una capa, cómo lo veremos a continuación, es la combinación de funciones entre un perceptrón y una función de activación.
 
 \begin{definition}[Capa de una red neuronal]
     Sea $L \in \mathbb{N}$ el índice de una capa en una red neuronal.
@@ -85,49 +134,68 @@ Con el perceptrón definido, podemos construir redes neuronales más complejas a
 \end{definition}
 
 \begin{figure}[H]
-    \begin{tikzpicture}[node distance=1.2cm, every node/.style={scale=0.9}]
-        % Capa (L-1)
-        \node[draw,circle] (x1) {$x^{(L-1)}_1$};
-        \node[draw,circle,below=of x1] (x2) {$x^{(L-1)}_2$};
-        \node[below=of x2] (dots) {$\vdots$};
-        \node[draw,circle,below=of dots] (xm) {$x^{(L-1)}_{n_{L-1}}$};
+\centering
+\begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.80,transform shape]
+  % ===== Parámetros visuales =====
+  \def\NLm{5}   
+  \def\yshift{0.4}
 
-        % Rectángulo que encierra entradas
-        \node[draw,fit=(x1)(x2)(xm),inner sep=1cm,label=above:{Capa $L-1$}] (capaLmenos1) {};
+  % ===== CAPA (L-1): entradas =====
+  \foreach \i [evaluate={\c=int(\i==\NLm); \y=\NLm/2-\i-\c*\yshift; \idx=(\i<\NLm?int(\i):"n_{L-1}");}] in {1,...,\NLm}{
+    \node[node in,outer sep=0.6] (Lm-\i) at (0,\y) {$x^{(L-1)}_{\idx}$};
+  }
+  \path (Lm-\NLm) --++ (0,1+\yshift) node[midway,scale=1.2] {$\vdots$};
 
-        % Pesos y bias
-        \node[draw,rectangle,right=2.5cm of x2,minimum width=1.5cm,minimum height=3cm] (W)
-        {\textbf{W}$^{(L)}$ \\[2mm] + \\[2mm] \textbf{b}$^{(L)}$};
+  % ===== Bloque lineal: W + b =====
+  \node[draw,rounded corners,fill=myblue!5,draw=myblue!20,thick,
+        minimum width=1.55cm, minimum height=3.1cm,align=center] (Wb) at (1.25,-0.6)
+        {\textbf{W}$^{(L)}$\\\vspace{2mm} $+$\\\vspace{2mm} \textbf{b}$^{(L)}$};
 
-        % Activación σ
-        \node[draw,rectangle,right=2.5cm of W,minimum width=0.8cm,minimum height=3cm] (sigma) {$\sigma$};
+  % ===== Activación sigma =====
+  \node[draw,rounded corners,fill=myblue!5,draw=myblue!20,thick,
+        minimum width=0.95cm, minimum height=3.1cm, right=0.9cm of Wb] (sigma) {$\sigma$};
 
-        % Salidas capa L (alineadas en columna)
-        \node[draw,circle,right=2.5cm of x1-|sigma] (y1) {$f^{(L)}_1$};
-        \node[draw,circle,right=2.5cm of x2-|sigma] (y2) {$f^{(L)}_2$};
-        \node[right=2.5cm of dots-|sigma] (dots2) {$\vdots$};
-        \node[draw,circle,right=2.5cm of xm-|sigma] (ym) {$f^{(L)}_{n_L}$};
+  % ===== CAPA (L): salidas  =====
 
-        % Rectángulo que encierra salidas
-        \node[draw,fit=(y1)(y2)(ym),inner sep=1cm,label=above:{Capa $L$}] (capaL) {};
+  \foreach \i [evaluate={\idx=(\i<\NLm?int(\i):"n_L");}] in {1,...,\NLm}{
+    \node[node hidden] (L-\i)
+      at ($(Lm-\i)+(3.50,0)$) {$f^{(L)}_{\idx}$};
+}
+\path (L-\NLm) --++ (0,1+\yshift) node[midway,scale=1.2] {$\vdots$};
 
-        % Conexiones
-        \draw[->] (x1) -- (W);
-        \draw[->] (x2) -- (W);
-        \draw[->] (xm) -- (W);
+  % ===== Cajas de capa =====
+  % Caja capa L-1
+  \draw[rounded corners]
+    ($(Lm-1)+(-0.65,0.65)$) rectangle ($(Lm-\NLm)+(0.65,-0.65)$);
+  \node at ($(Lm-1)+(0,1.05)$) {Capa $L-1$};
 
-        \draw[->] (W) -- (sigma);
+  % Caja capa L
+  \draw[rounded corners]
+    ($(L-1)+(-0.75,0.65)$) rectangle ($(L-\NLm)+(0.75,-0.65)$);
+  \node at ($(L-1)+(0,1.05)$) {Capa $L$};
 
-        \draw[->] (sigma) -- (y1);
-        \draw[->] (sigma) -- (y2);
-        \draw[->] (sigma) -- (ym);
-    \end{tikzpicture}
-    \caption{Capa de una red neuronal}
-    \label{fig:capa_red_neuronal}
+  % ===== Conexiones  =====
+  \draw[connect] (Lm-1) -- (Wb);
+  \draw[connect] (Lm-2) -- (Wb);
+  \draw[connect] (Lm-\NLm) -- (Wb);
 
+  % Wb -> sigma
+  \draw[connect] (Wb) -- (sigma);
+
+  % sigma -> todas las neuronas de la capa L
+  \foreach \i in {1,...,\NLm}{
+    \draw[connect] (sigma) -- (L-\i);
+}
+
+  % ===== Ecuación de la capa =====
+  \node at ($ (Wb.south)!0.5!(sigma.south) + (0,-0.8) $) {\small
+$\mathbf{f}^{(L)}=\sigma\!\big(\mathbf{W}^{(L)}\mathbf{x}^{(L-1)}+\mathbf{b}^{(L)}\big)$
+};
+
+\end{tikzpicture}
+\caption{Capa de una red neuronal con múltiples neuronas en la capa $L$.}
+\label{fig:capa_red_neuronal}
 \end{figure}
-
-
 
 \begin{observation}
     La función de activación $\sigma$ introduce no linealidad en la red neuronal, lo cual es de suma importancia para que la red pueda aprender representaciones complejas y no lineales de los datos.
@@ -140,8 +208,6 @@ Con el perceptrón definido, podemos construir redes neuronales más complejas a
 \end{observation}
 
 Con la definición anterior podemos ahora entender cómo se compone una red neuronal a partir de múltiples capas.
-
-
 
 \begin{definition}[Red neuronal]
     Sea $L \in \mathbb{N}$ el número de capas. Una \textbf{red neuronal} con $L$ capas es una función
@@ -158,51 +224,74 @@ Con la definición anterior podemos ahora entender cómo se compone una red neur
 
 En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red, y a la capa $f^{(L)}$ se le conoce como la capa de salida. A las capas restantes se les conoce como capas ocultas
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[node distance=1.2cm and 2.5cm, every node/.style={scale=0.9}]
-        \tikzstyle{neuron}=[draw,circle,minimum size=1cm]
+\centering
+\begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.8,transform shape]
 
-        % Capa de entrada (alineada en columna)
-        \matrix[column sep=0mm, row sep=8mm] (entrada) {
-            \node[neuron] (x1) {$x_1$}; \\
-            \node[neuron] (x2) {$x_2$}; \\
-            \node[neuron] (x3) {$x_3$}; \\
-        };
+  % ===== Parámetros =====
+  \def\NI{3}   % neuronas de entrada
+  \def\NH{4}   % neuronas ocultas
+  \def\NO{2}   % neuronas de salida
+  \def\yshift{0.35}
 
-        % Capa oculta (alineada con respecto a la entrada)
-        \matrix[column sep=0mm, row sep=8mm, right=of entrada] (oculta) {
-            \node[neuron] (h1) {$h_1$}; \\
-            \node[neuron] (h2) {$h_2$}; \\
-            \node[neuron] (h3) {$h_3$}; \\
-            \node[neuron] (h4) {$h_4$}; \\
-        };
+  % =====================================================
+  % CAPA DE ENTRADA
+  % =====================================================
+  \foreach \i [evaluate={\y=\NI/2-\i;}] in {1,...,\NI}{
+    \node[node in] (I-\i) at (0,\y) {$x_{\i}$};
+  }
 
-        % Capa de salida (alineada con respecto a oculta)
-        \matrix[column sep=0mm, row sep=8mm, right=of oculta] (salida) {
-            \node[neuron] (y1) {$y_1$}; \\
-            \node[neuron] (y2) {$y_2$}; \\
-        };
+  % Caja entrada
+  \draw[rounded corners]
+    ($(I-1)+(-0.4,0.6)$) rectangle ($(I-\NI)+(0.4,-0.6)$);
+  \node at ($(I-1)+(0,1.0)$) {Entrada};
 
-        % Conexiones entrada -> oculta
-        \foreach \i in {1,2,3}
-        \foreach \j in {1,2,3,4}
-        \draw[->] (x\i) -- (h\j);
+  % =====================================================
+  % CAPA OCULTA
+  % =====================================================
+  \foreach \i [evaluate={\y=\NH/2-\i;}] in {1,...,\NH}{
+    \node[node hidden] (H-\i) at (1.6,\y) {$h_{\i}$};
+  }
 
-        % Conexiones oculta -> salida
-        \foreach \i in {1,2,3,4}
-        \foreach \j in {1,2}
-        \draw[->] (h\i) -- (y\j);
+  % Caja capa oculta
+  \draw[rounded corners]
+    ($(H-1)+(-0.4,0.6)$) rectangle ($(H-\NH)+(0.4,-0.6)$);
+  \node at ($(H-1)+(0,1.0)$) {Capa oculta};
 
-        % Rectángulos con etiquetas
-        \node[draw,fit=(x1)(x3),inner sep=0.5cm,label=above:{Entrada}] {};
-        \node[draw,fit=(h1)(h4),inner sep=0.5cm,label=above:{Capa oculta}] {};
-        \node[draw,fit=(y1)(y2),inner sep=0.5cm,label=above:{Salida}] {};
+  % =====================================================
+  % CAPA DE SALIDA
+  % =====================================================
+  \foreach \i [evaluate={\y=\NO/2-\i;}] in {1,...,\NO}{
+    \node[node hidden] (O-\i) at (3.2,\y) {$y_{\i}$};
+  }
 
-    \end{tikzpicture}
-    \caption{Ejemplo de red neuronal con una capa oculta}
-    \label{fig:red_neuronal}
+  % Caja salida
+  \draw[rounded corners]
+    ($(O-1)+(-0.4,0.6)$) rectangle ($(O-\NO)+(0.4,-0.6)$);
+  \node at ($(O-1)+(0,1.0)$) {Salida};
 
+  % =====================================================
+  % CONEXIONES
+  % =====================================================
+
+  % Entrada -> Oculta
+  \foreach \i in {1,...,\NI}{
+    \foreach \j in {1,...,\NH}{
+      \draw[connect] (I-\i) -- (H-\j);
+    }
+  }
+
+  % Oculta -> Salida
+  \foreach \i in {1,...,\NH}{
+    \foreach \j in {1,...,\NO}{
+      \draw[connect] (H-\i) -- (O-\j);
+    }
+  }
+
+\end{tikzpicture}
+\caption{Ejemplo de red neuronal con una capa oculta.}
+\label{fig:red_neuronal}
 \end{figure}
+
 
 \subsection{Entrenamiento de redes neuronales}
 
@@ -766,15 +855,15 @@ Las definiciones que se presentan a continuación estan basadas en el libro \cit
 En el contexto de las Redes Neuronales Gráficas (GNN), los conceptos de \textbf{encoder} y \textbf{decoder} son fundamentales para comprender cómo se procesan y representan los datos estructurados en forma de gráficas. A continuación, se presentan las definiciones formales de estos conceptos.
 
 \begin{definition}[Encoder]
-Sea $G = (V, E)$ una gráfica, donde $V$ denota el conjunto de vértices y $E$ el conjunto de aristas.  
-Un \emph{encoder} es una función 
-\[
-    \phi : V \longrightarrow \mathbb{R}^d
-\]
-que asigna a cada vértice $v \in V$ un encaje $z_v \in \mathbb{R}^d$, el cual se obtiene a partir de la información local de $v$, sus vecinos $\mathcal{N}(v)$ y las aristas de la gráfica $E(G)$, esto es:
-\[
-    \phi(v, \mathcal{N}(v), E(G)) = z_v, \quad \text{con } z_v \in \mathbb{R}^d.
-\]
+    Sea $G = (V, E)$ una gráfica, donde $V$ denota el conjunto de vértices y $E$ el conjunto de aristas.
+    Un \emph{encoder} es una función
+    \[
+        \phi : V \longrightarrow \mathbb{R}^d
+    \]
+    que asigna a cada vértice $v \in V$ un encaje $z_v \in \mathbb{R}^d$, el cual se obtiene a partir de la información local de $v$, sus vecinos $\mathcal{N}(v)$ y las aristas de la gráfica $E(G)$, esto es:
+    \[
+        \phi(v, \mathcal{N}(v), E(G)) = z_v, \quad \text{con } z_v \in \mathbb{R}^d.
+    \]
 \end{definition}
 
 
@@ -783,32 +872,32 @@ Por simplicidad denotaremos $\phi(v,\mathcal{N}(v),E(G)) :=\phi(v)$.
 De forma similar a la matriz de adyacencia de una gráfica,a partir de la definición de enconder, podemos definir la matriz de encajes de una gráfica.
 
 \begin{definition}[Matriz de encajes]
-Sea $G = (V, E)$ una gráfica, con $|V| = \nu_G$.  
-La \emph{matriz de encajes} es una matriz
-\[
-    \mathbf{Z} \in \mathbb{R}^{\nu_G \times d}
-\]
-cuyas filas corresponden a los encajes de los vértices.  
-Para cada $v \in V$, el vector de encaje asociado se denota por
-\[
-    \phi(v) = \mathbf{Z}[v],
-\]
-donde $\mathbf{Z}[v]$ representa la fila de $\mathbf{Z}$ correspondiente al vértice $v$, y $\phi(v) = z_v \in \mathbb{R}^d$ es el vector de encaje del nodo $v$.
+    Sea $G = (V, E)$ una gráfica, con $|V| = \nu_G$.
+    La \emph{matriz de encajes} es una matriz
+    \[
+        \mathbf{Z} \in \mathbb{R}^{\nu_G \times d}
+    \]
+    cuyas filas corresponden a los encajes de los vértices.
+    Para cada $v \in V$, el vector de encaje asociado se denota por
+    \[
+        \phi(v) = \mathbf{Z}[v],
+    \]
+    donde $\mathbf{Z}[v]$ representa la fila de $\mathbf{Z}$ correspondiente al vértice $v$, y $\phi(v) = z_v \in \mathbb{R}^d$ es el vector de encaje del nodo $v$.
 \end{definition}
 
 A su vez, podemos definir el concepto de decoder como la función que toma los encajes producidos por el encoder y genera una predicción en el espacio de salida.
 En el contexto de autoencoders sobre grafos, el decoder busca reconstruir la estructura original de la gráfica (por ejemplo, su matriz de adyacencia) o inferir propiedades derivadas de ella, utilizando la información contenida en los vectores de encaje.
 
 \begin{definition}[Decoder]
-Sea $z_v \in \mathbb{R}^d$ el vector de encaje asociado a un vértice $v \in V$, obtenido mediante un encoder.  
-Se denomina \emph{decoder} a una función
-\[
-    \psi : \mathbb{R}^d \longrightarrow \mathcal{Y},
-\]
-que asigna a cada representación latente $z_v$ una predicción en el espacio de salida $\mathcal{Y}$, de modo que
-\[
-    \psi(z_v) = \hat{y}.
-\]
+    Sea $z_v \in \mathbb{R}^d$ el vector de encaje asociado a un vértice $v \in V$, obtenido mediante un encoder.
+    Se denomina \emph{decoder} a una función
+    \[
+        \psi : \mathbb{R}^d \longrightarrow \mathcal{Y},
+    \]
+    que asigna a cada representación latente $z_v$ una predicción en el espacio de salida $\mathcal{Y}$, de modo que
+    \[
+        \psi(z_v) = \hat{y}.
+    \]
 \end{definition}
 
 Los conceptos de encoder y decoder son de suma importancia en las GNN, ya que permiten transformar la información estructural de las gráficas en representaciones vectoriales útiles para tareas de aprendizaje automático, como clasificación de nodos, predicción de enlaces y generación de gráficas.
@@ -825,20 +914,20 @@ El mecanismo puede ser definido de la siguiente forma:
 
 \begin{definition}[Propagación de mensajes neuronales]
 
-Sea $G = (V, E)$ una gráfica, $N_G(v)$ el vecindario del nodo $v \in V$, $h_u^{(t)}$ los encajes ocultos de cada nodo $u$, y $\mathscr{A}$ una función de agregación que combina los encajes de los vecinos de $v$. Entonces, el mecanismo de propagación de mensajes se define como:
-\[
-    m_v^{(t)} = \mathscr{A}\bigl(\{\,h_u^{(t)} : u \in N_G(v)\,\}\bigr).
-\]
+    Sea $G = (V, E)$ una gráfica, $N_G(v)$ el vecindario del nodo $v \in V$, $h_u^{(t)}$ los encajes ocultos de cada nodo $u$, y $\mathscr{A}$ una función de agregación que combina los encajes de los vecinos de $v$. Entonces, el mecanismo de propagación de mensajes se define como:
+    \[
+        m_v^{(t)} = \mathscr{A}\bigl(\{\,h_u^{(t)} : u \in N_G(v)\,\}\bigr).
+    \]
 \end{definition}
 
 Una vez que el vértice a recibido el mensaje, la actualización de su información es el resultado de la combinación del mensaje recibido, con la información actual que tenía y se define de la siguiente forma:
 
-\begin{definition}[Actualización de estados neuronales] 
-Sea $h_v^{(t-1)}$ el encaje oculto del nodo $v$ en la capa anterior $(t-1)$, y $m_v^{(t)}$ el mensaje agregado en la capa $t$. Entonces, la actualización del estado del nodo está dada por:
-\[
-    h_v^{(t)} = \mathscr{U}\!\left(h_v^{(t-1)},\, m_v^{(t)}\right),
-\]
-donde $\mathscr{U}$ es una función de actualización, típicamente implementada mediante una red neuronal, por ejemplo, una capa lineal seguida de una función de activación (como ReLU).
+\begin{definition}[Actualización de estados neuronales]
+    Sea $h_v^{(t-1)}$ el encaje oculto del nodo $v$ en la capa anterior $(t-1)$, y $m_v^{(t)}$ el mensaje agregado en la capa $t$. Entonces, la actualización del estado del nodo está dada por:
+    \[
+        h_v^{(t)} = \mathscr{U}\!\left(h_v^{(t-1)},\, m_v^{(t)}\right),
+    \]
+    donde $\mathscr{U}$ es una función de actualización, típicamente implementada mediante una red neuronal, por ejemplo, una capa lineal seguida de una función de activación (como ReLU).
 \end{definition}
 
 Después de K iteraciones del mecanismo, podemos utilizar la salida del final de la capa para definir los encajes de cada vértice, es decir:
@@ -855,71 +944,71 @@ Para introducir una manera de abordarlas de forma más general, introducimos el 
 Podemos definir el modelo GNN fundamental mediante la siguiente ecuación:
 
 \begin{definition}[Modelo GNN fundamental]
-Sea $G = (V, E)$ una gráfica, $x_u$ la característica del nodo $u \in V$, y $\mathcal{N}(u)$ el conjunto de vecinos de $u$. La actualización de la representación del nodo $u$ en una capa de la GNN se define como:
-\[
-    h_u = \phi\!\left(x_u,\, \bigoplus_{v \in \mathcal{N}(u)} \psi(x_u, x_v)\right).
-\]
-\noindent En esta expresión, $\boldsymbol{h_u}$ representa la nueva representación del nodo $\boldsymbol{u}$ después de aplicar una capa de la red.  
+    Sea $G = (V, E)$ una gráfica, $x_u$ la característica del nodo $u \in V$, y $\mathcal{N}(u)$ el conjunto de vecinos de $u$. La actualización de la representación del nodo $u$ en una capa de la GNN se define como:
+    \[
+        h_u = \phi\!\left(x_u,\, \bigoplus_{v \in \mathcal{N}(u)} \psi(x_u, x_v)\right).
+    \]
+    \noindent En esta expresión, $\boldsymbol{h_u}$ representa la nueva representación del nodo $\boldsymbol{u}$ después de aplicar una capa de la red.
 
-\noindent La variable $\boldsymbol{x_u}$ corresponde a las características originales del nodo antes de la actualización.  
+    \noindent La variable $\boldsymbol{x_u}$ corresponde a las características originales del nodo antes de la actualización.
 
-\noindent La función $\boldsymbol{\psi}(\boldsymbol{x_u}, \boldsymbol{x_v})$ transforma las características del nodo $\boldsymbol{u}$ y de su vecino $\boldsymbol{v}$, generando un mensaje o interacción entre ambos.  
+    \noindent La función $\boldsymbol{\psi}(\boldsymbol{x_u}, \boldsymbol{x_v})$ transforma las características del nodo $\boldsymbol{u}$ y de su vecino $\boldsymbol{v}$, generando un mensaje o interacción entre ambos.
 
-\noindent La operación $\boldsymbol{\bigoplus_{v \in \mathcal{N}(u)}}$ denota una función de agregación —como la suma, el promedio o el \emph{max pooling}— que combina los mensajes provenientes de los vecinos de $\boldsymbol{u}$.  
+    \noindent La operación $\boldsymbol{\bigoplus_{v \in \mathcal{N}(u)}}$ denota una función de agregación —como la suma, el promedio o el \emph{max pooling}— que combina los mensajes provenientes de los vecinos de $\boldsymbol{u}$.
 
-\noindent Finalmente, $\boldsymbol{\phi}(\cdot)$ es la función de actualización que integra las características propias del nodo con la información agregada de su vecindario para producir la nueva representación $\boldsymbol{h_u}$.
+    \noindent Finalmente, $\boldsymbol{\phi}(\cdot)$ es la función de actualización que integra las características propias del nodo con la información agregada de su vecindario para producir la nueva representación $\boldsymbol{h_u}$.
 \end{definition}
 
 En términos generales, el comportamiento del modelo GNN fundamental basado en el mecanismo descrito anteriormente puede estructurarse en los siguientes pasos:
 
-\textbf{Mensajes entre nodos vecinos} ($\boldsymbol{\psi(x_u, x_v)}$).  
+\textbf{Mensajes entre nodos vecinos} ($\boldsymbol{\psi(x_u, x_v)}$).
 La función $\boldsymbol{\psi}$ calcula la interacción entre las características del nodo $u$ y las de cada uno de sus vecinos $v$. Esta operación permite capturar las relaciones entre nodos de manera dependiente de sus características, es decir, la forma en que un nodo percibe a su entorno en función de su propio estado y el de sus vecinos.
 
-\textbf{Agregación} ($\boldsymbol{\bigoplus}$).  
+\textbf{Agregación} ($\boldsymbol{\bigoplus}$).
 Una vez obtenidas las interacciones entre $u$ y sus vecinos, estas se combinan mediante una operación de agregación $\bigoplus$, que suele ser una suma, un promedio o una operación de \emph{max pooling}. El propósito de esta etapa es sintetizar la información proveniente de todos los vecinos de $u$ en un único vector representativo.
 
-\textbf{Actualización} ($\boldsymbol{\phi}$).  
-Finalmente, la función $\boldsymbol{\phi}$ toma la característica original del nodo $u$, representada por $x_u$, junto con el resultado de la agregación, para producir la nueva representación $\boldsymbol{h_u}$.  
+\textbf{Actualización} ($\boldsymbol{\phi}$).
+Finalmente, la función $\boldsymbol{\phi}$ toma la característica original del nodo $u$, representada por $x_u$, junto con el resultado de la agregación, para producir la nueva representación $\boldsymbol{h_u}$.
 La función $\boldsymbol{\phi}$ suele implementarse como una red neuronal \emph{feedforward} o alguna otra transformación no lineal capaz de integrar la información propia del nodo con la de su vecindario.
 
 En síntesis, el modelo GNN fundamental expresa el proceso de \textbf{message passing} en una GNN, donde los mensajes de los vecinos de un nodo se combinan para actualizar la representación del nodo central, aprovechando las simetrías presentes en las gráficas.
 
 \section{Redes Gráficas Convolucionales (GCNs)}
-A lo largo de este capítulo se han revisado los conceptos fundamentales que abarcan desde las redes neuronales artificiales (RNA) hasta las redes neuronales gráficas (GNN).  
-Las definiciones y formulaciones previamente presentadas han permitido establecer una base teórica sólida para comprender las arquitecturas más avanzadas que se estudiarán a continuación.  
+A lo largo de este capítulo se han revisado los conceptos fundamentales que abarcan desde las redes neuronales artificiales (RNA) hasta las redes neuronales gráficas (GNN).
+Las definiciones y formulaciones previamente presentadas han permitido establecer una base teórica sólida para comprender las arquitecturas más avanzadas que se estudiarán a continuación.
 En particular, el siguiente apartado se enfoca en una familia específica de modelos que representan una extensión natural de las redes neuronales convolucionales (CNN) al dominio de las estructuras de gráficas.
 
 Las \textbf{Redes Convolucionales Gráficas} (\emph{Graph Convolutional Networks}, GCNs) constituyen una clase particular dentro del marco general de las Redes Neuronales Gráficas. Su objetivo principal es generalizar el operador de convolución, ampliamente utilizado en el procesamiento de datos estructurados en forma de cuadrículas —como imágenes o señales espaciales—, hacia el contexto más general de las gráficas, donde la información está distribuida de manera irregular y las relaciones entre elementos se describen mediante aristas.
 
-En esencia, las GCNs trasladan los principios de las CNNs al dominio no euclidiano de las gráficas, permitiendo el aprendizaje de representaciones de nodos, aristas o incluso gráficas completas a partir de la topología de las conexiones y las características asociadas a cada entidad.  
+En esencia, las GCNs trasladan los principios de las CNNs al dominio no euclidiano de las gráficas, permitiendo el aprendizaje de representaciones de nodos, aristas o incluso gráficas completas a partir de la topología de las conexiones y las características asociadas a cada entidad.
 Este enfoque posibilita capturar dependencias estructurales complejas, manteniendo la eficiencia y la capacidad de generalización propias de los modelos convolucionales tradicionales.
 
 \begin{definition}[Arquitectura de una GNN]
-Sea $G = (V, E)$ una gráfica, $\mathbf{A}$ su matriz de adyacencia, $\mathbf{F}$ una función de propagación neuronal (que incluye la activación no lineal), y $\Phi = \{\Phi_0, \Phi_1, \dots, \Phi_{K-1}\}$ el conjunto de parámetros entrenables de la red.  
-Entonces, la arquitectura general de una \textbf{Red Neuronal Gráfica} (GNN) de $K$ capas se define de manera recursiva como:
-\[
-\begin{aligned}
-    \mathbf{H}_1 &= \mathbf{F}(\mathbf{X},\, \mathbf{A},\, \Phi_0), \\
-    \mathbf{H}_2 &= \mathbf{F}(\mathbf{H}_1,\, \mathbf{A},\, \Phi_1), \\
-    &\ \vdots \\
-    \mathbf{H}_K &= \mathbf{F}(\mathbf{H}_{K-1},\, \mathbf{A},\, \Phi_{K-1}),
-\end{aligned}
-\]
-donde $\mathbf{X}$ representa la matriz de características iniciales de los nodos y $\mathbf{H}_K$ contiene las representaciones (o encajes) finales resultantes después de $K$ pasos de propagación de información.  
-En términos generales, cada capa aplica una transformación y agregación de información basada en la estructura de la gráfica y las características de sus nodos.
+    Sea $G = (V, E)$ una gráfica, $\mathbf{A}$ su matriz de adyacencia, $\mathbf{F}$ una función de propagación neuronal (que incluye la activación no lineal), y $\Phi = \{\Phi_0, \Phi_1, \dots, \Phi_{K-1}\}$ el conjunto de parámetros entrenables de la red.
+    Entonces, la arquitectura general de una \textbf{Red Neuronal Gráfica} (GNN) de $K$ capas se define de manera recursiva como:
+    \[
+        \begin{aligned}
+            \mathbf{H}_1 & = \mathbf{F}(\mathbf{X},\, \mathbf{A},\, \Phi_0),           \\
+            \mathbf{H}_2 & = \mathbf{F}(\mathbf{H}_1,\, \mathbf{A},\, \Phi_1),         \\
+                         & \ \vdots                                                    \\
+            \mathbf{H}_K & = \mathbf{F}(\mathbf{H}_{K-1},\, \mathbf{A},\, \Phi_{K-1}),
+        \end{aligned}
+    \]
+    donde $\mathbf{X}$ representa la matriz de características iniciales de los nodos y $\mathbf{H}_K$ contiene las representaciones (o encajes) finales resultantes después de $K$ pasos de propagación de información.
+    En términos generales, cada capa aplica una transformación y agregación de información basada en la estructura de la gráfica y las características de sus nodos.
 \end{definition}
 
-Un aspecto fundamental de las GNNs es su capacidad para manejar la invariancia estructural de las gráficas, es decir, que el orden en que se indexan los nodos no debe afectar el resultado final de la red.  
+Un aspecto fundamental de las GNNs es su capacidad para manejar la invariancia estructural de las gráficas, es decir, que el orden en que se indexan los nodos no debe afectar el resultado final de la red.
 Esta propiedad se conoce como \textbf{equivarianza a permutaciones} y se define formalmente a continuación:
 
 \begin{definition}[Equivarianza]
-Sea $\mathbf{F}$ una función de propagación en una capa de la GNN, $\mathbf{H}$ la matriz de representaciones ocultas de los nodos, y $\mathbf{P}$ una matriz de permutación que reordena los nodos de la gráfica.  
-Decimos que una capa es \textbf{equivariante a permutaciones} si se cumple la siguiente relación:
-\[
-    \mathbf{H}_{K+1}\mathbf{P} = \mathbf{F}\!\left(\mathbf{H}_K \mathbf{P},\, \mathbf{P}^\top \mathbf{A}\mathbf{P},\, \Phi_K\right),
-\]
-donde $\mathbf{A}$ denota la matriz de adyacencia de la gráfica $G$.  
-Esta propiedad garantiza que el resultado de la red no depende del orden en que los nodos son indexados, lo cual es fundamental para preservar la invariancia estructural del grafo.
+    Sea $\mathbf{F}$ una función de propagación en una capa de la GNN, $\mathbf{H}$ la matriz de representaciones ocultas de los nodos, y $\mathbf{P}$ una matriz de permutación que reordena los nodos de la gráfica.
+    Decimos que una capa es \textbf{equivariante a permutaciones} si se cumple la siguiente relación:
+    \[
+        \mathbf{H}_{K+1}\mathbf{P} = \mathbf{F}\!\left(\mathbf{H}_K \mathbf{P},\, \mathbf{P}^\top \mathbf{A}\mathbf{P},\, \Phi_K\right),
+    \]
+    donde $\mathbf{A}$ denota la matriz de adyacencia de la gráfica $G$.
+    Esta propiedad garantiza que el resultado de la red no depende del orden en que los nodos son indexados, lo cual es fundamental para preservar la invariancia estructural del grafo.
 \end{definition}
 
 En conclusión, en este capítulo se han establecido los fundamentos teóricos necesarios para comprender el funcionamiento de las GNN's y, en particular, de las redes Convolucionales Gráficas (GCNs).
