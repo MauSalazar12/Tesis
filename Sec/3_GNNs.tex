@@ -365,6 +365,93 @@ Este vector contiene la información de cuanto crece o decrece la función en un
     donde $\nabla_\theta J(\theta_k)$ denota el gradiente de $J$ evaluado en $\theta_k$.
 \end{definition}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0]
+
+% ===============================
+% Proyección 3D oblicua manual
+% ===============================
+\def\a{0.55}
+\def\b{0.25}
+\def\c{0.10}
+
+% Macro de proyección segura
+\providecommand{\Proj}[3]{%
+  ({#1 - \a*#2},{\b*#1 + \c*#2 + #3})%
+}
+
+% ===============================
+% Ejes (espacio de parámetros)
+% ===============================
+\draw[->, thick] \Proj{-2.8}{0}{0} -- \Proj{2.8}{0}{0} node[below right] {$\theta_1$};
+\draw[->, thick] \Proj{0}{-2.8}{0} -- \Proj{0}{2.8}{0} node[left] {$\theta_2$};
+\draw[->, thick] \Proj{0}{0}{0} -- \Proj{0}{0}{3.2} node[above] {$J(\theta)$};
+
+% Mínimo global
+\fill \Proj{0}{0}{0} circle (1.2pt);
+\node[below left] at \Proj{0}{0}{0} {$\theta^\star$};
+
+% ===============================
+% Superficie: función objetivo
+% J(\theta) = (theta_1^2 + theta_2^2)/4
+% ===============================
+
+% Curvas theta_1 = const
+\foreach \t in {-2,-1.5,-1,-0.5,0,0.5,1,1.5,2}{
+  \draw[black!35]
+    plot[smooth,variable=\s,domain=-2:2,samples=25]
+    (\Proj{\t}{\s}{(\t*\t+\s*\s)/4});
+}
+
+% Curvas theta_2 = const
+\foreach \s in {-2,-1.5,-1,-0.5,0,0.5,1,1.5,2}{
+  \draw[black!35]
+    plot[smooth,variable=\t,domain=-2:2,samples=25]
+    (\Proj{\t}{\s}{(\t*\t+\s*\s)/4});
+}
+
+% ===============================
+% Descenso por gradiente: sucesión {theta_k}
+% ===============================
+\draw[->, thick]
+  \Proj{-1.9}{1.6}{(1.9*1.9+1.6*1.6)/4} --
+  \Proj{-1.3}{1.1}{(1.3*1.3+1.1*1.1)/4} --
+  \Proj{-0.9}{0.7}{(0.9*0.9+0.7*0.7)/4} --
+  \Proj{-0.55}{0.42}{(0.55*0.55+0.42*0.42)/4} --
+  \Proj{-0.30}{0.22}{(0.30*0.30+0.22*0.22)/4} --
+  \Proj{-0.12}{0.08}{(0.12*0.12+0.08*0.08)/4};
+
+% Puntos de iteración
+\foreach \x/\y in {
+  -1.9/1.6,
+  -1.3/1.1,
+  -0.9/0.7,
+  -0.55/0.42,
+  -0.30/0.22,
+  -0.12/0.08}{
+  \fill \Proj{\x}{\y}{(\x*\x+\y*\y)/4} circle (1.2pt);
+}
+
+% Etiquetas de la sucesión
+\node[above left]  at \Proj{-1.9}{1.6}{(1.9*1.9+1.6*1.6)/4} {$\theta_0$};
+\node[above left]  at \Proj{-0.9}{0.7}{(0.9*0.9+0.7*0.7)/4} {$\theta_2$};
+\node[above right] at \Proj{-0.12}{0.08}{(0.12*0.12+0.08*0.08)/4} {$\theta_k$};
+
+% ===============================
+% Regla de actualización (definición)
+% ===============================
+\node[align=left] at \Proj{2.0}{-1.4}{2.8} {\small
+$\displaystyle
+\theta_{k+1} = \theta_k - \eta\,\nabla_\theta J(\theta_k)$
+};
+
+\end{tikzpicture}
+\caption{Ilustración geométrica del método de descenso por gradiente aplicado a una función objetivo $J : \Theta \subseteq \mathbb{R}^n \to \mathbb{R}$.}
+\label{fig:descenso_gradiente}
+\end{figure}
+
+
 Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta la velocidad y estabilidad de la convergencia hacia el mínimo.
 
 \begin{algorithm}[H]
@@ -506,6 +593,136 @@ Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf
 
     \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.95,transform shape]
+
+% =====================================================
+% Estilos locales adicionales (compatibles con tu preámbulo)
+% =====================================================
+\tikzset{
+  back/.style={-{Latex[length=4,width=3.5]},thick,red!80!black},
+  note/.style={font=\scriptsize,align=center},
+  labw/.style={font=\scriptsize,sloped,inner sep=1pt,fill=white},
+  labd/.style={font=\scriptsize,sloped,inner sep=1pt,fill=white,text=red!80!black}
+}
+
+% =====================================================
+% NODOS (coordenadas explícitas)
+% =====================================================
+% Entrada
+\node[node in]     (x1) at (0, 0.55) {$x_{1}$};
+\node[node in]     (x2) at (0,-0.55) {$x_{2}$};
+
+% Capa oculta (Capa 1)
+\node[node hidden] (h1) at (1.5, 0.55) {$a^{(1)}_{1}$};
+\node[node hidden] (h2) at (1.5,-0.55) {$a^{(1)}_{2}$};
+
+% Salida
+\node[node out]    (yhat) at (3.0, 0.0) {$\hat{y}=a^{(2)}$};
+
+% Pérdida
+\node[node out]    (L)    at (4.4, 0.0) {$\mathcal{L}$};
+
+% =====================================================
+% FORWARD PASS (azul)
+% Nota: estas flechas no chocan con backprop en tu captura,
+% pero dejamos consistencia con curvas suaves.
+% =====================================================
+\draw[connect arrow, bend left=10]
+  (x1) to node[pos=0.35,above,labw] {$w^{(1)}_{11}$} (h1);
+
+\draw[connect arrow, bend left=10]
+  (x1) to node[pos=0.35,below,labw] {$w^{(1)}_{12}$} (h2);
+
+\draw[connect arrow, bend left=10]
+  (x2) to node[pos=0.35,above,labw] {$w^{(1)}_{21}$} (h1);
+
+\draw[connect arrow, bend left=10]
+  (x2) to node[pos=0.35,below,labw] {$w^{(1)}_{22}$} (h2);
+
+% =====================================================
+% CLAVE: Separación forward/back en capa oculta <-> salida
+%   - Forward sale/entra "arriba"
+%   - Backprop sale/entra "abajo"
+%   usando (yshift) en los anclajes + bend
+% =====================================================
+
+% Forward (arriba)
+\draw[connect arrow, bend left=14]
+  ([yshift=3pt]h1.east) to node[pos=0.35,above,labw] {$w^{(2)}_{1}$} ([yshift=3pt]yhat.west);
+
+\draw[connect arrow, bend left=14]
+  ([yshift=-3pt]h2.east) to node[pos=0.35,below,labw] {$w^{(2)}_{2}$} ([yshift=-3pt]yhat.west);
+
+% Forward yhat -> L (arriba)
+\draw[connect arrow, bend left=12]
+  ([yshift=3pt]yhat.east) to ([yshift=3pt]L.west);
+
+% =====================================================
+% BACKPROP (rojo) con anclajes desplazados (abajo)
+% =====================================================
+
+% Delta de salida (abajo) L -> yhat
+\draw[back, bend right=12]
+  ([yshift=-3pt]L.west) to
+  node[pos=0.55,below,note,fill=white,inner sep=1pt,text=red!80!black]
+  {$\delta^{(2)}$}
+  ([yshift=-3pt]yhat.east);
+
+% Deltas a capa oculta (abajo/arriba para evitar cruces)
+\draw[back, bend right=14]
+  ([yshift=-3pt]yhat.west) to node[pos=0.65,below,labd] {$\delta^{(1)}_{1}$} ([yshift=-3pt]h1.east);
+
+\draw[back, bend right=14]
+  ([yshift=3pt]yhat.west) to node[pos=0.65,above,labd] {$\delta^{(1)}_{2}$} ([yshift=3pt]h2.east);
+
+% =====================================================
+% Anotaciones de capas
+% =====================================================
+\node[note] at (0,   1.20) {Entrada};
+\node[note] at (1.5, 1.20) {Capa 1};
+\node[note] at (3.0, 1.20) {Salida};
+\node[note] at (4.4, 1.20) {Pérdida};
+
+% =====================================================
+% Ecuaciones (ya bajadas)
+% =====================================================
+\node[font=\scriptsize,align=left] at (2.2,-1.70) {%
+\textbf{Forward:}\\[-1pt]
+$z^{(1)} = W^{(1)}x + b^{(1)},\quad a^{(1)}=\sigma(z^{(1)})$\\
+$z^{(2)} = W^{(2)}a^{(1)} + b^{(2)},\quad \hat{y}=a^{(2)}$\\[4pt]
+\textbf{Backprop:}\\[-1pt]
+$\delta^{(2)}=\nabla_{a^{(2)}}\mathcal{L}\odot\sigma'(z^{(2)})$\\
+$\delta^{(1)}=(W^{(2)})^{T}\delta^{(2)}\odot\sigma'(z^{(1)})$\\[4pt]
+$\displaystyle
+\frac{\partial\mathcal{L}}{\partial W^{(2)}}=\delta^{(2)}(a^{(1)})^{T},\quad
+\frac{\partial\mathcal{L}}{\partial W^{(1)}}=\delta^{(1)}x^{T}$
+};
+
+\node[font=\scriptsize] at (3.8,-1.05)
+{$W^{(l)} \leftarrow W^{(l)} - \eta\,\nabla_{W^{(l)}}\mathcal{L}$};
+
+% =====================================================
+% Leyenda
+% =====================================================
+\draw[connect arrow] (0.2,1.65) -- (0.65,1.65);
+\node[font=\scriptsize,anchor=west] at (0.72,1.65) {Forward};
+
+\draw[back] (1.55,1.65) -- (2.00,1.65);
+\node[font=\scriptsize,anchor=west] at (2.07,1.65) {Backprop};
+
+\end{tikzpicture}
+\caption{Backpropagation: forward (azul) y backward (rojo) con trayectorias separadas mediante desplazamiento de anclajes.}
+\label{fig:backpropagation}
+\end{figure}
+
+
+
+
+
+
 
 De esta forma hemos definido los componentes principales de una red neuronal, así como los algoritmos necesarios para su entrenamiento. A continuación, nos enfocaremos en un tipo específico de redes neuronales conocidas como \textbf{redes convolucionales (CNN)}, que son especialmente efectivas para procesar datos con estructura espacial, como imágenes y series temporales.
 
