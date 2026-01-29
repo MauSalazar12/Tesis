@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{prieto_topologia_2003}
+Carlos~Prieto de~Castro.
+\newblock {\em Topología básica}.
+\newblock Ciencia y Tecnología. Fondo de Cultura Económica, México, 2003.
+
+\bibitem{diestel}
+Reinhard Diestel.
+\newblock {\em Graph Theory}.
+\newblock Springer, Graduate Texts in Mathematics, 2017.
+
+\bibitem{Goodfellow-et-al-2016}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
+
+\bibitem{graph_representation_learning}
+William~L. Hamilton.
+\newblock {\em Graph Representation Learning}.
+\newblock McGill University Press, 2020.
+
+\bibitem{haru}
+Tero Harju.
+\newblock {\em Graph Theory}.
+\newblock Department of Mathematics University of Turku, 2007.
+
+\bibitem{munkres_topology_2000}
+James~R. Munkres.
+\newblock {\em Topology}.
+\newblock Prentice Hall, Upper Saddle River, NJ, 2 edition, 2000.
+
+\bibitem{pressley}
+Andrew Pressley.
+\newblock {\em Elementary Differential Geometry}.
+\newblock Springer Undergraduate Mathematics Series, 2010.
+
+\end{thebibliography}

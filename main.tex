@@ -1,30 +1,30 @@
 \documentclass{book} %book chapter en vez de seccion
 
 %Configuración
-\input{preambulo}
+\input{preambulo/preambulo}
 
 \begin{document}
 %Portada
-\input{portada}
+\input{sec/portada/portada}
 %Índice
 \tableofcontents
 \newpage
 
 %Capítulos
-\input{Sec/1_Intro}
-\input{Sec/2_GraficasYSuperfices}
-\input{Sec/3_GNNs}
-\input{Sec/4_MuestreoGeneral}
-\input{Sec/5_ResultadosYConclusiones}
+\input{sec/cap_1/1_Intro}
+\input{sec/cap_2/2_GraficasYSuperfices}
+\input{sec/cap_3/3_GNNs}
+%\input{Sec/4_MuestreoGeneral}
+%\input{Sec/5_ResultadosYConclusiones}
 %Referencias
 
 	
 \bibliographystyle{plain}
-\bibliography{referencias.bib}
+\bibliography{referencias/referencias}
 
 %Anexos
 \appendix
-\input{apendice}
+\input{sec/apendice/apendice}
 
 
 \end{document}
