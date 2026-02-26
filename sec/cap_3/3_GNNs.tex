@@ -1265,37 +1265,27 @@ Con lo definido anteriormente, se ha establecido una base sólida para comprende
   \draw[thick] (#1-se) -- (#1-ose) -- (#1-one);
 }
 
-%====================================================
-% Arquitectura SIMPLE: Input -> Conv+ReLU -> Flatten -> FC -> Softmax
-%====================================================
 
-%--------------------------
-% Entrada
-%--------------------------
 \vol{X}{0}{0}{2.35}{1.85}{0.55}{volIn}
 \node[lab, below=3pt of X-sw] {Entrada\\$\mathbf{X}\in\mathbb{R}^{H\times W\times C}$};
 
-% HxW: MISMA POSICIÓN HORIZONTAL (como sobre el volumen), pero desplazado hacia arriba
+
 \node[lab, above=8pt of X-nw, anchor=south west] {$H\times W$};
 
-% C: a la derecha para no encimar
+
 \node[lab, right=6pt of X-ne] {$C$};
 
-%--------------------------
-% Convolución
-%--------------------------
+
 \vol{C1}{3.3}{0.15}{2.05}{1.60}{0.85}{volConv}
 \node[lab, below=3pt of C1-sw] {Conv + ReLU\\$k{\times}k$};
 
-% HxW desplazado hacia arriba (manteniendo alineación vertical)
+
 \node[lab, above=10pt of C1-nw, anchor=south west] {$H\times W$};
 
 % F: a la derecha para no encimar
 \node[lab, right=10pt of C1-ne] {$F$};
 
-%--------------------------
-% Flatten (vector)
-%--------------------------
+
 \node[draw, thick, rounded corners=2pt, fill=blue!6,
       minimum width=1.35cm, minimum height=0.33cm] (flat) at (6.85,1.05) {};
 \node[draw, thick, rounded corners=2pt, fill=blue!10,
@@ -1304,31 +1294,21 @@ Con lo definido anteriormente, se ha establecido una base sólida para comprende
       minimum width=1.35cm, minimum height=0.33cm] at (6.85,0.35) {};
 \node[lab, below=1pt of flat.south] {Flatten\\$\mathbf{h}\in\mathbb{R}^d$};
 
-%--------------------------
-% FC
-%--------------------------
+
 \node[draw, thick, rounded corners=2pt, fill=blue!14,
       minimum width=1.55cm, minimum height=1.15cm] (fc1) at (9.0,0.75) {FC + ReLU};
 \node[lab, below=3pt of fc1.south] {$\mathbf{u}\in\mathbb{R}^{m}$};
 
-%--------------------------
-% Output
-%--------------------------
 \node[draw, thick, rounded corners=2pt, fill=blue!18,
       minimum width=1.55cm, minimum height=1.15cm] (out) at (11.15,0.75) {Softmax};
 \node[lab, below=3pt of out.south] {$\hat{\mathbf{y}}\in\mathbb{R}^{K}$};
 
-%--------------------------
-% Flechas
-%--------------------------
+
 \draw[arrow] ($(X-se)!0.55!(X-ne)$) -- ($(C1-sw)!0.55!(C1-nw)$);
 \draw[arrow] ($(C1-se)!0.55!(C1-ne)$) -- ($(flat.west)+(0,0.05)$);
 \draw[arrow] ($(flat.east)+(0,0.05)$) -- (fc1.west);
 \draw[arrow] (fc1.east) -- (out.west);
 
-%--------------------------
-% Notación formal (abajo)
-%--------------------------
 \node[font=\footnotesize, align=center] at (6.2,-1.15) {$\displaystyle
 Z=\mathbf{X}*\mathbf{K}+\mathbf{b},\quad
 \mathbf{A}=\sigma(Z),\quad
@@ -1346,16 +1326,118 @@ $};
 \section{Redes Neuronales Gráficas}
 
 Las \textbf{Redes Neuronales Gráficas} (GNN, por sus siglas en inglés) son una clase de modelos de aprendizaje automático diseñados para trabajar con datos estructurados en forma de gráficas. A diferencia de las redes neuronales tradicionales que operan sobre datos tabulares o secuenciales, las GNN están diseñadas para capturar las relaciones y dependencias entre los nodos y las aristas de una gráfica.\\
-Cómo paso inicial, estableremos algunas definiciones, que nos ayudarán a entender y formalizar el concepto de GNN.
+Cómo paso inicial, estableceremos algunas definiciones, que nos ayudarán a entender y formalizar el concepto de GNN.
 Puesto que hemos definido y estudiado las definiciones básicas de gráficas en la sección 2, no nos detendremos en ellas.
-Las definiciones que se presentan a continuación estan basadas en el libro \cite{graph_representation_learning}
- 
+Las definiciones que se presentan a continuación estan basadas en el libro \cite{graph_representation_learning}.
+
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    scale=0.75,                 % <-- reduce a 3/4
+  transform shape,  
+  font=\sffamily,
+  edge/.style={line width=2.2pt, draw=black},
+  v/.style={circle, draw=black, line width=2.2pt, minimum size=10mm, inner sep=0pt},
+  title/.style={font=\bfseries\fontsize{28}{28}\selectfont},
+  subtitle/.style={font=\bfseries\fontsize{18}{18}\selectfont}
+]
+
+% ===================== LEFT: CNN grid =====================
+\begin{scope}[shift={(0,0)}]
+  % Coordinates (3x3)
+  \coordinate (c11) at (0,2);
+  \coordinate (c21) at (2,2);
+  \coordinate (c31) at (4,2);
+
+  \coordinate (c12) at (0,0);
+  \coordinate (c22) at (2,0);
+  \coordinate (c32) at (4,0);
+
+  \coordinate (c13) at (0,-2);
+  \coordinate (c23) at (2,-2);
+  \coordinate (c33) at (4,-2);
+
+  % Edges (grid)
+  \draw[edge] (c11)--(c21)--(c31);
+  \draw[edge] (c12)--(c22)--(c32);
+  \draw[edge] (c13)--(c23)--(c33);
+
+  \draw[edge] (c11)--(c12)--(c13);
+  \draw[edge] (c21)--(c22)--(c23);
+  \draw[edge] (c31)--(c32)--(c33);
+
+  % Nodes (colores)
+  \node[v, fill=blue!18]   at (c11) {};              % azul claro
+  \node[v, fill=orange!70] at (c21) {};              % naranja
+  \node[v, fill=yellow!85] at (c31) {};              % amarillo
+
+  \node[v, fill=green!55!black] at (c12) {};         % verde oscuro
+  \node[v, fill=blue!70!black]  at (c22) {};         % azul oscuro
+  \node[v, fill=purple!75]      at (c32) {};         % morado
+
+  \node[v, fill=gray!55]   at (c13) {};              % gris
+  \node[v, fill=black]     at (c23) {};              % negro
+  \node[v, fill=pink!70]   at (c33) {};              % rosa
+
+  % Labels
+  \node[title]    at (2,-3.4) {CNN};
+  \node[subtitle] at (2,-4.7) {En espacio euclidiano};
+\end{scope}
+
+% ===================== RIGHT: GNN graph =====================
+\begin{scope}[shift={(8.2,0)}]
+  % Node positions
+  \coordinate (r)  at (0,0);       % azul claro (antes rojo)
+  \coordinate (y)  at (1.2,1.8);   % amarillo
+  \coordinate (g)  at (3.8,1.3);   % verde
+  \coordinate (b)  at (4.2,0.1);   % azul oscuro
+  \coordinate (gr) at (6.5,0.1);   % gris
+  \coordinate (o)  at (1.4,-2.0);  % naranja
+  \coordinate (p)  at (2.7,0.0);   % morado
+  \coordinate (pk) at (3.3,-1.2);  % rosa
+
+  % Edges
+  \draw[edge] (r)--(y);
+  \draw[edge] (y)--(g);
+  \draw[edge] (g)--(b);
+  \draw[edge] (b)--(gr);
+
+  \draw[edge] (r)--(p);
+  \draw[edge] (r)--(o);
+
+  \draw[edge] (o)--(p);
+  \draw[edge] (p)--(pk);
+  \draw[edge] (pk)--(b);
+
+  \draw[edge] (p)--(g);
+  \draw[edge] (o)--(pk);
+
+  \draw[edge] (o)--(gr);
+
+  % Nodes (misma paleta que CNN)
+  \node[v, fill=blue!18]         at (r)  {};         % azul claro
+  \node[v, fill=yellow!85]       at (y)  {};         % amarillo
+  \node[v, fill=green!55!black]  at (g)  {};         % verde oscuro
+  \node[v, fill=blue!70!black]   at (b)  {};         % azul oscuro
+  \node[v, fill=gray!55]         at (gr) {};         % gris
+  \node[v, fill=orange!70]       at (o)  {};         % naranja
+  \node[v, fill=purple!75]       at (p)  {};         % morado
+  \node[v, fill=pink!70]         at (pk) {};         % rosa
+
+  % Labels
+  \node[title]    at (3.0,-3.4) {GNN};
+  \node[subtitle] at (3.0,-4.7) {En espacio no euclidiano};
+\end{scope}
+
+\end{tikzpicture}
+\end{figure}
+
 
 
 
 \subsection{Encoders y Decoders}
 En el contexto de las Redes Neuronales Gráficas (GNN), los conceptos de \textbf{encoder} y \textbf{decoder} son fundamentales para comprender cómo se procesan y representan los datos estructurados en forma de gráficas. A continuación, se presentan las definiciones formales de estos conceptos.
-
 
 
 
@@ -1369,14 +1451,81 @@ En el contexto de las Redes Neuronales Gráficas (GNN), los conceptos de \textbf
     \[
         \phi(v, \mathcal{N}(v), E(G)) = z_v, \quad \text{con } z_v \in \mathbb{R}^d.
     \]
+
+    Por simplicidad denotaremos $\phi(v,\mathcal{N}(v),E(G)) :=\phi(v)$.
 \end{definition}
 
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Latex,
+  nodeG/.style={circle, fill=gray!55, draw=none, minimum size=5.5pt, inner sep=0pt},
+  nodeH/.style={circle, fill=gray!15, draw=black, line width=0.6pt, minimum size=10pt, inner sep=0pt},
+  edge/.style={line width=0.8pt, draw=black},
+  dotarr/.style={densely dotted, line width=1.0pt, -{Latex[length=2.2mm]}},
+  labelB/.style={font=\bfseries},
+  small/.style={font=\small}
+]
+
+% ---------------- LEFT: original network ----------------
+% cluster left
+\node[nodeG] (a) at (0.0, 0.8) {};
+\node[nodeG] (b) at (0.6, 1.2) {};
+\node[nodeG] (c) at (0.8, 0.3) {};
+\node[nodeG] (d) at (0.2,-0.1) {};
+\node[nodeG] (e) at (-0.2,0.3) {};
+
+\draw[edge] (a)--(b)--(c)--(a);
+\draw[edge] (a)--(d)--(e)--(a);
+\draw[edge] (c)--(d);
+
+% bridge to u,v triangle
+\node[nodeG] (m) at (1.5, 0.5) {};
+\draw[edge] (c)--(m);
+
+% highlighted triangle (u,v + one more)
+\node[nodeH] (u) at (2.2, 0.85) {$u$};
+\node[nodeH] (v) at (2.8, 0.55) {$v$};
+\node[nodeG] (t) at (2.4, 1.35) {};
+
+\draw[edge] (m)--(u);
+\draw[edge] (m)--(v);
+\draw[edge] (u)--(v);
+\draw[edge] (u)--(t);
+\draw[edge] (t)--(v);
+
+% label under left
+\node[labelB] at (1.4,-1.0) {Red original};
 
 
 
-Por simplicidad denotaremos $\phi(v,\mathcal{N}(v),E(G)) :=\phi(v)$.
+\coordinate (C) at (7.2,0.85);
+\fill[red!35, opacity=0.55] (C) circle (1.75);
 
-De forma similar a la matriz de adyacencia de una gráfica,a partir de la definición de enconder, podemos definir la matriz de encajes de una gráfica.
+% points inside
+\node[circle, fill=black, inner sep=1.2pt, label={[small]right:$z_u$}] (zu) at ($(C)+(-0.35,0.75)$) {};
+\node[circle, fill=black, inner sep=1.2pt, label={[small]right:$z_v$}] (zv) at ($(C)+(-0.15,0.10)$) {};
+
+% label under right
+\node[labelB] at (7.2,-1.0) {Espacio encajado};
+
+% ---------------- Arcs + text ----------------
+% dotted arrows from u and v to embedding points
+\draw[dotarr] (u) .. controls (4.2,2.0) and (5.6,2.1) .. (zu);
+\draw[dotarr] (v) .. controls (4.2,0.3) and (5.7,0.1) .. (zv);
+
+% ENC labels near arcs
+\node[small] at (4.1,1.75) {$\phi(u)$};
+\node[small] at (4.1,0.25) {$\phi(v)$};
+
+% "encode nodes" label in the middle
+\node[small] at (4.55,1.05) {encode nodes};
+
+\end{tikzpicture}
+\end{figure}
+
+Notamos que a partir de la codificación de los vértices de una gráfica se obtiene un vector que contiene la información estructural de la gráfica, lo que permite que cada vértice sea representado en conjunto como una matriz, por lo cual de forma similar a la matriz de adyacencia de una gráfica y de la definición de enconder, podemos definir la matriz de encajes de una gráfica.
 
 \begin{definition}[Matriz de encajes]
     Sea $G = (V, E)$ una gráfica, con $|V| = \nu_G$.
@@ -1391,9 +1540,11 @@ De forma similar a la matriz de adyacencia de una gráfica,a partir de la defini
     \]
     donde $\mathbf{Z}[v]$ representa la fila de $\mathbf{Z}$ correspondiente al vértice $v$, y $\phi(v) = z_v \in \mathbb{R}^d$ es el vector de encaje del nodo $v$.
 \end{definition}
+Dicha matriz de encajes nos puede ser útil para representar la información estructural de la gráfica en un espacio vectorial, lo que facilita su uso y manipulación en distintas tareas de aprendizaje automático.
 
-A su vez, podemos definir el concepto de decoder como la función que toma los encajes producidos por el encoder y genera una predicción en el espacio de salida.
-En el contexto de autoencoders sobre grafos, el decoder busca reconstruir la estructura original de la gráfica (por ejemplo, su matriz de adyacencia) o inferir propiedades derivadas de ella, utilizando la información contenida en los vectores de encaje.
+Por otro lado, podemos definir el concepto de decoder como la función que toma los encajes producidos por el encoder y genera una predicción en el espacio de salida.
+
+Recordemo que en el contexto de autoencoders sobre gráficas, el decoder busca reconstruir la estructura original de la gráfica (por ejemplo, su matriz de adyacencia) o inferir propiedades derivadas de ella, utilizando la información contenida en los vectores de encaje.
 
 \begin{definition}[Decoder]
     Sea $z_v \in \mathbb{R}^d$ el vector de encaje asociado a un vértice $v \in V$, obtenido mediante un encoder.
@@ -1407,8 +1558,67 @@ En el contexto de autoencoders sobre grafos, el decoder busca reconstruir la est
     \]
 \end{definition}
 
-Los conceptos de encoder y decoder son de suma importancia en las GNN, ya que permiten transformar la información estructural de las gráficas en representaciones vectoriales útiles para tareas de aprendizaje automático, como clasificación de nodos, predicción de enlaces y generación de gráficas.
-Más adelante, se explicarán como se usan estos conceptos en las arquitecturas de redes que se utilizaron para los objetivos de este trabajo.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Latex,
+  nodeG/.style={circle, fill=gray!55, draw=none, minimum size=5.5pt, inner sep=0pt},
+  nodeH/.style={circle, fill=gray!15, draw=black, line width=0.6pt, minimum size=10pt, inner sep=0pt},
+  edge/.style={line width=0.8pt, draw=black},
+  dotarr/.style={densely dotted, line width=1.0pt, -{Latex[length=2.2mm]}},
+  labelB/.style={font=\bfseries},
+  small/.style={font=\small}
+]
+
+% ---------------- LEFT: embedding space ----------------
+\coordinate (C) at (1.8,0.85);
+\fill[blue!18, opacity=0.6] (C) circle (1.75);
+
+\node[circle, fill=black, inner sep=1.2pt, label={[small]left:$z_u$}] (zu) 
+    at ($(C)+(0.3,0.7)$) {};
+\node[circle, fill=black, inner sep=1.2pt, label={[small]left:$z_v$}] (zv) 
+    at ($(C)+(0.4,-0.1)$) {};
+
+\node[font=\bfseries] at (1.8,-1.0) {Espacio de encajes};
+
+% ---------------- RIGHT: reconstructed network ----------------
+\node[nodeH] (uhat) at (6.2, 0.85) {$\hat u$};
+\node[nodeH] (vhat) at (6.8, 0.55) {$\hat v$};
+\node[nodeG] (m) at (5.5, 0.5) {};
+\node[nodeG] (t) at (6.5, 1.35) {};
+
+\node[nodeG] (a) at (4.2, 0.8) {};
+\node[nodeG] (b) at (4.8, 1.2) {};
+\node[nodeG] (c) at (4.9, 0.3) {};
+\node[nodeG] (d) at (4.3,-0.1) {};
+
+\draw[edge] (a)--(b)--(c)--(a);
+\draw[edge] (a)--(d);
+\draw[edge] (c)--(m);
+
+\draw[edge] (m)--(uhat);
+\draw[edge] (m)--(vhat);
+\draw[edge] (uhat)--(vhat);
+\draw[edge] (uhat)--(t);
+\draw[edge] (t)--(vhat);
+
+\node[font=\bfseries] at (5.8,-1.0) {Red reconstruida};
+
+% ---------------- Arrows + labels ----------------
+\draw[dotarr] (zu) .. controls (3.5,2.0) and (4.8,2.0) .. (uhat);
+\draw[dotarr] (zv) .. controls (3.5,0.0) and (4.8,0.1) .. (vhat);
+
+\node[small] at (3.8,1.8) {$\psi(z_u)$};
+\node[small] at (3.8,0.15) {$\psi(z_v)$};
+
+\node[small] at (3.9,1.05) {Decodificación de encajes};
+
+\end{tikzpicture}
+\end{figure}
+
+Los conceptos previamente definidos son escenciales en el contexto de las GNN, ya que permiten transformar la información estructural de las gráficas en representaciones vectoriales más fácilmente manejables para distintas tareas de aprendizaje automático, como clasificación de nodos, predicción de enlaces y generación de gráficas.\\
+En secciones posteriores, explicaremos el uso de estos conceptos en las arquitecturas de redes utilizadas para los objetivos de este trabajo, mostrando cómo los encoders y decoders se integran en el proceso de aprendizaje de las GNN para capturar y utilizar la información estructural de las gráficas de manera efectiva.
 
 \subsection{Propagación de Mensajes Neuronales}
 El concepto de \textbf{Propagación de Mensajes Neuronales} se refiere al mecanismo mediante el cual las representaciones de los vértices de una gráfica, se actualizan mediante el intercambio de información de su vecindario.

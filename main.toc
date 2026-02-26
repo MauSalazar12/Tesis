@@ -30,7 +30,7 @@
 \contentsline {subsection}{\numberline {3.2.4}Arquitectura de una CNN}{42}{subsection.3.2.4}%
 \contentsline {section}{\numberline {3.3}Redes Neuronales Gr^^c3^^a1ficas}{43}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Encoders y Decoders}{44}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{45}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{46}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}La GNN fundamental}{46}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{47}{section.3.4}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{51}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{53}{appendix.Alph1}%
