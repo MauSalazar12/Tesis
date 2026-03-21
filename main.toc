@@ -33,4 +33,12 @@
 \contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{46}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}La GNN fundamental}{47}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{48}{section.3.4}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{53}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{51}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}Superficies estudiadas}{51}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}M^^c3^^a9todos de Muestreo}{52}{subsection.4.0.2}%
+\contentsline {subsection}{\numberline {4.0.3}Orden por ^^c3^^a1rbol generador m^^c3^^adnimo}{52}{subsection.4.0.3}%
+\contentsline {subsection}{\numberline {4.0.4}Muestreo por Esferas}{54}{subsection.4.0.4}%
+\contentsline {subsection}{\numberline {4.0.5}Reasignaci^^c3^^b3n de Adyacencias para Preservar la Estructura}{58}{subsection.4.0.5}%
+\contentsline {subsection}{\numberline {4.0.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{61}{subsection.4.0.6}%
+\contentsline {subsection}{\numberline {4.0.7}An^^c3^^a1lisis de Complejidad}{62}{subsection.4.0.7}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{65}{appendix.Alph1}%
