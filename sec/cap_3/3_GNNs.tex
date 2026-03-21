@@ -1558,7 +1558,7 @@ Recordemo que en el contexto de autoencoders sobre gráficas, el decoder busca r
     \]
 \end{definition}
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[
   font=\sffamily,
@@ -1612,8 +1612,6 @@ Recordemo que en el contexto de autoencoders sobre gráficas, el decoder busca r
 \node[small] at (3.8,1.8) {$\psi(z_u)$};
 \node[small] at (3.8,0.15) {$\psi(z_v)$};
 
-\node[small] at (3.9,1.05) {Decodificación de encajes};
-
 \end{tikzpicture}
 \end{figure}
 
@@ -1654,6 +1652,120 @@ Después de K iteraciones del mecanismo, podemos utilizar la salida del final de
 \end{center}
 
 Con lo anterior, se ha establecido el marco general para la propagación de mensajes en las GNN, que permite capturar la información estructural de las gráficas a través del intercambio iterativo de mensajes entre los nodos.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily,
+    >=Latex,
+    node distance=1.8cm,
+    every node/.style={align=center},
+    main/.style={
+        circle,
+        draw=black,
+        very thick,
+        minimum size=1.2cm,
+        fill=blue!15
+    },
+    neigh/.style={
+        circle,
+        draw=black,
+        thick,
+        minimum size=1.05cm,
+        fill=gray!15
+    },
+    box/.style={
+        rounded corners=4pt,
+        draw=black,
+        thick,
+        fill=white,
+        minimum height=1.1cm,
+        minimum width=3.6cm
+    },
+    smallbox/.style={
+        rounded corners=3pt,
+        draw=black,
+        thick,
+        fill=white,
+        minimum height=0.85cm,
+        minimum width=3.2cm
+    },
+    lab/.style={
+        font=\small
+    }
+]
+
+% -----------------------------
+% Graph nodes
+% -----------------------------
+\node[main] (v) at (0,0) {$v$\\[-1mm]\scriptsize $h_v^{(t-1)}$};
+
+\node[neigh] (u1) at (-2.2,1.8) {$u_1$\\[-1mm]\scriptsize $h_{u_1}^{(t-1)}$};
+\node[neigh] (u2) at (-2.4,-1.8) {$u_2$\\[-1mm]\scriptsize $h_{u_2}^{(t-1)}$};
+\node[neigh] (u3) at (2.2,1.8) {$u_3$\\[-1mm]\scriptsize $h_{u_3}^{(t-1)}$};
+
+% Edges
+\draw[thick] (u1) -- (v);
+\draw[thick] (u2) -- (v);
+\draw[thick] (u3) -- (v);
+
+% Arrows showing flow
+\draw[->, very thick, blue!70] (u1) -- (-0.55,0.45);
+\draw[->, very thick, blue!70] (u2) -- (-0.55,-0.45);
+\draw[->, very thick, blue!70] (u3) -- (0.55,0.45);
+
+% Neighborhood label
+\node[lab] at (0,-2.9) {$N_G(v)=\{u_1,u_2,u_3\}$};
+
+% -----------------------------
+% Aggregation block
+% -----------------------------
+\node[box] (agg) at (5.8,0.8) {
+$\displaystyle
+m_v^{(t)} = \mathscr{A}\bigl(\{\,h_u^{(t-1)} : u \in N_G(v)\,\}\bigr)
+$
+};
+
+\draw[->, very thick] (1.0,0) -- node[above, lab] {representaciones vecinas} (4.2,0.8);
+
+% -----------------------------
+% Update block
+% -----------------------------
+\node[box] (upd) at (11.5,0.8) {
+$\displaystyle
+h_v^{(t)} = \mathscr{U}\!\left(h_v^{(t-1)},\, m_v^{(t)}\right)
+$
+};
+
+\draw[->, very thick] (7.5,0.8) -- (9.9,0.8);
+
+% Updated node
+\node[main, fill=green!18] (newv) at (15.5,0.8) {$v$\\[-1mm]\scriptsize $h_v^{(t)}$};
+
+\draw[->, very thick] (13.3,0.8) -- (14.7,0.8);
+
+% -----------------------------
+% Final embedding annotation
+% -----------------------------
+\node[smallbox] (final) at (11.5,-2.2) {
+$\displaystyle z_u = h_u^{(K)}$
+};
+
+\node[lab] at (11.5,-3.2) {Representación final del nodo tras $K$ iteraciones};
+
+% -----------------------------
+% Step annotation
+% -----------------------------
+\node[lab, anchor=west] at (-3.4,3.0) {\textbf{Iteración \(t\):} propagación local en el grafo};
+\node[lab, anchor=west] at (4.0,2.3) {\textbf{1.} Agregación de vecinos};
+\node[lab, anchor=west] at (9.8,2.3) {\textbf{2.} Actualización del estado};
+
+\end{tikzpicture}
+
+\caption{Esquema del mecanismo de propagación de información en una red neuronal sobre grafos. En la iteración \(t\), cada nodo \(v\) agrega las representaciones de sus vecinos mediante una función invariante al orden \(\mathscr{A}\), obteniendo \(m_v^{(t)}\). Posteriormente, su representación se actualiza mediante \(\mathscr{U}\), combinando el estado previo con la información agregada. Tras \(K\) iteraciones, se obtiene la representación final \(z_u = h_u^{(K)}\), que captura información estructural del grafo.}
+\label{fig:gnn-message-passing-formal}
+\end{figure}
+
 
 \subsection{La GNN fundamental}
 Hasta el momento, se ha estudiado el marco de las GNN de una manera un poco abstracta utilizando las funciones que definimos en la sección anterior e iterando K veces.\\
@@ -1715,9 +1827,15 @@ Este enfoque posibilita capturar dependencias estructurales complejas, mantenien
     En términos generales, cada capa aplica una transformación y agregación de información basada en la estructura de la gráfica y las características de sus nodos.
 \end{definition}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../img/graph_convolutions.jpg}
+    \caption{Ilustración de convoluciones en gráficos}
+    \label{fig:graph_convolutions}
+\end{figure}
+
 Un aspecto fundamental de las GNNs es su capacidad para manejar la invariancia estructural de las gráficas, es decir, que el orden en que se indexan los nodos no debe afectar el resultado final de la red.
 Esta propiedad se conoce como \textbf{equivarianza a permutaciones} y se define formalmente a continuación:
-
 \begin{definition}[Equivarianza]
     Sea $\mathbf{F}$ una función de propagación en una capa de la GNN, $\mathbf{H}$ la matriz de representaciones ocultas de los nodos, y $\mathbf{P}$ una matriz de permutación que reordena los nodos de la gráfica.
     Decimos que una capa es \textbf{equivariante a permutaciones} si se cumple la siguiente relación:
