@@ -3,18 +3,41 @@ En los últimos años, los avances en el campo del \textit{Deep Learning} y la I
 Este capítulo aborda el estudio de nudos de Lissajous, un tipo especial de nudo generado por funciones armónicas tridimensionales que se modelan mediante parámetros periódicos, los cuales presentan una serie de configuraciones topológicas que pueden ser modeladas y analizadas a través de herramientas modernas de aprendizaje automático y teoría de gráficas. En este contexto, el objetivo principal es clasisificar con base en una serie de propiedades de estos nudos, de las cuales dentro de todas estas se encuentra la característica de Euler, una propiedad topológica fundamental que describe la conectividad y la estructura de estos objetos. Para ello, emplearemo arquitecturas avanzadas de aprendizaje profundo, como las Redes Neuronales Gráficas que hemos descito en capítulos anteriores,que han demostrado se herramientas efectivas para analizar estructuras no euclidianas (Xu et al 2019).
 A lo largo de este capítulo, se detallará la metodología empleada, que combina técnicas de visualización de gráficas, empleo de algoritmos de clasificación utilizando GNNs, así como unan serie de algoritmos de muestreo que se utilizan para obtener mejores resultados.Este enfoque resalta cómo las herramientas existentes de Deep Learning pueden extenderse más allá de los problemas tradicionales de clasificación y predicción, ofreciendo nuevas perspectivas de resolver problemas fundamentales en matemáticas y teoría de nudos.
 
-\subsection{Superficies estudiadas}
-La metodología seguida para estudiar nudos de Lissajous desde un enfoque basado en gráficas comienza con la generación de superficies en $\mathbb{R}^3$ a partir de las curvas de Lissajous "engordadas" para convertirlas en objetos con volumen. Estos objetos se triangulan utilizando la libería \textbf{trimesh} del lenguaje de programación Python, una herramienta robusta para manipulación y análisis de geometrías tridimensionales. Este paso permite representar la suiperficie del nudo mediante una malla compuesta por vértices y caras triangulares, Posteriormente esta malla se convierte en una gráfica mediante otra librería de Python llamada \textbf{networkX}, donde cada nodo representa  un vértice de la superficie triangulada y cada arista define la conectividad entre vértices adyacentes en la superficie. Esta representación gráfica es fundamental para analizar las propiedades estructurales de los nudos ya que facilita su visualización y procesamiento meidante técnicas de aprendizaje profundo basadas en gráficas, como las GNNs. A lo largo del proceso,  a parte de uitiliazr la librería \textbf{networkX} para la construcción, se utiliza \textbf{matplotlib} para su visualización, lo que permite inspeccionar visualmente los resultados y evaluar las características topológicas d elos nudos modelados.
+\section{Superficies estudiadas}
+La metodología seguida para estudiar nudos de Lissajous desde un enfoque basado en gráficas comienza con la generación de superficies en $\mathbb{R}^3$ a partir de curvas de Lissajous ``engordadas'', con el objetivo de obtener objetos tridimensionales con volumen. Estas superficies se discretizan mediante una triangulación utilizando la librería \textbf{trimesh} de Python, lo cual permite representar la geometría del nudo como una malla finita compuesta por vértices y caras triangulares.
+Un archivo en formato STL describe este tipo de superficies poligonales en $\mathbb{R}^3$ mediante una colección finita de triángulos. A partir de esta representación, se construye una estructura combinatoria asociada asignando un nodo a cada vértice geométrico y añadiendo, por cada triángulo, las tres aristas que unen sus vértices. Este procedimiento, implementado mediante la librería \textbf{networkX}, produce un grafo que corresponde al $1$-esqueleto de la triangulación de la superficie.
+En este contexto, la malla triangulada induce de manera natural un complejo simplicial bidimensional $K = (V,E,F)$, donde $V$ es el conjunto de vértices, $E$ el conjunto de aristas y $F$ el conjunto de caras triangulares (véase la definición formal en el Capítulo correspondiente). El grafo construido mediante \textbf{networkX} representa entonces el $1$-esqueleto de dicho complejo.
+No obstante, para estudiar rigurosamente el objeto como una superficie, no basta considerar únicamente el grafo; es necesario incorporar también la información de las caras triangulares. La realización geométrica del complejo simplicial $K$ proporciona una aproximación discreta de la superficie original y permite analizar propiedades topológicas globales como la conectividad, la presencia de frontera y la característica de Euler,
+\[
+\chi = |V| - |E| + |F|.
+\]
 
-\subsection{Métodos de Muestreo}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{img/cara.png}
+    \caption{Identificación de una cara triangular en la malla asociada a una superficie triangulada. La región resaltada en rojo representa un $2$-símplice del complejo simplicial bidimensional inducido por la triangulación, mientras que sus lados corresponden a $1$-símplices y sus vértices a $0$-símplices. La colección de estas caras, junto con sus aristas y vértices, determina la estructura combinatoria de la superficie discretizada.}
+    \label{fig:dos_simplice_cara}
+\end{figure}
 
-Durante el análisis de las estructuras de la grafica, se identificó un problema relacionado con el procesamiento debido a la naturaleza del entorno local. Para abordar este desafío, se diseñaron una serie de métodos y técnicas que permitieron realizar un muestreo efectivo sobre las superficies y nodos del grafo, sin comprometer la preservación de su estructura original.
+Desde un punto de vista topológico, esta construcción permite verificar si la malla define una $2$-variedad. En efecto, si cada arista pertenece exactamente a dos triángulos y el entorno de cada vértice es homeomorfo a un disco, entonces la realización geométrica del complejo es una superficie. Dado que la triangulación es finita, esta superficie es compacta; y si además no existen aristas de borde, se trata de una superficie cerrada.
+En términos computacionales, aunque la construcción del grafo a partir del archivo STL captura correctamente la estructura de adyacencia entre vértices, es fundamental almacenar explícitamente las caras triangulares para preservar la naturaleza bidimensional del objeto. Esto se logra manteniendo un registro de las ternas de vértices que definen cada triángulo, lo cual permite reconstruir el complejo simplicial completo.
+Finalmente, esta representación discreta resulta fundamental para el análisis mediante técnicas modernas de aprendizaje profundo sobre gráficas, como las Graph Neural Networks (GNNs), ya que facilita tanto la visualización —apoyada en herramientas como \textbf{matplotlib}— como el procesamiento estructural de los nudos desde una perspectiva combinatoria y geométrica.
 
-\subsection{Orden por árbol generador mínimo}
-Uno de los desafíos al obtener muestras de la estructura de un grafo es definir un método de recorrido que evite imponer un orden arbitrario y garantice que los nodos no sean visitados más de una vez. Esto es esencial para prevenir sesgos en los resultados derivados del orden en que se procesan los nodos.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{img/superficie.png}
+    \caption{Superficie triangulada generada a partir de una curva de Lissajous engrosada en $\mathbb{R}^3$. La discretización induce un complejo simplicial bidimensional $K=(V,E,F)$, en el cual cada cara corresponde a un $2$-símplice. La superficie es compacta y sin frontera, es decir, una superficie cerrada, y posee género $1$, por lo que es topológicamente equivalente a un toro. La representación presenta una estructura entrelazada con auto-intersecciones aparentes en su proyección, producto de la parametrización periódica subyacente. Esta modelación discreta permite el análisis de propiedades topológicas mediante su estructura combinatoria, incluyendo el cálculo de invariantes como la característica de Euler.}
+    \label{fig:dos_simplice_superficie}
+\end{figure}
 
-Con el objetivo de realizar un muestreo aleatorio sin un orden predeterminado, se han desarrollado diversas técnicas y métodos. Estas técnicas surgen de la combinación de dos conceptos previamente introducidos y detallados en el capítulo 2.
-En primer lugar, generamos un árbol generador mínimo con base en la matriz adyacencia $A$ de la gráfica $G$, por medio del algortimo de Kruskal, descrito a continuación:
+\section{Muestreo por árbol generador mínimo}
+Durante el análisis de la estructura de la gráfica, se identificó un problema asociado al procesamiento de los datos, derivado de las limitaciones del entorno local. Para abordar este desafío, se desarrolló un conjunto de métodos y técnicas orientadas a realizar un muestreo eficiente sobre la superficie y los nodos del grafo, preservando al mismo tiempo su estructura original.
+
+Uno de los principales retos en la obtención de muestras de una gráfica consiste en definir un esquema de recorrido que evite imponer un orden arbitrario y garantice que cada nodo sea visitado a lo más una vez. Esta propiedad es fundamental para prevenir sesgos en los resultados, los cuales pueden surgir debido al orden en que los nodos son procesados.
+
+Con el objetivo de realizar un muestreo aleatorio sin un orden predefinido, se proponen diversas técnicas que surgen de la integración de dos conceptos introducidos previamente en el Capítulo 2.
+
+En primer lugar, se construye un árbol generador mínimo a partir de la matriz de adyacencia $A$ de la gráfica $G$, utilizando el algoritmo de Kruskal, el cual se describe a continuación:
 
 \begin{algorithm}[H]
 \caption{Algoritmo de Kruskal para el Árbol de Expansión Mínima (MST)}

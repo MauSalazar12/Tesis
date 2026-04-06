@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  20 MAR 2026 20:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  6 APR 2026 12:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -702,18 +702,37 @@ Package: appendix 2020/02/08 v1.2c extra appendix facilities
 \c@@pps=\count337
 \c@@ppsavesec=\count338
 \c@@ppsaveapp=\count339
+) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen296
+\captionmargin=\dimen297
+\caption@leftmargin=\dimen298
+\caption@rightmargin=\dimen299
+\caption@width=\dimen300
+\caption@indent=\dimen301
+\caption@parindent=\dimen302
+\caption@hangindent=\dimen303
+Package caption Info: Standard document class detected.
 )
-\c@definition=\count340
-\c@example=\count341
-\c@teorema=\count342
-\c@observation=\count343
-\c@lemma=\count344
-\c@corollary=\count345
+\c@caption@flags=\count340
+\c@continuedfloat=\count341
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
 )
-\c@proposition=\count346
+\c@definition=\count342
+\c@example=\count343
+\c@teorema=\count344
+\c@observation=\count345
+\c@lemma=\count346
+\c@corollary=\count347
+)
+\c@proposition=\count348
  (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count347
+\l__color_backend_stack_int=\count349
 \l__pdf_internal_box=\box96
 ) (main.aux
 LaTeX Info: Redefining \. on input line 21.
@@ -741,16 +760,16 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
  (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count348
-\scratchdimen=\dimen296
+\scratchcounter=\count350
+\scratchdimen=\dimen304
 \scratchbox=\box97
-\nofMPsegments=\count349
-\nofMParguments=\count350
+\nofMPsegments=\count351
+\nofMParguments=\count352
 \everyMPshowfont=\toks57
-\MPscratchCnt=\count351
-\MPscratchDim=\dimen297
-\MPnumerator=\count352
-\makeMPintoPDFobject=\count353
+\MPscratchCnt=\count353
+\MPscratchDim=\dimen305
+\MPnumerator=\count354
+\makeMPintoPDFobject=\count355
 \everyMPtoPDFconversion=\toks58
 ) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -800,7 +819,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/generic/gettitlestring\gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count354
+\c@section@level=\count356
 )
 LaTeX Info: Redefining \ref on input line 6.
 LaTeX Info: Redefining \pageref on input line 6.
@@ -814,7 +833,9 @@ LaTeX Info: Redefining \% on input line 6.
 
 Package pgfplots notification 'compat/show suggested version=true': document has been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-\c@lstlisting=\count355
+\c@lstlisting=\count357
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 (sec/portada/portada.tex [1
 
 
@@ -858,21 +879,21 @@ LaTeX Info: Redefining \. on input line 58.
 LaTeX Info: Redefining \% on input line 58.
  [8]
 ===== Image 'tikz-cache/main-figure0' is up-to-date. ======
+LaTeX Info: Redefining \. on input line 118.
+LaTeX Info: Redefining \% on input line 118.
+[9 <./tikz-cache/main-figure0.pdf>]
 Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 126.
-LaTeX Info: Redefining \. on input line 133.
-LaTeX Info: Redefining \% on input line 133.
-[9]
 LaTeX Info: Redefining \. on input line 154.
 LaTeX Info: Redefining \% on input line 154.
- [10 <./tikz-cache/main-figure0.pdf>]
+ [10]
 Package hyperref Info: bookmark level for unknown teorema defaults to 0 on input line 164.
 LaTeX Info: Redefining \. on input line 202.
 LaTeX Info: Redefining \% on input line 202.
  [11]
 ===== Image 'tikz-cache/main-figure1' is up-to-date. ======
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 237.
-LaTeX Info: Redefining \. on input line 268.
-LaTeX Info: Redefining \% on input line 268.
+LaTeX Info: Redefining \. on input line 270.
+LaTeX Info: Redefining \% on input line 270.
 [12 <./tikz-cache/main-figure1.pdf>]
 LaTeX Info: Redefining \. on input line 303.
 LaTeX Info: Redefining \% on input line 303.
@@ -882,13 +903,13 @@ LaTeX Info: Redefining \% on input line 346.
  [14]
 ===== Image 'tikz-cache/main-figure2' is up-to-date. ======
 ===== Image 'tikz-cache/main-figure3' is up-to-date. ======
+LaTeX Info: Redefining \. on input line 437.
+LaTeX Info: Redefining \% on input line 437.
+[15 <./tikz-cache/main-figure2.pdf> <./tikz-cache/main-figure3.pdf>]
 ===== Image 'tikz-cache/main-figure4' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 477.
-LaTeX Info: Redefining \% on input line 477.
-[15 <./tikz-cache/main-figure2.pdf>]
-LaTeX Info: Redefining \. on input line 497.
-LaTeX Info: Redefining \% on input line 497.
- [16 <./tikz-cache/main-figure3.pdf> <./tikz-cache/main-figure4.pdf>]
+LaTeX Info: Redefining \. on input line 499.
+LaTeX Info: Redefining \% on input line 499.
+[16 <./tikz-cache/main-figure4.pdf>]
 ===== Image 'tikz-cache/main-figure5' is up-to-date. ======
 LaTeX Info: Redefining \. on input line 561.
 LaTeX Info: Redefining \% on input line 561.
@@ -909,8 +930,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 741--743
 
 ===== Image 'tikz-cache/main-figure7' is up-to-date. ======
 ===== Image 'tikz-cache/main-figure8' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 800.
-LaTeX Info: Redefining \% on input line 800.
+LaTeX Info: Redefining \. on input line 804.
+LaTeX Info: Redefining \% on input line 804.
 [21 <./tikz-cache/main-figure6.pdf> <./tikz-cache/main-figure7.pdf> <./tikz-cache/main-figure8.pdf>]
 ===== Image 'tikz-cache/main-figure9' is up-to-date. ======
 
@@ -920,13 +941,13 @@ Overfull \hbox (19.03033pt too wide) in paragraph at lines 827--838
 
 ===== Image 'tikz-cache/main-figure10' is up-to-date. ======
 ===== Image 'tikz-cache/main-figure11' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 905.
-LaTeX Info: Redefining \% on input line 905.
-[22 <./tikz-cache/main-figure9.pdf> <./tikz-cache/main-figure10.pdf>]
 ===== Image 'tikz-cache/main-figure12' is up-to-date. ======
+LaTeX Info: Redefining \. on input line 939.
+LaTeX Info: Redefining \% on input line 939.
+[22 <./tikz-cache/main-figure9.pdf> <./tikz-cache/main-figure10.pdf>]
 ===== Image 'tikz-cache/main-figure13' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 983.
-LaTeX Info: Redefining \% on input line 983.
+LaTeX Info: Redefining \. on input line 988.
+LaTeX Info: Redefining \% on input line 988.
 [23 <./tikz-cache/main-figure11.pdf> <./tikz-cache/main-figure12.pdf> <./tikz-cache/main-figure13.pdf>]
 ===== Image 'tikz-cache/main-figure14' is up-to-date. ======
 Package hyperref Info: bookmark level for unknown corollary defaults to 0 on input line 1033.
@@ -948,8 +969,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 1051--1057
 LaTeX Info: Redefining \. on input line 1057.
 LaTeX Info: Redefining \% on input line 1057.
 [24 <./tikz-cache/main-figure14.pdf>]
-LaTeX Info: Redefining \. on input line 1097.
-LaTeX Info: Redefining \% on input line 1097.
+LaTeX Info: Redefining \. on input line 1105.
+LaTeX Info: Redefining \% on input line 1105.
  [25]) (sec/cap_3/3_GNNs.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -969,11 +990,11 @@ LaTeX Info: Redefining \. on input line 212.
 LaTeX Info: Redefining \% on input line 212.
 [29 <./tikz-cache/main-figure17.pdf>]
 ===== Image 'tikz-cache/main-figure18' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 304.
-LaTeX Info: Redefining \% on input line 304.
+LaTeX Info: Redefining \. on input line 307.
+LaTeX Info: Redefining \% on input line 307.
 [30 <./tikz-cache/main-figure18.pdf>]
-LaTeX Info: Redefining \. on input line 351.
-LaTeX Info: Redefining \% on input line 351.
+LaTeX Info: Redefining \. on input line 352.
+LaTeX Info: Redefining \% on input line 352.
  [31]
 Overfull \hbox (0.42885pt too wide) in paragraph at lines 352--353
 [][]\OT1/cmr/bx/n/10 Definici^^Son 44 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/n/10 . []\OT1/cmr/m/it/10 Sea $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : 
@@ -982,32 +1003,33 @@ Overfull \hbox (0.42885pt too wide) in paragraph at lines 352--353
 
 ===== Image 'tikz-cache/main-figure19' is up-to-date. ======
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 458.
-LaTeX Info: Redefining \. on input line 481.
-LaTeX Info: Redefining \% on input line 481.
+LaTeX Info: Redefining \. on input line 475.
+LaTeX Info: Redefining \% on input line 475.
 [32 <./tikz-cache/main-figure19.pdf>]
-LaTeX Info: Redefining \. on input line 512.
-LaTeX Info: Redefining \% on input line 512.
+LaTeX Info: Redefining \. on input line 514.
+LaTeX Info: Redefining \% on input line 514.
  [33]
 ===== Image 'tikz-cache/main-figure20' is up-to-date. ======
-
-Underfull \vbox (badness 1675) has occurred while \output is active []
-
 LaTeX Info: Redefining \. on input line 728.
 LaTeX Info: Redefining \% on input line 728.
- [34]
+[34]
 LaTeX Info: Redefining \. on input line 728.
 LaTeX Info: Redefining \% on input line 728.
  [35]
-LaTeX Info: Redefining \. on input line 744.
-LaTeX Info: Redefining \% on input line 744.
+LaTeX Info: Redefining \. on input line 749.
+LaTeX Info: Redefining \% on input line 749.
  [36 <./tikz-cache/main-figure20.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 LaTeX Info: Redefining \. on input line 803.
 LaTeX Info: Redefining \% on input line 803.
  [37]
 ===== Image 'tikz-cache/main-figure21' is up-to-date. ======
-LaTeX Info: Redefining \. on input line 889.
-LaTeX Info: Redefining \% on input line 889.
+LaTeX Info: Redefining \. on input line 894.
+LaTeX Info: Redefining \% on input line 894.
 [38 <./tikz-cache/main-figure21.pdf>]
+Underfull \vbox (badness 7558) has occurred while \output is active []
+
 LaTeX Info: Redefining \. on input line 941.
 LaTeX Info: Redefining \% on input line 941.
  [39]
@@ -1061,114 +1083,133 @@ Underfull \vbox (badness 1371) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 1768.
 LaTeX Info: Redefining \% on input line 1768.
  [46]
-LaTeX Info: Redefining \. on input line 1792.
-LaTeX Info: Redefining \% on input line 1792.
+LaTeX Info: Redefining \. on input line 1793.
+LaTeX Info: Redefining \% on input line 1793.
  [47 <./tikz-cache/main-figure27.pdf>]
 LaTeX Info: Redefining \. on input line 1825.
 LaTeX Info: Redefining \% on input line 1825.
  [48]
-<img//../img/graph_convolut6.
-LaTeX Info: Redefining \% on input line 1626.
-[45 <./tikz-cache/main-figure26.pdf>]
-===== Image 'tikz-cache/main-figure27' is up-to-date. ======
-
-Overfull \hbox (93.67099pt too wide) in paragraph at lines 1658--1764
- [][] 
- []
-
-
-Underfull \vbox (badness 1371) has occurred while \output is active []
-
-LaTeX Info: Redefining \. on input line 1768.
-LaTeX Info: Redefining \% on input line 1768.
- [46]
-LaTeX Info: Redefining \. on input line 1792.
-LaTeX Info: Redefining \% on input line 1792.
-
-[47 <./tikz-cache/main-figure27.pdf>]
-LaTeX Info: Redefining \. on input line 1825.
-LaTeX Info: Redefining \% on input line 1825.
- [48]
-<img//../img/graph_convolutions.jpg, id=1230, 803.0pt x 401.5pt>
+<img//../img/graph_convolutions.jpg, id=1318, 803.0pt x 401.5pt>
 File: img//../img/graph_convolutions.jpg Graphic file (type jpg)
 <use img//../img/graph_convolutions.jpg>
-Package pdftex.def Info: img//../img/graph_convolutions.jpg  used on input line
- 1832.
+Package pdftex.def Info: img//../img/graph_convolutions.jpg  used on input line 1832.
 (pdftex.def)             Requested size: 238.49341pt x 119.24402pt.
-)
-
-! LaTeX Error: File `Sec/4_MuestreoGeneral.tex' not found.
-
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: tex)
-
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.17 \input{Sec/4_MuestreoGeneral}
-                                  ^^M
-End of file on the terminal!
-
- 
-Here is how much of TeX's memory you used:
- 38861 strings out of 478906
- 893597 string characters out of 2851448
- 1303756 words of memory out of 3000000
- 55670 multiletter control sequences out of 15000+600000
- 413799 words of font info for 64 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 88i,10n,86p,915b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
- [59]
-Underfull \vbox (badness 1178) has occurred while \output is active []
-
-LaTeX Info: Redefining \. on input line 391.
-LaTeX Info: Redefining \% on input line 391.
- [60]
-
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 61 undefined on input line 428.
-
-
-LaTeX Warning: Citation `Introduction-toalgorithm' on page 61 undefined on input line 429.
-
+) (sec/cap_4/4_MuestreoGeneral.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [49 <./img//../img/graph_convolutions.jpg (PNG copy)>]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [50]
+Cap\'{\i }tulo 4.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [61]) (main.bbl
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
- [62]) (sec/apendice/apendice.tex [63
+ [51
 
 ]
+<img/cara.png, id=1335, 1541.76pt x 1027.84pt>
+File: img/cara.png Graphic file (type png)
+<use img/cara.png>
+Package pdftex.def Info: img/cara.png  used on input line 17.
+(pdftex.def)             Requested size: 246.43874pt x 164.28523pt.
+LaTeX Info: Redefining \. on input line 25.
+LaTeX Info: Redefining \% on input line 25.
+ [52 <./img/cara.png (PNG copy)>]
+<img/superficie.png, id=1341, 626.34pt x 366.61969pt>
+File: img/superficie.png Graphic file (type png)
+<use img/superficie.png>
+Package pdftex.def Info: img/superficie.png  used on input line 28.
+(pdftex.def)             Requested size: 246.43874pt x 144.25098pt.
+LaTeX Info: Redefining \. on input line 66.
+LaTeX Info: Redefining \% on input line 66.
+ [53 <./img/superficie.png>]
+LaTeX Info: Redefining \. on input line 96.
+LaTeX Info: Redefining \% on input line 96.
+ [54]
+Underfull \vbox (badness 5924) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 139.
+LaTeX Info: Redefining \% on input line 139.
+ [55]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 179.
+LaTeX Info: Redefining \% on input line 179.
+ [56]
+Underfull \vbox (badness 1917) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 231.
+LaTeX Info: Redefining \% on input line 231.
+ [57]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 268.
+LaTeX Info: Redefining \% on input line 268.
+ [58]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 320.
+LaTeX Info: Redefining \% on input line 320.
+ [59]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 363.
+LaTeX Info: Redefining \% on input line 363.
+ [60]
+LaTeX Info: Redefining \. on input line 414.
+LaTeX Info: Redefining \% on input line 414.
+ [61]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 453.
+LaTeX Info: Redefining \% on input line 453.
+ [62]) (main.bbl
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [63]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [64
 
+]) (sec/apendice/apendice.tex [65]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [66
+
 ]
 Ap\'{e}ndice A.
-) [65] (main.aux
+) [67] (main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 1946849310ED390CA91EAF7A9B6AB7E9;6422.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 3220534853DEECCE992E70F2FC16A2F9;6380
+(rerunfilecheck)             After:  9B06CF8FEEB153272C5F5095BCE04835;6229.
  ) 
 Here is how much of TeX's memory you used:
- 38999 strings out of 478906
- 896160 string characters out of 2851448
- 1304457 words of memory out of 3000000
- 55721 multiletter control sequences out of 15000+600000
+ 40300 strings out of 478906
+ 921562 string characters out of 2851448
+ 1320462 words of memory out of 3000000
+ 57004 multiletter control sequences out of 15000+600000
  414870 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 88i,10n,86p,1470b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 88i,10n,86p,1025b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+pdfTeX warning (dest): name{subsection.4.2.5} has been referenced but does not exist, replaced by a fixed one
+
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (65 pages, 1223291 bytes).
+Output written on main.pdf (67 pages, 1727362 bytes).
 PDF statistics:
- 1633 PDF objects out of 1728 (max. 8388607)
- 398 named destinations out of 1000 (max. 500000)
- 430 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1656 PDF objects out of 1728 (max. 8388607)
+ 406 named destinations out of 1000 (max. 500000)
+ 440 words of extra memory for PDF output out of 10000 (max. 10000000)
 

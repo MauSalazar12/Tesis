@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{Introduction-toalgorithm}
+Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
+\newblock {\em Introduction to Algorithms}.
+\newblock MIT Press, Cambridge, MA, 3rd edition, 2009.
+
 \bibitem{prieto_topologia_2003}
 Carlos~Prieto de~Castro.
 \newblock {\em Topología básica}.
@@ -25,6 +30,11 @@ William~L. Hamilton.
 Tero Harju.
 \newblock {\em Graph Theory}.
 \newblock Department of Mathematics University of Turku, 2007.
+
+\bibitem{Knuth}
+D~Knuth.
+\newblock {\em The Art of Computer Programming}.
+\newblock ADDISON-WESLEY An Imprint of Addison Wesley Longman, Inc., 1998.
 
 \bibitem{munkres_topology_2000}
 James~R. Munkres.
