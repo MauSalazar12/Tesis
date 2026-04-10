@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  6 APR 2026 12:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  10 APR 2026 12:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1089,7 +1089,7 @@ LaTeX Info: Redefining \% on input line 1793.
 LaTeX Info: Redefining \. on input line 1825.
 LaTeX Info: Redefining \% on input line 1825.
  [48]
-<img//../img/graph_convolutions.jpg, id=1318, 803.0pt x 401.5pt>
+<img//../img/graph_convolutions.jpg, id=1323, 803.0pt x 401.5pt>
 File: img//../img/graph_convolutions.jpg Graphic file (type jpg)
 <use img//../img/graph_convolutions.jpg>
 Package pdftex.def Info: img//../img/graph_convolutions.jpg  used on input line 1832.
@@ -1108,108 +1108,123 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [51
 
 ]
-<img/cara.png, id=1335, 1541.76pt x 1027.84pt>
+<img/cara.png, id=1340, 1541.76pt x 1027.84pt>
 File: img/cara.png Graphic file (type png)
 <use img/cara.png>
-Package pdftex.def Info: img/cara.png  used on input line 17.
+Package pdftex.def Info: img/cara.png  used on input line 19.
 (pdftex.def)             Requested size: 246.43874pt x 164.28523pt.
-LaTeX Info: Redefining \. on input line 25.
-LaTeX Info: Redefining \% on input line 25.
+LaTeX Info: Redefining \. on input line 27.
+LaTeX Info: Redefining \% on input line 27.
  [52 <./img/cara.png (PNG copy)>]
-<img/superficie.png, id=1341, 626.34pt x 366.61969pt>
+<img/superficie.png, id=1346, 626.34pt x 366.61969pt>
 File: img/superficie.png Graphic file (type png)
 <use img/superficie.png>
-Package pdftex.def Info: img/superficie.png  used on input line 28.
+Package pdftex.def Info: img/superficie.png  used on input line 30.
 (pdftex.def)             Requested size: 246.43874pt x 144.25098pt.
-LaTeX Info: Redefining \. on input line 66.
-LaTeX Info: Redefining \% on input line 66.
+LaTeX Info: Redefining \. on input line 42.
+LaTeX Info: Redefining \% on input line 42.
  [53 <./img/superficie.png>]
-LaTeX Info: Redefining \. on input line 96.
-LaTeX Info: Redefining \% on input line 96.
- [54]
-Underfull \vbox (badness 5924) has occurred while \output is active []
+<img/grafica_superficie.png, id=1354, 499.11469pt x 349.305pt>
+File: img/grafica_superficie.png Graphic file (type png)
+<use img/grafica_superficie.png>
+Package pdftex.def Info: img/grafica_superficie.png  used on input line 53.
+(pdftex.def)             Requested size: 246.43874pt x 172.46678pt.
+LaTeX Info: Redefining \. on input line 60.
+LaTeX Info: Redefining \% on input line 60.
+ [54 <./img/grafica_superficie.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 139.
-LaTeX Info: Redefining \% on input line 139.
+LaTeX Info: Redefining \. on input line 118.
+LaTeX Info: Redefining \% on input line 118.
  [55]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 179.
-LaTeX Info: Redefining \% on input line 179.
+LaTeX Info: Redefining \. on input line 150.
+LaTeX Info: Redefining \% on input line 150.
  [56]
-Underfull \vbox (badness 1917) has occurred while \output is active []
-
-LaTeX Info: Redefining \. on input line 231.
-LaTeX Info: Redefining \% on input line 231.
- [57]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 268.
-LaTeX Info: Redefining \% on input line 268.
+LaTeX Info: Redefining \. on input line 178.
+LaTeX Info: Redefining \% on input line 178.
+ [57]
+LaTeX Info: Redefining \. on input line 224.
+LaTeX Info: Redefining \% on input line 224.
  [58]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 320.
-LaTeX Info: Redefining \% on input line 320.
+LaTeX Info: Redefining \. on input line 269.
+LaTeX Info: Redefining \% on input line 269.
  [59]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 363.
-LaTeX Info: Redefining \% on input line 363.
+LaTeX Info: Redefining \. on input line 321.
+LaTeX Info: Redefining \% on input line 321.
  [60]
-LaTeX Info: Redefining \. on input line 414.
-LaTeX Info: Redefining \% on input line 414.
+LaTeX Info: Redefining \. on input line 353.
+LaTeX Info: Redefining \% on input line 353.
  [61]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 453.
-LaTeX Info: Redefining \% on input line 453.
- [62]) (main.bbl
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 407.
+LaTeX Info: Redefining \% on input line 407.
+ [62]
+LaTeX Info: Redefining \. on input line 473.
+LaTeX Info: Redefining \% on input line 473.
  [63]
+LaTeX Info: Redefining \. on input line 482.
+LaTeX Info: Redefining \% on input line 482.
+ [64]) (main.bbl
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [64
-
-]) (sec/apendice/apendice.tex [65]
+ [65]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [66
 
+]) (sec/apendice/apendice.tex [67]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [68
+
 ]
 Ap\'{e}ndice A.
-) [67] (main.aux
+) [69] (main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 
 Package rerunfilecheck Warning: File `main.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 3220534853DEECCE992E70F2FC16A2F9;6380
-(rerunfilecheck)             After:  9B06CF8FEEB153272C5F5095BCE04835;6229.
+(rerunfilecheck)             Before: 6B9CAE3AC4D4EB6CD51782B28497BD57;6812
+(rerunfilecheck)             After:  94662AA57B75236695661CF7E0FFD5E7;6791.
  ) 
 Here is how much of TeX's memory you used:
- 40300 strings out of 478906
- 921562 string characters out of 2851448
- 1320462 words of memory out of 3000000
- 57004 multiletter control sequences out of 15000+600000
+ 40318 strings out of 478906
+ 921917 string characters out of 2851448
+ 1325101 words of memory out of 3000000
+ 57013 multiletter control sequences out of 15000+600000
  414870 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 88i,10n,86p,1025b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 88i,10n,86p,1025b,612s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-pdfTeX warning (dest): name{subsection.4.2.5} has been referenced but does not exist, replaced by a fixed one
+pdfTeX warning (dest): name{subsection.4.2.4} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.2.3} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.2.2} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.2.1} has been referenced but does not exist, replaced by a fixed one
 
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (67 pages, 1727362 bytes).
+Output written on main.pdf (69 pages, 1837771 bytes).
 PDF statistics:
- 1656 PDF objects out of 1728 (max. 8388607)
- 406 named destinations out of 1000 (max. 500000)
- 440 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1677 PDF objects out of 1728 (max. 8388607)
+ 414 named destinations out of 1000 (max. 500000)
+ 453 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -4,6 +4,8 @@ Este capítulo aborda el estudio de nudos de Lissajous, un tipo especial de nudo
 A lo largo de este capítulo, se detallará la metodología empleada, que combina técnicas de visualización de gráficas, empleo de algoritmos de clasificación utilizando GNNs, así como unan serie de algoritmos de muestreo que se utilizan para obtener mejores resultados.Este enfoque resalta cómo las herramientas existentes de Deep Learning pueden extenderse más allá de los problemas tradicionales de clasificación y predicción, ofreciendo nuevas perspectivas de resolver problemas fundamentales en matemáticas y teoría de nudos.
 
 \section{Superficies estudiadas}
+
+\subsection{Construcción de superficies a partir de símplices}
 La metodología seguida para estudiar nudos de Lissajous desde un enfoque basado en gráficas comienza con la generación de superficies en $\mathbb{R}^3$ a partir de curvas de Lissajous ``engordadas'', con el objetivo de obtener objetos tridimensionales con volumen. Estas superficies se discretizan mediante una triangulación utilizando la librería \textbf{trimesh} de Python, lo cual permite representar la geometría del nudo como una malla finita compuesta por vértices y caras triangulares.
 Un archivo en formato STL describe este tipo de superficies poligonales en $\mathbb{R}^3$ mediante una colección finita de triángulos. A partir de esta representación, se construye una estructura combinatoria asociada asignando un nodo a cada vértice geométrico y añadiendo, por cada triángulo, las tres aristas que unen sus vértices. Este procedimiento, implementado mediante la librería \textbf{networkX}, produce un grafo que corresponde al $1$-esqueleto de la triangulación de la superficie.
 En este contexto, la malla triangulada induce de manera natural un complejo simplicial bidimensional $K = (V,E,F)$, donde $V$ es el conjunto de vértices, $E$ el conjunto de aristas y $F$ el conjunto de caras triangulares (véase la definición formal en el Capítulo correspondiente). El grafo construido mediante \textbf{networkX} representa entonces el $1$-esqueleto de dicho complejo.
@@ -28,6 +30,29 @@ Finalmente, esta representación discreta resulta fundamental para el análisis 
     \includegraphics[width=0.62\textwidth]{img/superficie.png}
     \caption{Superficie triangulada generada a partir de una curva de Lissajous engrosada en $\mathbb{R}^3$. La discretización induce un complejo simplicial bidimensional $K=(V,E,F)$, en el cual cada cara corresponde a un $2$-símplice. La superficie es compacta y sin frontera, es decir, una superficie cerrada, y posee género $1$, por lo que es topológicamente equivalente a un toro. La representación presenta una estructura entrelazada con auto-intersecciones aparentes en su proyección, producto de la parametrización periódica subyacente. Esta modelación discreta permite el análisis de propiedades topológicas mediante su estructura combinatoria, incluyendo el cálculo de invariantes como la característica de Euler.}
     \label{fig:dos_simplice_superficie}
+\end{figure}
+
+\subsection{Transformación superficie a gráfica}
+
+A partir de la triangulación de la superficie, el objeto geométrico puede describirse mediante un complejo simplicial bidimensional \(K=(V,E,F)\), donde \(V\) es el conjunto de vértices, \(E\) el conjunto de aristas y \(F\) el conjunto de caras triangulares. Esta representación conserva la información bidimensional de la superficie y permite estudiar propiedades topológicas globales, como la conectividad, la presencia de frontera y la característica de Euler.
+
+Sin embargo, para ciertos procedimientos computacionales y de visualización, resulta conveniente considerar únicamente la estructura subyacente formada por los vértices y las aristas del complejo. En este caso, se induce de manera natural una gráfica no dirigida \(G=(V,E)\), obtenida al omitir el conjunto de caras \(F\) y conservar únicamente la relación de adyacencia entre vértices. Desde este punto de vista, cada vértice del complejo simplicial se interpreta como un nodo de la gráfica, mientras que cada arista simplicial se interpreta como una arista del grafo.
+
+Esta reducción del complejo simplicial a su \(1\)-esqueleto es especialmente útil cuando el interés se centra en el análisis estructural del objeto, ya que permite trabajar con una representación combinatoria más ligera, sin perder la información de conectividad local. En términos formales, la gráfica \(G\) codifica la incidencia entre los vértices de la malla y proporciona una estructura adecuada para estudiar nociones propias de teoría de grafos, tales como caminos, grados, vecindades, componentes conexas y recorridos sobre la superficie discretizada.
+
+Además, dado que cada nodo conserva su posición geométrica en \(\mathbb{R}^3\), es posible dotar a la gráfica de una realización espacial. Es decir, a cada nodo \(v \in V\) se le asocia un atributo de posición 
+\[
+\operatorname{pos}(v) = (x_v,y_v,z_v)\in \mathbb{R}^3,
+\]
+de modo que la gráfica no sólo mantiene su estructura combinatoria, sino también su inserción geométrica en el espacio tridimensional. Esto permite visualizar el grafo respetando la forma de la superficie original.
+
+Con base en esta representación, la visualización se lleva a cabo construyendo, por un lado, el conjunto de nodos a partir de sus coordenadas espaciales y, por otro, el conjunto de aristas a partir de las parejas de vértices adyacentes. De esta manera, la gráfica \(G=(V,E)\) puede representarse en tres dimensiones como una nube de nodos enlazados por segmentos, lo cual permite inspeccionar visualmente la conectividad de la estructura triangulada y analizar la distribución espacial de sus vértices.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{img/grafica_superficie.png}
+    \caption{Representación tridimensional del $1$-esqueleto de la superficie triangulada asociada a una curva de Lissajous engrosada. Los nodos, mostrados en azul, corresponden a los vértices de la malla, mientras que las aristas representan la conectividad entre vértices adyacentes en el complejo simplicial. La estructura resultante define una gráfica no dirigida embebida en $\mathbb{R}^3$, que preserva la geometría global de la superficie original. Esta visualización permite analizar la distribución espacial de los nodos, así como las relaciones de vecindad y conectividad inherentes a la discretización.}
+    \label{fig:superficie_grafica}
 \end{figure}
 
 \section{Muestreo por árbol generador mínimo}
@@ -93,7 +118,7 @@ A continuación enunciaremos el algortimo DFS, y su implmentación en nuestro m�
 
 Posterior a establecer el orden en el que se recorrerá la gráfica, generamos un orden entre nodos para vistar los nodos más lejanos del nodo actual, asegurando de esta forma ir lo más lejos posible en el menor número de pasos.
 
-\subsection{Muestreo por Esferas}
+\section{Muestreo por Esferas}
 Una de las formas de mantener la estructura original de la gráfica es enfocándonos en su estructura local, es decir, podemos mirar a partir de un nodo  $v$ su vecindario, así como también tomar una pequeña esfera $S_v(r)$ con radio $r$ y centro en $v$ que interseque su vecindario $N_G(v)$, para así mantener las propiedades locales y poder asegurar que se preserve la estructura recibida.
 \\ Para identificar la muestra resultado de la intersección entre $N_G(V)$ y la esfera $S_v(r)$ se ha construido un método denominado Método polar para desviaciones normales \cite[p.~122-123]{Knuth}.
 A continuación describiremos un algortimo que sirve como base a la implementación realizada para muestrear uniformemente puntos en el volumen de una esfera, se conoce cómo \textit{Método polar para desviaciones normales} o \textit{Método polar de Marsaglia}.
@@ -294,7 +319,7 @@ De esta forma mostraremos el algoritmo resultante en la siguiente forma;
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Reasignación de Adyacencias para Preservar la Estructura}
+\section{Reasignación de adyacencias para preservar la estructura}
 
 En el punto anterior notamos que cuando se elimina un nodo contenido dentro de la esfera de muestreo, los vecinos de este nodo pierden cierta informaciòn estructural contenida en el nodo eliminado, para evitar esto y preservar la estructura lo màs parecida posible a la inicial hacemos una reasignaciòn de adyacencias.
 
@@ -407,7 +432,7 @@ Así, hemos definido una operación para las matrices de adyacencia donde, dado 
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Método general para la reducción de nodos}
+\section{Método general para la reducción de nodos}
 
 Una vez establecidos los métodos descritos anteriormente, es posible combinar sus principios para desarrollar un enfoque generalizado de reducción de nodos. 
 \\En esta sección, exploraremos en detalle dicho enfoque, examinando su complejidad computacional, describiendo su implementación paso a paso y destacando las ventajas clave que se derivan de su aplicación.
