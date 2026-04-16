@@ -57,12 +57,131 @@ Con base en esta representación, la visualización se lleva a cabo construyendo
 
 \section{Muestreo por árbol generador mínimo}
 Durante el análisis de la estructura de la gráfica, se identificó un problema asociado al procesamiento de los datos, derivado de las limitaciones del entorno local. Para abordar este desafío, se desarrolló un conjunto de métodos y técnicas orientadas a realizar un muestreo eficiente sobre la superficie y los nodos del grafo, preservando al mismo tiempo su estructura original.
-
 Uno de los principales retos en la obtención de muestras de una gráfica consiste en definir un esquema de recorrido que evite imponer un orden arbitrario y garantice que cada nodo sea visitado a lo más una vez. Esta propiedad es fundamental para prevenir sesgos en los resultados, los cuales pueden surgir debido al orden en que los nodos son procesados.
-
 Con el objetivo de realizar un muestreo aleatorio sin un orden predefinido, se proponen diversas técnicas que surgen de la integración de dos conceptos introducidos previamente en el Capítulo 2.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    scale=0.5,
+    transform shape,
+    shift={(-9,0)} % ajusta este valor
+    every node/.style={font=\small},
+    original node/.style={
+        circle, draw=black!50, thick,
+        fill=cyan!35, minimum size=9mm, inner sep=0pt
+    },
+    mst node/.style={
+        circle, draw=black!50, thick,
+        fill=green!35, minimum size=9mm, inner sep=0pt
+    },
+    edge label/.style={
+        fill=white, inner sep=1pt, font=\small
+    }
+]
+
+\node[font=\Large\bfseries] at (3.8,6.7) {Original Graph};
+\node[font=\Large\bfseries] at (15.2,6.7) {Minimum Spanning Tree};
+
+
+% Nodos
+\node[original node] (o0) at (0,2.2) {0};
+\node[original node] (o1) at (2.2,5.2) {1};
+\node[original node] (o2) at (2.2,2.2) {2};
+\node[original node] (o3) at (2.2,-0.8) {3};
+
+\node[original node] (o4) at (5.0,5.2) {4};
+\node[original node] (o5) at (5.0,2.2) {5};
+\node[original node] (o6) at (5.0,-0.8) {6};
+
+\node[original node] (o7) at (7.2,2.2) {7};
+
+% Aristas
+\draw[gray!70, thick] (o1) -- (o4)
+    node[midway, above, edge label] {0};
+
+\draw[gray!70, thick] (o0) -- (o2)
+    node[midway, above, edge label] {1};
+
+\draw[gray!70, thick] (o2) -- (o5)
+    node[midway, above, edge label] {8};
+
+\draw[gray!70, thick] (o5) -- (o7)
+    node[midway, above, edge label] {9};
+
+\draw[gray!70, thick] (o3) -- (o6)
+    node[midway, below, edge label] {7};
+
+\draw[gray!70, thick] (o1) -- (o2)
+    node[midway, right, edge label] {3};
+
+\draw[gray!70, thick] (o2) -- (o3)
+    node[midway, right, edge label] {2};
+
+\draw[gray!70, thick] (o4) -- (o5)
+    node[midway, right, edge label] {1};
+
+\draw[gray!70, thick] (o5) -- (o6)
+    node[midway, right, edge label] {6};
+
+\draw[gray!70, thick] (o0) -- (o1)
+    node[midway, above left, edge label, rotate=55] {10};
+
+\draw[gray!70, thick] (o0) -- (o3)
+    node[midway, below left, edge label, rotate=-55] {4};
+
+\draw[gray!70, thick] (o3) -- (o5)
+    node[midway, below right, edge label, rotate=45] {2};
+
+\draw[gray!70, thick] (o4) -- (o7)
+    node[midway, above right, edge label, rotate=-55] {8};
+
+\draw[gray!70, thick] (o6) -- (o7)
+    node[midway, below right, edge label, rotate=55] {12};
+
+% Nodos
+\node[mst node] (m0) at (10.2,2.1) {0};
+\node[mst node] (m2) at (12.7,2.1) {2};
+\node[mst node] (m3) at (12.7,-0.8) {3};
+
+\node[mst node] (m1) at (12.4,5.2) {1};
+\node[mst node] (m4) at (15.3,5.2) {4};
+\node[mst node] (m5) at (15.3,2.1) {5};
+\node[mst node] (m6) at (15.3,-0.8) {6};
+\node[mst node] (m7) at (17.8,2.1) {7};
+
+% Aristas MST
+\draw[blue, thick] (m1) -- (m4)
+    node[midway, above, edge label] {0};
+
+\draw[blue, thick] (m4) -- (m5)
+    node[midway, right, edge label] {1};
+
+\draw[blue, thick] (m5) -- (m6)
+    node[midway, right, edge label] {6};
+
+\draw[blue, thick] (m4) -- (m7)
+    node[midway, above right, edge label, rotate=-55] {8};
+
+\draw[blue, thick] (m0) -- (m2)
+    node[midway, above, edge label] {1};
+
+\draw[blue, thick] (m2) -- (m3)
+    node[midway, right, edge label] {2};
+
+\draw[blue, thick] (m3) -- (m5)
+    node[midway, above left, edge label, rotate=45] {2};
+
+\end{tikzpicture}
+
+
+\caption{Comparación entre la gráfica original y el árbol generador mínimo obtenido.}
+\label{fig:original_mst}
+\end{figure}
+
+
 En primer lugar, se construye un árbol generador mínimo a partir de la matriz de adyacencia $A$ de la gráfica $G$, utilizando el algoritmo de Kruskal, el cual se describe a continuación:
+
 
 \begin{algorithm}[H]
 \caption{Algoritmo de Kruskal para el Árbol de Expansión Mínima (MST)}
@@ -115,7 +234,6 @@ A continuación enunciaremos el algortimo DFS, y su implmentación en nuestro m�
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
 Posterior a establecer el orden en el que se recorrerá la gráfica, generamos un orden entre nodos para vistar los nodos más lejanos del nodo actual, asegurando de esta forma ir lo más lejos posible en el menor número de pasos.
 
 \section{Muestreo por Esferas}
@@ -147,6 +265,13 @@ X_1 \gets V_1 \sqrt{\frac{-2 \ln S}{S}}, \quad X_2 \gets V_2 \sqrt{\frac{-2 \ln 
 
 \end{algorithmic}
 \end{algorithm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{img/muestreo.jpg}
+    \caption{La figura muestra la distribución de un conjunto de puntos generados mediante un proceso de muestreo aleatorio uniforme sobre la superficie de una esfera unitaria centrada en el origen. Cada punto corresponde a una realización de variables aleatorias transformadas a coordenadas tridimensionales (x,y,z), garantizando una cobertura homogénea sin sesgos de concentración en regiones específicas. Esta representación permite visualizar la correcta dispersión espacial de los puntos, lo cual es fundamental para aplicaciones posteriores como la construcción de grafos geométricos, análisis de vecindades locales o procesos de aprendizaje sobre estructuras tridimensionales.}
+    \label{fig:muestreo_esfera}
+\end{figure}
+
 Para probar la validez del método anterior utilizaremos geometría analítica y un poco de cálculo.
 \begin{proof}
 Notamos que si $S < 1 $ en el paso $P3$, el punto en el plano cartesiano con las coordenadas $(V_1,V_2)$ es un punto aleatorio uniformemente dsitribuido dentro del círculo unitario.
@@ -318,6 +443,13 @@ De esta forma mostraremos el algoritmo resultante en la siguiente forma;
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\textwidth]{img/algoritmo.png}
+    \caption{Descripción de algoritmo resultante}
+    \label{fig:muestreo_esfera}
+\end{figure}
 
 \section{Reasignación de adyacencias para preservar la estructura}
 

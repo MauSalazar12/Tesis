@@ -38,8 +38,8 @@
 \contentsline {subsection}{\numberline {4.1.1}Construcci^^c3^^b3n de superficies a partir de s^^c3^^admplices}{52}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Transformaci^^c3^^b3n superficie a gr^^c3^^a1fica}{53}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}Muestreo por ^^c3^^a1rbol generador m^^c3^^adnimo}{54}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Muestreo por Esferas}{56}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Reasignaci^^c3^^b3n de adyacencias para preservar la estructura}{61}{section.4.4}%
-\contentsline {section}{\numberline {4.5}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{63}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}An^^c3^^a1lisis de Complejidad}{64}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.3}Muestreo por Esferas}{57}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Reasignaci^^c3^^b3n de adyacencias para preservar la estructura}{62}{section.4.4}%
+\contentsline {section}{\numberline {4.5}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{65}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}An^^c3^^a1lisis de Complejidad}{66}{subsection.4.5.1}%
 \contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{69}{appendix.Alph1}%
