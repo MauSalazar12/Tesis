@@ -41,5 +41,9 @@
 \contentsline {section}{\numberline {4.3}Muestreo por Esferas}{57}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Reasignaci^^c3^^b3n de adyacencias para preservar la estructura}{62}{section.4.4}%
 \contentsline {section}{\numberline {4.5}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{65}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}An^^c3^^a1lisis de Complejidad}{66}{subsection.4.5.1}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{69}{appendix.Alph1}%
+\contentsline {section}{\numberline {4.6}An^^c3^^a1lisis de Complejidad}{66}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Resultados y conclusiones}{69}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Arquitectura PointNet}{69}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{71}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Conclusiones}{72}{section.5.3}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{75}{appendix.Alph1}%

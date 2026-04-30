@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  16 APR 2026 16:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  29 APR 2026 21:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1093,7 +1093,7 @@ LaTeX Info: Redefining \% on input line 1793.
 LaTeX Info: Redefining \. on input line 1825.
 LaTeX Info: Redefining \% on input line 1825.
  [48]
-<img//../img/graph_convolutions.jpg, id=1323, 803.0pt x 401.5pt>
+<img//../img/graph_convolutions.jpg, id=1343, 803.0pt x 401.5pt>
 File: img//../img/graph_convolutions.jpg Graphic file (type jpg)
 <use img//../img/graph_convolutions.jpg>
 Package pdftex.def Info: img//../img/graph_convolutions.jpg  used on input line 1832.
@@ -1112,7 +1112,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [51
 
 ]
-<img/cara.png, id=1340, 1541.76pt x 1027.84pt>
+<img/cara.png, id=1360, 1541.76pt x 1027.84pt>
 File: img/cara.png Graphic file (type png)
 <use img/cara.png>
 Package pdftex.def Info: img/cara.png  used on input line 19.
@@ -1120,7 +1120,7 @@ Package pdftex.def Info: img/cara.png  used on input line 19.
 LaTeX Info: Redefining \. on input line 27.
 LaTeX Info: Redefining \% on input line 27.
  [52 <./img/cara.png (PNG copy)>]
-<img/superficie.png, id=1346, 626.34pt x 366.61969pt>
+<img/superficie.png, id=1366, 626.34pt x 366.61969pt>
 File: img/superficie.png Graphic file (type png)
 <use img/superficie.png>
 Package pdftex.def Info: img/superficie.png  used on input line 30.
@@ -1128,7 +1128,7 @@ Package pdftex.def Info: img/superficie.png  used on input line 30.
 LaTeX Info: Redefining \. on input line 42.
 LaTeX Info: Redefining \% on input line 42.
  [53 <./img/superficie.png>]
-<img/grafica_superficie.png, id=1354, 499.11469pt x 349.305pt>
+<img/grafica_superficie.png, id=1374, 499.11469pt x 349.305pt>
 File: img/grafica_superficie.png Graphic file (type png)
 <use img/grafica_superficie.png>
 Package pdftex.def Info: img/grafica_superficie.png  used on input line 53.
@@ -1151,7 +1151,7 @@ LaTeX Info: Redefining \% on input line 210.
 LaTeX Info: Redefining \. on input line 239.
 LaTeX Info: Redefining \% on input line 239.
  [56]
-<img/muestreo.jpg, id=1385, 699.61375pt x 699.61375pt>
+<img/muestreo.jpg, id=1405, 699.61375pt x 699.61375pt>
 File: img/muestreo.jpg Graphic file (type jpg)
 <use img/muestreo.jpg>
 Package pdftex.def Info: img/muestreo.jpg  used on input line 270.
@@ -1180,7 +1180,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Info: Redefining \. on input line 446.
 LaTeX Info: Redefining \% on input line 446.
  [61]
-<img/algoritmo.png, id=1412, 1407.2575pt x 1126.2075pt>
+<img/algoritmo.png, id=1432, 1407.2575pt x 1126.2075pt>
 File: img/algoritmo.png Graphic file (type png)
 <use img/algoritmo.png>
 Package pdftex.def Info: img/algoritmo.png  used on input line 449.
@@ -1191,47 +1191,119 @@ LaTeX Info: Redefining \% on input line 459.
 LaTeX Info: Redefining \. on input line 520.
 LaTeX Info: Redefining \% on input line 520.
  [63]
-LaTeX Info: Redefining \. on input line 571.
-LaTeX Info: Redefining \% on input line 571.
- [64]
+<img/adyacencias1.png, id=1453, 1692.3225pt x 936.49875pt>
+File: img/adyacencias1.png Graphic file (type png)
+<use img/adyacencias1.png>
+Package pdftex.def Info: img/adyacencias1.png  used on input line 570.
+(pdftex.def)             Requested size: 516.73169pt x 285.93893pt.
+
+Overfull \hbox (119.2467pt too wide) in paragraph at lines 570--571
+ [][] 
+ []
+
+LaTeX Info: Redefining \. on input line 574.
+LaTeX Info: Redefining \% on input line 574.
+[64]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 610.
-LaTeX Info: Redefining \% on input line 610.
- [65]) (main.bbl
+LaTeX Info: Redefining \. on input line 616.
+LaTeX Info: Redefining \% on input line 616.
+ [65 <./img/adyacencias1.png (PNG copy)>]
+LaTeX Info: Redefining \. on input line 625.
+LaTeX Info: Redefining \% on input line 625.
+ [66]) (sec/cap_5/5_ResultadosYConclusiones.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [66]) (sec/apendice/apendice.tex [67
-
-]
+ [67]
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [68
 
 ]
+Cap\'{\i }tulo 5.
+
+LaTeX Warning: Citation `pointnet' on page 69 undefined on input line 7.
+
+
+LaTeX Warning: Citation `pointnet' on page 69 undefined on input line 11.
+
+[69]
+<img//pointnet.png, id=1491, 672.01062pt x 237.38687pt>
+File: img//pointnet.png Graphic file (type png)
+<use img//pointnet.png>
+Package pdftex.def Info: img//pointnet.png  used on input line 39.
+(pdftex.def)             Requested size: 397.48499pt x 140.41202pt.
+
+
+LaTeX Warning: Citation `pointnet' on page 70 undefined on input line 41.
+
+
+LaTeX Warning: Citation `pointnet' on page 70 undefined on input line 41.
+
+
+LaTeX Warning: Command \i invalid in math mode on input line 55.
+
+
+LaTeX Warning: Command \i invalid in math mode on input line 55.
+
+LaTeX Info: Redefining \. on input line 65.
+LaTeX Info: Redefining \% on input line 65.
+[70 <./img//pointnet.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (main.bbl
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [71]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [72]) (sec/apendice/apendice.tex [73
+
+]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [74
+
+]
 Ap\'{e}ndice A.
-) [69] (main.aux
+) [75] (main.aux
 LaTeX Info: Redefining \. on input line 21.
 LaTeX Info: Redefining \% on input line 21.
 )
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 94662AA57B75236695661CF7E0FFD5E7;6791.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: B23627D5D431AE372C9DFDF8A58C7958;7446
+(rerunfilecheck)             After:  3F88E6A9FBB3FDD633E90D6BF88F5C56;7439.
  ) 
 Here is how much of TeX's memory you used:
- 40334 strings out of 478906
- 922226 string characters out of 2851448
- 1321646 words of memory out of 3000000
- 57027 multiletter control sequences out of 15000+600000
+ 40388 strings out of 478906
+ 923305 string characters out of 2851448
+ 1326053 words of memory out of 3000000
+ 57052 multiletter control sequences out of 15000+600000
  414870 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  88i,10n,86p,1025b,612s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+pdfTeX warning (dest): name{subsection.5.1.1} has been referenced but does not exist, replaced by a fixed one
+
  <C:\Users\mauri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmbsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmti7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (69 pages, 2738230 bytes).
+Output written on main.pdf (75 pages, 4151518 bytes).
 PDF statistics:
- 1688 PDF objects out of 1728 (max. 8388607)
- 413 named destinations out of 1000 (max. 500000)
- 468 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1754 PDF objects out of 2073 (max. 8388607)
+ 434 named destinations out of 1000 (max. 500000)
+ 510 words of extra memory for PDF output out of 10000 (max. 10000000)
 
