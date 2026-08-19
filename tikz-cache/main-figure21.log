@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  28 JAN 2026 23:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=pdflatex 2025.1.13)  30 JUL 2026 20:01
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1014,21 +1014,79 @@ Package: appendix 2020/02/08 v1.2c extra appendix facilities
 \c@@pps=\count337
 \c@@ppsavesec=\count338
 \c@@ppsaveapp=\count339
+) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+(C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen296
+\captionmargin=\dimen297
+\caption@leftmargin=\dimen298
+\caption@rightmargin=\dimen299
+\caption@width=\dimen300
+\caption@indent=\dimen301
+\caption@parindent=\dimen302
+\caption@hangindent=\dimen303
+Package caption Info: Standard document class detected.
 )
-\c@definition=\count340
-\c@example=\count341
-\c@teorema=\count342
-\c@observation=\count343
-\c@lemma=\count344
-\c@corollary=\count345
+\c@caption@flags=\count340
+\c@continuedfloat=\count341
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
 )
-\c@proposition=\count346
+(C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count342
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count343
+) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/booktabs\booktabs.st
+y
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen304
+\lightrulewidth=\dimen305
+\cmidrulewidth=\dimen306
+\belowrulesep=\dimen307
+\belowbottomsep=\dimen308
+\aboverulesep=\dimen309
+\abovetopsep=\dimen310
+\cmidrulesep=\dimen311
+\cmidrulekern=\dimen312
+\defaultaddspace=\dimen313
+\@cmidla=\count344
+\@cmidlb=\count345
+\@aboverulesep=\dimen314
+\@belowrulesep=\dimen315
+\@thisruleclass=\count346
+\@lastruleclass=\count347
+\@thisrulewidth=\dimen316
+) (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/titlesec\titlesec.st
+y
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box96
+\beforetitleunit=\skip75
+\aftertitleunit=\skip76
+\ttl@plus=\dimen317
+\ttl@minus=\dimen318
+\ttl@toksa=\toks57
+\titlewidth=\dimen319
+\titlewidthlast=\dimen320
+\titlewidthfirst=\dimen321
+)
+\c@definition=\count348
+\c@example=\count349
+\c@teorema=\count350
+\c@observation=\count351
+\c@lemma=\count352
+\c@corollary=\count353
+)
+\c@proposition=\count354
 
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/l3backend\l3backend-pd
 ftex.def
 File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count347
-\l__pdf_internal_box=\box96
+\l__color_backend_stack_int=\count355
+\l__pdf_internal_box=\box97
 )
 No file tikz-cache/main-figure21.aux.
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
@@ -1053,17 +1111,17 @@ LaTeX Font Info:    ... okay on input line 6.
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/context/base/mkii\supp-pdf.m
 kii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count348
-\scratchdimen=\dimen296
-\scratchbox=\box97
-\nofMPsegments=\count349
-\nofMParguments=\count350
-\everyMPshowfont=\toks57
-\MPscratchCnt=\count351
-\MPscratchDim=\dimen297
-\MPnumerator=\count352
-\makeMPintoPDFobject=\count353
-\everyMPtoPDFconversion=\toks58
+\scratchcounter=\count356
+\scratchdimen=\dimen322
+\scratchbox=\box98
+\nofMPsegments=\count357
+\nofMParguments=\count358
+\everyMPshowfont=\toks58
+\MPscratchCnt=\count359
+\MPscratchDim=\dimen323
+\MPnumerator=\count360
+\makeMPintoPDFobject=\count361
+\everyMPtoPDFconversion=\toks59
 )
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/epstopdf-pkg\epstopdf-
 base.sty
@@ -1118,7 +1176,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 tlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count354
+\c@section@level=\count362
 )
 LaTeX Info: Redefining \ref on input line 6.
 LaTeX Info: Redefining \pageref on input line 6.
@@ -1128,7 +1186,9 @@ LaTeX Info: Redefining \% on input line 6.
 Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
-\c@lstlisting=\count355
+\c@lstlisting=\count363
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 (sec/portada/portada.tex) (sec/cap_1/1_Intro.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -1137,110 +1197,123 @@ Cap\'{\i }tulo 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 Cap\'{\i }tulo 2.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
+
+LaTeX Warning: Citation `haru' on page 7 undefined on input line 5.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 5.
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 5.
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 4.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 5.
 
 (C:\Users\mauri\AppData\Local\Programs\MiKTeX1\tex/latex/jknappen\ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 
+LaTeX Warning: Citation `pressley' on page 7 undefined on input line 5.
+
+
+LaTeX Warning: Citation `minian_complejos_simpliciales_poliedros' on page 7 und
+efined on input line 5.
+
+
 LaTeX Warning: Citation `munkres_topology_2000' on page 7 undefined on input li
-ne 8.
+ne 7.
 
 
 LaTeX Warning: Citation `prieto_topologia_2003' on page 7 undefined on input li
-ne 8.
+ne 7.
 
 
-LaTeX Warning: Citation `haru' on page 7 undefined on input line 8.
+LaTeX Warning: Citation `minian_complejos_simpliciales_poliedros' on page 7 und
+efined on input line 7.
 
 
-LaTeX Warning: Citation `diestel' on page 7 undefined on input line 8.
+LaTeX Warning: Citation `haru' on page 7 undefined on input line 7.
 
 
-LaTeX Warning: Citation `pressley' on page 7 undefined on input line 8.
+LaTeX Warning: Citation `diestel' on page 7 undefined on input line 7.
 
 
-LaTeX Warning: Reference `ap:basicas' on page 7 undefined on input line 14.
+LaTeX Warning: Citation `pressley' on page 7 undefined on input line 7.
 
 
-LaTeX Warning: Reference `ap:basicas' on page 7 undefined on input line 20.
+LaTeX Warning: Reference `ap:basicas' on page 7 undefined on input line 11.
 
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
-nput line 23.
+nput line 17.
 Package hyperref Info: bookmark level for unknown example defaults to 0 on inpu
-t line 37.
-LaTeX Info: Redefining \. on input line 58.
-LaTeX Info: Redefining \% on input line 58.
+t line 40.
+LaTeX Info: Redefining \. on input line 54.
+LaTeX Info: Redefining \% on input line 54.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 Package hyperref Info: bookmark level for unknown proposition defaults to 0 on 
-input line 126.
-LaTeX Info: Redefining \. on input line 128.
-LaTeX Info: Redefining \% on input line 128.
+input line 109.
+LaTeX Info: Redefining \. on input line 116.
+LaTeX Info: Redefining \% on input line 116.
 Package hyperref Info: bookmark level for unknown teorema defaults to 0 on inpu
-t line 164.
-LaTeX Info: Redefining \. on input line 171.
-LaTeX Info: Redefining \% on input line 171.
+t line 145.
+LaTeX Info: Redefining \. on input line 157.
+LaTeX Info: Redefining \% on input line 157.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 237.
-LaTeX Info: Redefining \. on input line 245.
-LaTeX Info: Redefining \% on input line 245.
-LaTeX Info: Redefining \. on input line 278.
-LaTeX Info: Redefining \% on input line 278.
-LaTeX Info: Redefining \. on input line 321.
-LaTeX Info: Redefining \% on input line 321.
+line 218.
+LaTeX Info: Redefining \. on input line 226.
+LaTeX Info: Redefining \% on input line 226.
+LaTeX Info: Redefining \. on input line 265.
+LaTeX Info: Redefining \% on input line 265.
+LaTeX Info: Redefining \. on input line 310.
+LaTeX Info: Redefining \% on input line 310.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 375.
-LaTeX Info: Redefining \% on input line 375.
+LaTeX Info: Redefining \. on input line 362.
+LaTeX Info: Redefining \% on input line 362.
+The command '\includegraphics [width=\textwidth ]{simplice_1.png}' has been opt
+imized away. Use '/tikz/external/optimize=false' to disable this.
+The command '\includegraphics [width=\textwidth ]{simplice_2.png}' has been opt
+imized away. Use '/tikz/external/optimize=false' to disable this.
+The command '\includegraphics [width=\textwidth ]{simplice_3.png}' has been opt
+imized away. Use '/tikz/external/optimize=false' to disable this.
+LaTeX Info: Redefining \. on input line 414.
+LaTeX Info: Redefining \% on input line 414.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
+
+LaTeX Warning: Reference `fig:G' on page 16 undefined on input line 465.
+
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 493.
-LaTeX Info: Redefining \% on input line 493.
+LaTeX Info: Redefining \. on input line 562.
+LaTeX Info: Redefining \% on input line 562.
+
+LaTeX Warning: Reference `fig:G' on page 17 undefined on input line 584.
+
+
+LaTeX Warning: Reference `fig:G' on page 17 undefined on input line 621.
+
+LaTeX Info: Redefining \. on input line 625.
+LaTeX Info: Redefining \% on input line 625.
+
+LaTeX Warning: Reference `fig:G' on page 18 undefined on input line 638.
+
+
+LaTeX Warning: Reference `fig:G' on page 18 undefined on input line 665.
+
+
+LaTeX Warning: Reference `fig:G' on page 18 undefined on input line 667.
+
+LaTeX Info: Redefining \. on input line 679.
+LaTeX Info: Redefining \% on input line 679.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 
-LaTeX Warning: Reference `fig:G' on page 16 undefined on input line 527.
-
-
-LaTeX Warning: Reference `fig:G' on page 16 undefined on input line 533.
-
-
-LaTeX Warning: Reference `fig:G' on page 16 undefined on input line 549.
-
-LaTeX Info: Redefining \. on input line 561.
-LaTeX Info: Redefining \% on input line 561.
-
-LaTeX Warning: Reference `fig:G' on page 17 undefined on input line 576.
-
-
-LaTeX Warning: Reference `fig:G' on page 17 undefined on input line 578.
-
-LaTeX Info: Redefining \. on input line 605.
-LaTeX Info: Redefining \% on input line 605.
-
-LaTeX Warning: Reference `fig:G' on page 18 undefined on input line 636.
-
-LaTeX Info: Redefining \. on input line 661.
-LaTeX Info: Redefining \% on input line 661.
-A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
-isable this.
-LaTeX Info: Redefining \. on input line 741.
-LaTeX Info: Redefining \% on input line 741.
-
-Underfull \hbox (badness 10000) in paragraph at lines 741--743
+Underfull \hbox (badness 10000) in paragraph at lines 724--726
 
  []
 
@@ -1248,8 +1321,8 @@ A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 819.
-LaTeX Info: Redefining \% on input line 819.
+LaTeX Info: Redefining \. on input line 806.
+LaTeX Info: Redefining \% on input line 806.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
@@ -1258,59 +1331,69 @@ A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
-isable this.
-LaTeX Info: Redefining \. on input line 971.
-LaTeX Info: Redefining \% on input line 971.
 
-LaTeX Warning: Reference `fig:puente' on page 22 undefined on input line 974.
+LaTeX Warning: Reference `fig:puente' on page 20 undefined on input line 982.
 
+LaTeX Info: Redefining \. on input line 987.
+LaTeX Info: Redefining \% on input line 987.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 Package hyperref Info: bookmark level for unknown corollary defaults to 0 on in
-put line 1033.
+put line 1049.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1047--1048
-
- []
-
-LaTeX Info: Redefining \. on input line 1049.
-LaTeX Info: Redefining \% on input line 1049.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
+Underfull \hbox (badness 10000) in paragraph at lines 1063--1064
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1051--1057
+Underfull \hbox (badness 10000) in paragraph at lines 1065--1066
 
  []
 
-LaTeX Info: Redefining \. on input line 1088.
-LaTeX Info: Redefining \% on input line 1088.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1067--1073
+
+ []
+
+LaTeX Info: Redefining \. on input line 1073.
+LaTeX Info: Redefining \% on input line 1073.
+LaTeX Info: Redefining \. on input line 1114.
+LaTeX Info: Redefining \% on input line 1114.
 ) (sec/cap_3/3_GNNs.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
 Cap\'{\i }tulo 3.
+
+LaTeX Warning: Citation `Goodfellow-et-al-2016' on page 25 undefined on input l
+ine 6.
+
+
+LaTeX Warning: Citation `graph_representation_learning' on page 25 undefined on
+ input line 6.
+
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 110.
-LaTeX Info: Redefining \% on input line 110.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
+LaTeX Info: Redefining \. on input line 164.
+LaTeX Info: Redefining \% on input line 164.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 Package hyperref Info: bookmark level for unknown observation defaults to 0 on 
-input line 201.
+input line 255.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 294.
-LaTeX Info: Redefining \% on input line 294.
-LaTeX Info: Redefining \. on input line 329.
-LaTeX Info: Redefining \% on input line 329.
+LaTeX Info: Redefining \. on input line 348.
+LaTeX Info: Redefining \% on input line 348.
+LaTeX Info: Redefining \. on input line 383.
+LaTeX Info: Redefining \% on input line 383.
 
-Overfull \hbox (0.42885pt too wide) in paragraph at lines 352--353
-[][]\OT1/cmr/bx/n/10 Definici^^Son 44 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/
+Overfull \hbox (0.42885pt too wide) in paragraph at lines 406--407
+[][]\OT1/cmr/bx/n/10 Definici^^Son 40 \OT1/cmr/m/n/10 (Gra-dien-te)\OT1/cmr/bx/
 n/10 . []\OT1/cmr/m/it/10 Sea $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : 
  \OMS/cmsy/m/n/10 ^^Z \U/msb/m/n/10 R[] [][]\OMS/cmsy/m/n/10 ! \U/msb/m/n/10 R$
 \OT1/cmr/m/it/10 ,una fun-ci^^Son di-fe-ren-cia-ble en $\OML/cmm/m/it/10 x[]$\O
@@ -1319,44 +1402,44 @@ T1/cmr/m/it/10 .Entonces
 
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 456.
-LaTeX Info: Redefining \% on input line 456.
+LaTeX Info: Redefining \. on input line 510.
+LaTeX Info: Redefining \% on input line 510.
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 458.
-LaTeX Info: Redefining \. on input line 502.
-LaTeX Info: Redefining \% on input line 502.
-LaTeX Info: Redefining \. on input line 595.
-LaTeX Info: Redefining \% on input line 595.
+put line 512.
+LaTeX Info: Redefining \. on input line 556.
+LaTeX Info: Redefining \% on input line 556.
+LaTeX Info: Redefining \. on input line 649.
+LaTeX Info: Redefining \% on input line 649.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 728.
-LaTeX Info: Redefining \% on input line 728.
+LaTeX Info: Redefining \. on input line 782.
+LaTeX Info: Redefining \% on input line 782.
 
 LaTeX Warning: Citation `Goodfellow-et-al-2016' on page 33 undefined on input l
-ine 731.
+ine 785.
 
-LaTeX Info: Redefining \. on input line 765.
-LaTeX Info: Redefining \% on input line 765.
-\openout4 = `tikz-cache/main-figure21.dpth'.
-
-[34
-
-{C:/Users/mauri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
-LaTeX Info: Redefining \. on input line 877.
-LaTeX Info: Redefining \% on input line 877.
-LaTeX Info: Redefining \. on input line 924.
-LaTeX Info: Redefining \% on input line 924.
-LaTeX Info: Redefining \. on input line 977.
-LaTeX Info: Redefining \% on input line 977.
-LaTeX Info: Redefining \. on input line 1033.
-LaTeX Info: Redefining \% on input line 1033.
+LaTeX Info: Redefining \. on input line 819.
+LaTeX Info: Redefining \% on input line 819.
 A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
-LaTeX Info: Redefining \. on input line 1197.
-LaTeX Info: Redefining \% on input line 1197.
+LaTeX Info: Redefining \. on input line 931.
+LaTeX Info: Redefining \% on input line 931.
+LaTeX Info: Redefining \. on input line 978.
+LaTeX Info: Redefining \% on input line 978.
+LaTeX Info: Redefining \. on input line 1031.
+LaTeX Info: Redefining \% on input line 1031.
+LaTeX Info: Redefining \. on input line 1087.
+LaTeX Info: Redefining \% on input line 1087.
+\openout4 = `tikz-cache/main-figure21.dpth'.
 
-Overfull \hbox (7.54643pt too wide) in paragraph at lines 1199--1201
-[][]\OT1/cmr/bx/n/10 Definici^^Son 59 \OT1/cmr/m/n/10 (Ar-qui-tec-tu-ra de una 
+[38
+
+{C:/Users/mauri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+LaTeX Info: Redefining \. on input line 1253.
+LaTeX Info: Redefining \% on input line 1253.
+
+Overfull \hbox (7.54643pt too wide) in paragraph at lines 1253--1255
+[][]\OT1/cmr/bx/n/10 Definici^^Son 55 \OT1/cmr/m/n/10 (Ar-qui-tec-tu-ra de una 
 red neu-ro-nal con-vo-lu-cio-nal (CNN))\OT1/cmr/bx/n/10 . []\OT1/cmr/m/it/10 Se
 a $\OML/cmm/m/it/10 f \OT1/cmr/m/n/10 : \U/msb/m/n/10 R[] [][]\OMS/cmsy/m/n/10 
 !
@@ -1366,23 +1449,160 @@ A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
 isable this.
 
 LaTeX Warning: Citation `graph_representation_learning' on page 39 undefined on
- input line 1351.
+ input line 1385.
 
-LaTeX Info: Redefining \. on input line 1352.
-LaTeX Info: Redefining \% on input line 1352.
-LaTeX Info: Redefining \. on input line 1407.
-LaTeX Info: Redefining \% on input line 1407.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
+LaTeX Info: Redefining \. on input line 1495.
+LaTeX Info: Redefining \% on input line 1495.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
+LaTeX Info: Redefining \. on input line 1606.
+LaTeX Info: Redefining \% on input line 1606.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1414--1418
+Underfull \hbox (badness 10000) in paragraph at lines 1676--1680
 
  []
 
-LaTeX Info: Redefining \. on input line 1444.
-LaTeX Info: Redefining \% on input line 1444.
-LaTeX Info: Redefining \. on input line 1482.
-LaTeX Info: Redefining \% on input line 1482.
-LaTeX Info: Redefining \. on input line 1511.
-LaTeX Info: Redefining \% on input line 1511.
+LaTeX Info: Redefining \. on input line 1694.
+LaTeX Info: Redefining \% on input line 1694.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
+LaTeX Info: Redefining \. on input line 1842.
+LaTeX Info: Redefining \% on input line 1842.
+LaTeX Info: Redefining \. on input line 1869.
+LaTeX Info: Redefining \% on input line 1869.
+The command '\includegraphics [width=0.6\textwidth ]{../img/graph_convolutions.
+jpg}' has been optimized away. Use '/tikz/external/optimize=false' to disable t
+his.
+) (sec/cap_4/4_MuestreoGeneral.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+Cap\'{\i }tulo 4.
+
+Overfull \hbox (32.92755pt too wide) in paragraph at lines 1--1
+|\OT1/cmr/bx/n/24.88 Construcci^^Son de al-go-rit-mo de mues-
+ []
+
+The command '\includegraphics [width=0.62\textwidth ]{img/cara.png}' has been o
+ptimized away. Use '/tikz/external/optimize=false' to disable this.
+The command '\includegraphics [width=0.62\textwidth ]{img/superficie.png}' has 
+been optimized away. Use '/tikz/external/optimize=false' to disable this.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 34.
+LaTeX Info: Redefining \% on input line 34.
+The command '\includegraphics [width=0.62\textwidth ]{img/grafica_superficie.pn
+g}' has been optimized away. Use '/tikz/external/optimize=false' to disable thi
+s.
+LaTeX Info: Redefining \. on input line 57.
+LaTeX Info: Redefining \% on input line 57.
+A tikzpicture has been optimized away. Use '/tikz/external/optimize=false' to d
+isable this.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 209.
+LaTeX Info: Redefining \% on input line 209.
+LaTeX Info: Redefining \. on input line 238.
+LaTeX Info: Redefining \% on input line 238.
+
+LaTeX Warning: Citation `Knuth' on page 52 undefined on input line 240.
+
+The command '\includegraphics [width=0.62\textwidth ]{img/muestreo.jpg}' has be
+en optimized away. Use '/tikz/external/optimize=false' to disable this.
+LaTeX Info: Redefining \. on input line 279.
+LaTeX Info: Redefining \% on input line 279.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 324.
+LaTeX Info: Redefining \% on input line 324.
+
+Underfull \vbox (badness 4518) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 369.
+LaTeX Info: Redefining \% on input line 369.
+
+LaTeX Warning: Reference `XY' on page 55 undefined on input line 374.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 411.
+LaTeX Info: Redefining \% on input line 411.
+The command '\includegraphics [width=0.62\textwidth ]{img/algoritmo.png}' has b
+een optimized away. Use '/tikz/external/optimize=false' to disable this.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 456.
+LaTeX Info: Redefining \% on input line 456.
+LaTeX Info: Redefining \. on input line 503.
+LaTeX Info: Redefining \% on input line 503.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 565.
+LaTeX Info: Redefining \% on input line 565.
+The command '\includegraphics [width=1.3\textwidth ]{img/adyacencias1.png}' has
+ been optimized away. Use '/tikz/external/optimize=false' to disable this.
+
+LaTeX Warning: Reference `alg:kruskal' on page 59 undefined on input line 592.
+
+
+LaTeX Warning: Reference `alg:DFS' on page 59 undefined on input line 594.
+
+
+LaTeX Warning: Reference `alg:generaPuntos' on page 59 undefined on input line 
+605.
+
+
+LaTeX Warning: Reference `alg:elimnaAdyacencias' on page 59 undefined on input 
+line 608.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 615.
+LaTeX Info: Redefining \% on input line 615.
+
+LaTeX Warning: Citation `Introduction-toalgorithm' on page 60 undefined on inpu
+t line 617.
+
+
+LaTeX Warning: Citation `Introduction-toalgorithm' on page 60 undefined on inpu
+t line 618.
+
+LaTeX Info: Redefining \. on input line 624.
+LaTeX Info: Redefining \% on input line 624.
+) (sec/cap_5/5_Resultados.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+Cap\'{\i }tulo 5.
+
+LaTeX Warning: Citation `2025eulearn' on page 63 undefined on input line 5.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 59.
+LaTeX Info: Redefining \% on input line 59.
+
+LaTeX Warning: Reference `tab:resultados_optimizacion' on page 65 undefined on 
+input line 109.
+
+LaTeX Info: Redefining \. on input line 129.
+LaTeX Info: Redefining \% on input line 129.
 )
 No file tikz-cache/main-figure21.bbl.
 (sec/apendice/apendice.tex
@@ -1395,22 +1615,30 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 39390 strings out of 478906
- 907229 string characters out of 2851448
- 1353421 words of memory out of 3000000
- 56559 multiletter control sequences out of 15000+600000
- 414100 words of font info for 65 fonts, out of 8000000 for 9000
+ 41428 strings out of 478906
+ 945001 string characters out of 2851448
+ 1404306 words of memory out of 3000000
+ 58562 multiletter control sequences out of 15000+600000
+ 418753 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,18n,89p,947b,1119s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 92i,18n,89p,1071b,1151s stack positions out of 5000i,500n,10000p,200000b,80000s
 <C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm
 /cmbx10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/a
-msfonts/cm/cmr10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1
-/public/amsfonts/cm/cmr5.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/M
-iKTeX1/fonts/type1/public/amsfonts/cm/cmsy5.pfb>
-Output written on tikz-cache/main-figure21.pdf (1 page, 47781 bytes).
+msfonts/cmextra/cmex9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/
+type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKT
+eX1/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mauri/AppData/Local/Prog
+rams/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/mauri/AppData/L
+ocal/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/mauri/
+AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Use
+rs/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/cmr6.pfb
+><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsfonts/cm/
+cmr7.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/public/amsf
+onts/cm/cmr9.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb><C:/Users/mauri/AppData/Local/Programs/MiKTeX1/fonts
+/type1/public/amsfonts/cm/cmsy6.pfb>
+Output written on tikz-cache/main-figure21.pdf (1 page, 118358 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
+ 74 PDF objects out of 1000 (max. 8388607)
  2 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

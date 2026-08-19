@@ -1,53 +1,48 @@
 \babel@toc {spanish}{}\relax 
-\contentsline {chapter}{\numberline {1}Introducci^^c3^^b3n}{5}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Gr^^c3^^a1ficas y Superficies}{7}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Superficies}{7}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Conceptos b^^c3^^a1sicos de Topolog^^c3^^ada}{8}{subsection.2.1.1}%
-\contentsline {subsubsection}{Espacio Topol^^c3^^b3gico}{8}{section*.2}%
-\contentsline {subsubsection}{Conjuntos cerrados y regiones}{9}{section*.3}%
-\contentsline {subsubsection}{Espacio de Hausdorff}{10}{section*.5}%
-\contentsline {subsubsection}{Compacidad}{11}{section*.6}%
-\contentsline {subsubsection}{Espacios numerables}{13}{section*.8}%
-\contentsline {subsubsection}{Variedades topol^^c3^^b3gicas}{13}{section*.9}%
-\contentsline {section}{\numberline {2.2}Gr^^c3^^a1ficas}{16}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Gr^^c3^^a1ficas simples y propiedades b^^c3^^a1sicas}{16}{subsection.2.2.1}%
+\contentsline {chapter}{\numberline {1}Introducci^^c3^^b3n}{4}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Gr^^c3^^a1ficas y Superficies}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Superficies}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Espacio Topol^^c3^^b3gico}{6}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Espacio de Hausdorff}{8}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Compacidad}{9}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Espacios numerables}{11}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Variedades topol^^c3^^b3gicas}{11}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}Complejos simpliciales y triangulaciones}{12}{subsection.2.1.6}%
+\contentsline {section}{\numberline {2.2}Gr^^c3^^a1ficas}{14}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Gr^^c3^^a1ficas simples y propiedades b^^c3^^a1sicas}{14}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Representaci^^c3^^b3n de gr^^c3^^a1ficas}{17}{subsection.2.2.2}%
-\contentsline {subsubsection}{Matriz de adyacencia}{17}{section*.14}%
-\contentsline {subsubsection}{Lista de adyacencia}{18}{section*.15}%
-\contentsline {subsubsection}{Grado de un v^^c3^^a9rtice}{18}{section*.16}%
-\contentsline {subsection}{\numberline {2.2.3}Subgr^^c3^^a1ficas}{20}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Caminos y ciclos}{21}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}^^c3^^81rboles}{22}{subsection.2.2.5}%
-\contentsline {chapter}{\numberline {3}Redes Neuronales Gr^^c3^^a1ficas}{27}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Redes Neuronales}{28}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Conceptos b^^c3^^a1sicos}{28}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Entrenamiento de redes neuronales}{30}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Backpropagation}{33}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Redes convolucionales CNN}{34}{section.3.2}%
+\contentsline {subsection}{\numberline {2.2.3}Subgr^^c3^^a1ficas}{18}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Caminos y ciclos}{20}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}^^c3^^81rboles}{21}{subsection.2.2.5}%
+\contentsline {chapter}{\numberline {3}Redes Neuronales Gr^^c3^^a1ficas}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Redes Neuronales}{26}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Conceptos b^^c3^^a1sicos}{26}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Entrenamiento de redes neuronales}{29}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Backpropagation}{32}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Redes convolucionales CNN}{35}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Operaci^^c3^^b3n de convoluci^^c3^^b3n}{36}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Propiedades de convoluci^^c3^^b3n}{38}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Filtros y mapas de caracter^^c3^^adsticas}{40}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Filtros y mapas de caracter^^c3^^adsticas}{39}{subsection.3.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Arquitectura de una CNN}{42}{subsection.3.2.4}%
 \contentsline {section}{\numberline {3.3}Redes Neuronales Gr^^c3^^a1ficas}{43}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Encoders y Decoders}{44}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{46}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.2}Propagaci^^c3^^b3n de Mensajes Neuronales}{45}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}La GNN fundamental}{47}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Redes Gr^^c3^^a1ficas Convolucionales (GCNs)}{48}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{51}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Superficies estudiadas}{52}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Construcci^^c3^^b3n de superficies a partir de s^^c3^^admplices}{52}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Transformaci^^c3^^b3n superficie a gr^^c3^^a1fica}{53}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Muestreo por ^^c3^^a1rbol generador m^^c3^^adnimo}{54}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Muestreo por Esferas}{57}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Reasignaci^^c3^^b3n de adyacencias para preservar la estructura}{62}{section.4.4}%
-\contentsline {section}{\numberline {4.5}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{65}{section.4.5}%
-\contentsline {section}{\numberline {4.6}An^^c3^^a1lisis de Complejidad}{66}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Resultados}{69}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Arquitecturas utilizadas (Fourier Neural Operator, Dynamic Graph CNN, PointNet, PointNet++)}{70}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Fourier Neural Operator}{70}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Dynamic Graph CNN}{70}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}PointNet}{71}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}PointNet++}{71}{subsection.5.1.4}%
-\contentsline {section}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{71}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Conclusiones}{73}{section.5.3}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{77}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {4}Construcci^^c3^^b3n de algoritmo de muestreo}{50}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Construcci^^c3^^b3n de superficies a partir de s^^c3^^admplices}{50}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Transformaci^^c3^^b3n superficie a gr^^c3^^a1fica}{52}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Muestreo por ^^c3^^a1rbol generador m^^c3^^adnimo}{53}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Muestreo por Esferas}{55}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Reasignaci^^c3^^b3n de adyacencias}{62}{section.4.5}%
+\contentsline {section}{\numberline {4.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{64}{section.4.6}%
+\contentsline {section}{\numberline {4.7}An^^c3^^a1lisis de Complejidad}{65}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Resultados}{67}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Arquitecturas utilizadas (Fourier Neural Operator, Dynamic Graph CNN, PointNet, PointNet++)}{68}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Fourier Neural Operator}{68}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Dynamic Graph CNN}{68}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}PointNet}{68}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}PointNet++}{69}{subsection.5.1.4}%
+\contentsline {section}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{69}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Conclusiones}{70}{section.5.3}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{72}{appendix.Alph1}%

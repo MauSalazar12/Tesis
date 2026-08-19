@@ -1,9 +1,11 @@
 \chapter{Redes Neuronales Gráficas}
+
 En las últimas décadas, las redes neuronales han emergido como una herramienta fundamental en el campo del aprendizaje automático y la inteligencia artificial. Su capacidad para aprender de grandes volúmenes de datos, reconocer patrones complejos y adaptarse a distintos entornos ha sido clave para su popularidad y adopción en una amplia gama de tareas. Estas aplicaciones abarcan desde el procesamiento del lenguaje natural y la visión por computadora hasta la predicción de series temporales y la toma de decisiones, consolidando a las redes neuronales como una tecnología esencial en desarrollos tan diversos como los sistemas de recomendación y la conducción autónoma.
 Aunque la literatura actual ha abordado ampliamente las redes neuronales convencionales, la creciente demanda de resolver problemas más complejos ha impulsado la evolución hacia arquitecturas más especializadas. Entre estas, las Redes Neuronales Gráficas (Graph Neural Networks o GNN) se han destacado por su capacidad para trabajar con datos estructurados en forma de gráficas, lo que las hace especialmente útiles para el objetivo de este trabajo.
-Este capítulo ofrecerá una introducción formal a las redes neuronales gráficas y explorará la necesidad de adoptar estas estructuras avanzadas para el estudio de dominios donde la naturaleza de los datos es inherentemente no lineal o interdependiente.
+A través de este capítulo, se busca proporcionar una comprensión sólida de cómo las GNNs pueden abordar problemas complejos y ofrecer soluciones efectivas en contextos donde los datos presentan relaciones intrincadas y no lineales.
+La primera parte de este capítulo, que comprenden las definiciones de conceptos principales, se basa en la obra \cite{Goodfellow-et-al-2016}, la segunda parte que abarca conceptos que profundiza en el tema de Redes Neuronales Gráficas se basa en el texto \cite{graph_representation_learning}.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[x=2.2cm,y=1.4cm]
         \readlist\Nnod{4,5,5,5,3}
@@ -28,7 +30,7 @@ Este capítulo ofrecerá una introducción formal a las redes neuronales gráfic
 \subsection{Conceptos básicos}
 Una red neuronal puede entenderse cómo la composición de múltiples funciones no lineales, que en conjunto forman un modelo capaz de aprender representaciones complejas de los datos. Estas redes están inspiradas en la estructura y funcionamiento del cerebro humano, donde las neuronas se conectan entre sí para procesar información y tomar decisiones.
 
-A continuación se dará la definición formal del modelo de red neuronal partiendo de la unidad más básica denominada como perceptrón.
+A continuación se daremos la definición formal del modelo de red neuronal partiendo de la unidad más básica denominada como perceptrón.
 
 \begin{definition}[Perceptrón]
     Sea $\mathbf{w} \in \mathbb{R}^d$ un vector de pesos, $\mathbf{x} \in \mathbb{R}^d$ un vector de entrada y $b \in \mathbb{R}$ un sesgo (umbral). Definimos la función
@@ -36,6 +38,7 @@ A continuación se dará la definición formal del modelo de red neuronal partie
         f:\mathbb{R}^d \to \{0,1\}, \qquad f(\mathbf{x}) = \chi_{\{\, \mathbf{y} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{y} + b > 0 \,\}}(\mathbf{x}),
     \]
     donde $\chi_{A}$ denota la función característica del conjunto $A \subseteq \mathbb{R}^d$.
+
     En forma explícita,
     \[
         f(\mathbf{x}) = \begin{cases}
@@ -45,15 +48,14 @@ A continuación se dará la definición formal del modelo de red neuronal partie
     \]
 \end{definition}
 
-De la anterior definición, podemos observar que el perceptrón es un clasificador lineal que toma una decisión binaria basada en una combinación lineal de las entradas ponderadas por los pesos y ajustada por un sesgo. La función característica $\chi_{A}$ actúa como una función de activación que determina si la salida es 1 o 0, dependiendo de si la combinación lineal supera el umbral definido por el sesgo.
 
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}[x=2.7cm,y=1.6cm]
         \message{^^JNeural network activation}
-        \def\NI{5} % number of nodes in input layers
-        \def\NO{1} % number of nodes in output layers
-        \def\yshift{0.4} % shift last node for dots
+        \def\NI{5} 
+        \def\NO{1} 
+        \def\yshift{0.4} 
 
         % INPUT LAYER
         \foreach \i [evaluate={\c=int(\i==\NI); \y=\NI/2-\i-\c*\yshift; \index=(\i<\NI?int(\i):"n");}]
@@ -66,7 +68,7 @@ De la anterior definición, podemos observar que el perceptrón es un clasificad
         in {\NO,...,1}{ % loop over nodes
                 \ifnum\i=1 % high-lighted node
                     \node[node hidden]
-                    (NO-\i) at (1,\y) {$y = H(z)$};
+                    (NO-\i) at (1,\y) {$y = f(z)$};
                     \foreach \j [evaluate={\index=(\j<\NI?int(\j):"n");}] in {1,...,\NI}{ % loop over nodes in previous layer
                             \draw[connect,white,line width=1.2] (NI-\j) -- (NO-\i);
                             \draw[connect] (NI-\j) -- (NO-\i)
@@ -90,7 +92,7 @@ De la anterior definición, podemos observar que el perceptrón es un clasificad
                 \begin{array}{l}
                     z = \mathbf{w}^{T}\mathbf{x} + b
                     = \displaystyle\sum_{i=1}^{n} x_{i}w_{i} + b, \\[8pt]
-                    y = H(z)
+                    y = f(z)
                     = \left\{
                     \begin{array}{ll}
                         1, & \text{si } z > 0,    \\[4pt]
@@ -107,12 +109,59 @@ De la anterior definición, podemos observar que el perceptrón es un clasificad
 \end{figure}
 
 
-\newpage
+De la anterior definición, podemos observar que el perceptrón es un clasificador lineal que toma una decisión binaria basada en una combinación lineal de las entradas ponderadas por los pesos y ajustada por un sesgo. La función característica $\chi_{A}$ actúa como una función de activación que determina si la salida es 1 o 0, dependiendo de si la combinación lineal supera el umbral definido por el sesgo.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        
+    % Ejes
+    \draw[->] (0,-1.2) -- (0,4.5) node[above] {$x_2$};
+    \draw[->] (-1.5,0) -- (5.5,0) node[right] {$x_1$};
+
+    % Frontera de decisión
+    \draw[thick] (-0.5,2.5) -- (4.5,-0.8);
+    \node at (-1.0,3.1) {$w^T x + b = 0$};
+    \draw[->] (-0.7,2.9) -- (-0.1,2.35);
+
+    % Clase positiva: círculos
+    \foreach \x/\y in {
+        0.6/2.7, 1.2/2.3, 1.5/3.1, 2.0/2.6, 2.7/2.9,
+        3.1/2.3, 3.8/2.6, 4.1/1.9, 2.0/1.9, 3.8/0.9,
+        4.6/1.2, 4.4/0.5
+    }
+    \draw (\x,\y) circle (0.1);
+
+    % Clase negativa: cruces
+    \foreach \x/\y in {
+        -0.6/1.0, -0.3/0.4, 0.3/-0.6, 0.8/0.8, 1.0/0.3,
+        1.6/-0.2, 2.2/-0.5, 2.9/-0.2, 3.3/-0.7, 1.8/0.6,
+        0.8/-1.0, 2.0/-1.0
+    }{
+        \draw (\x-0.08,\y-0.08) -- (\x+0.08,\y+0.08);
+        \draw (\x-0.08,\y+0.08) -- (\x+0.08,\y-0.08);
+    }
+
+    % Vector normal w
+    \draw[dashed,->,thick] (1.9,1.1) -- (2.8,1.7);
+    \node[right] at (2.8,1.7) {$\mathbf{w}$};
+
+    % Regiones
+    \node at (4.2,3.5) {$\chi_A(w^T x + b)=1$};
+    \node at (4.2,3.0) {$(w^T x + b \geq 0)$};
+
+    \node at (-0.1,-1.6) {$\chi_A(w^T x + b)=0$};
+    \node at (-0.1,-2.1) {$(w^T x + b < 0)$};
+
+    \end{tikzpicture}
+    \caption{Ejemplo de clasificador lineal. Los círculos representan la clase positiva y las cruces la clase negativa. La línea representa la frontera de decisión definida por el perceptrón.}
+    \label{fig:clasificador_lineal}
+\end{figure}
 
 Con el perceptrón definido, podemos construir redes neuronales más complejas al combinar múltiples perceptrones en capas.
 Una capa, cómo lo veremos a continuación, es la combinación de funciones entre un perceptrón y una función de activación.
 
-\begin{definition}[Capa de una red neuronal]
+\begin{definition}[Capa densa de una red neuronal]
     Sea $L \in \mathbb{N}$ el índice de una capa en una red neuronal.
     Sean:
     $\mathbf{W}^{(L)} \in \mathbb{R}^{n_L \times n_{L-1}}$ la matriz de pesos que conecta la capa $(L-1)$ con la capa $L$, $\mathbf{b}^{(L)} \in \mathbb{R}^{n_L}$ el vector de sesgos (bias), $\sigma : \mathbb{R} \to \mathbb{R}$ una función de activación (aplicada componente a componente).
@@ -133,7 +182,7 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
     \]
 \end{definition}
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.80,transform shape]
         % ===== Parámetros visuales =====
@@ -177,6 +226,8 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
         % ===== Conexiones  =====
         \draw[connect] (Lm-1) -- (Wb);
         \draw[connect] (Lm-2) -- (Wb);
+        \draw[connect] (Lm-3) -- (Wb);
+        \draw[connect] (Lm-4) -- (Wb);
         \draw[connect] (Lm-\NLm) -- (Wb);
 
         % Wb -> sigma
@@ -198,7 +249,7 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
 \end{figure}
 
 \begin{observation}
-    La función de activación $\sigma$ introduce no linealidad en la red neuronal, lo cual es de suma importancia para que la red pueda aprender representaciones complejas y no lineales de los datos.
+    La función de activación $\sigma$ introduce no linealidad en la red neuronal, lo cual es de importancia para que una red pueda aprender representaciones complejas y no lineales de los datos.
     Algunas funciones de activación comunes son:
     \begin{itemize}
         \item \textbf{Función sigmoide}: $\sigma(x) = \frac{1}{1 + e^{-x}}$
@@ -207,23 +258,23 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
     \end{itemize}
 \end{observation}
 
-Con la definición anterior podemos ahora entender cómo se compone una red neuronal a partir de múltiples capas.
+Con la definición anterior podemos ahora entender y definir formalmente cómo se compone una red neuronal a partir de múltiples capas.
 
 \begin{definition}[Red neuronal]
     Sea $L \in \mathbb{N}$ el número de capas. Una \textbf{red neuronal} con $L$ capas es una función
     \[
-        f(x;\theta) : \mathbb{R}^{d_{\text{in}}} \longrightarrow \mathbb{R}^{d_{\text{out}}}
+        f(\mathbf{x};\boldsymbol{\theta}) : \mathbb{R}^{n_0} \longrightarrow \mathbb{R}^{n_L}
     \]
     definida como la composición
     \[
-        f(x;\theta) = f^{(L)} \circ f^{(L-1)} \circ \dotsb \circ f^{(2)} \circ f^{(1)} (x),
+        f(\mathbf{x};\boldsymbol{\theta}) = f^{(L)} \circ f^{(L-1)} \circ \dotsb \circ f^{(2)} \circ f^{(1)} (\mathbf{x}),
     \]
     donde:
-    $x \in \mathbb{R}^{d_{\text{in}}}$ es el vector de entrada, para cada $i \in \{1,\dotsc,L\}$, $f^{(i)} : \mathbb{R}^{d_{i-1}} \to \mathbb{R}^{d_i}$ es la transformación asociada a la $i$-ésima capa, $\theta = \{W^{(i)}, b^{(i)} \mid i=1,\dotsc,L\}$ es el conjunto de parámetros de la red (matrices de pesos y vectores de sesgo),$y = f(x;\theta) \in \mathbb{R}^{d_{\text{out}}}$ es la salida de la red.
+    $\mathbf{x} \in \mathbb{R}^{n_0}$ es el vector de entrada, para cada $i \in \{1,\dotsc,L\}$, $f^{(i)} : \mathbb{R}^{n_{i-1}} \to \mathbb{R}^{n_i}$ es la transformación asociada a la $i$-ésima capa, $\boldsymbol{\theta} = \{\mathbf{W}^{(i)}, \mathbf{b}^{(i)} \mid i=1,\dotsc,L\}$ es el conjunto de parámetros de la red (matrices de pesos y vectores de sesgo), $\mathbf{y} = f(\mathbf{x};\boldsymbol{\theta}) \in \mathbb{R}^{n_L}$ es la salida de la red.
 \end{definition}
 
 En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red, y a la capa $f^{(L)}$ se le conoce como la capa de salida. A las capas restantes se les conoce como capas ocultas
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.8,transform shape]
 
@@ -295,58 +346,93 @@ En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red,
 
 \subsection{Entrenamiento de redes neuronales}
 
-El entrenamiento de una red neuronal implica ajustar sus parámetros $\theta$ para minimizar la función de pérdida $\mathbf{L}(y,\hat{y})$. Este proceso se lleva a cabo mediante un conjunto de datos de entrenamiento, que consiste en pares de entrada-salida $(x_i, y_i)$. La función de pérdida cuantifica la discrepancia entre las predicciones de la red $\hat{y}_i = f(x_i;\theta)$ y los valores reales $y_i$. El objetivo del entrenamiento es encontrar los parámetros $\theta$ que minimicen esta función de pérdida en promedio sobre todo el conjunto de datos. A continuación, se presentan las definiciones formales de los conceptos clave involucrados en el entrenamiento de redes neuronales.
+El entrenamiento de una red neuronal implica ajustar sus parámetros $\theta$ para minimizar la función de pérdida $\mathbf{L}(y,\hat{y})$. Este proceso se lleva a cabo mediante un conjunto de datos de entrenamiento, que consiste en pares de entrada-salida $(x_i, y_i)$. Esta función cuantifica la discrepancia entre las predicciones de la red $\hat{y}_i = f(x_i;\theta)$ y los valores reales $y_i$. El objetivo del entrenamiento es encontrar los parámetros $\theta$ tales que minimicen esta función en promedio sobre todo el conjunto de datos.
 
-\begin{definition}[Función de pérdida]
-    Sea $\mathcal{D} = \{(x_i,y_i)\}_{i=1}^N \subset \mathcal{X} \times \mathcal{Y}$ un conjunto de datos de entrenamiento, donde $x_i \in \mathcal{X}$ son las entradas y $y_i \in \mathcal{Y}$ las etiquetas verdaderas asociadas.
-    Sea $f(\,\cdot\,;\theta): \mathcal{X} \to \mathcal{Y}$ una red neuronal parametrizada por $\theta \in \Theta$.
+A continuación, presentamos las definiciones formales de los conceptos involucrados en el entrenamiento de redes neuronales.
 
-    Una \textbf{función de pérdida} es un mapeo
+\begin{definition}[Conjunto de entrenamiento]
+    Sea $\mathcal{X}$ el espacio de entrada (o espacio de características) y sea $\mathcal{Y}$ el espacio de salida (o espacio de etiquetas). 
+    
+    Un \textbf{conjunto de datos de entrenamiento} es una colección finita de $N$ observaciones empíricas, denotada por
     \[
-        L : \mathcal{Y} \times \mathcal{Y} \longrightarrow \mathbb{R}_{\geq 0},
+        \mathcal{D} = \{(x_1, y_1), (x_2, y_2), \dots, (x_N, y_N)\} = \{(x_i,y_i)\}_{i=1}^N,
     \]
-    tal que $L(y,\hat{y})$ mide el error incurrido al predecir $\hat{y}$ cuando el valor verdadero es $y$, es decir $L(y,\hat{y})$ cuantifica la discrepancia entre la predicción de la red $f(x;\theta)$ y la etiqueta verdadera $y$.
+    donde cada par $(x_i, y_i) \in \mathcal{X} \times \mathcal{Y}$ representa un ejemplo individual. En este contexto, $x_i$ corresponde a las características observadas del $i$-ésimo ejemplo y $y_i$ es su valor verdadero o etiqueta asociada.
 \end{definition}
 
+\begin{definition}[Función de pérdida]
+Sea $\mathcal{Y}$ el espacio de valores verdaderos y sea
+$\widehat{\mathcal{Y}}$ el espacio de predicciones de un modelo.
 
-Como ya se ha mencionado, el proceso de entrenamiento de una red neuronal tiene como propósito ajustar los parámetros del modelo $\theta \in \Theta$ para minimizar la discrepancia entre las predicciones $f(x_i; \theta)$ y los valores reales $y_i$.
+Una \textbf{función de pérdida} es una función
+\[
+    \ell:\mathcal{Y}\times\widehat{\mathcal{Y}}
+    \longrightarrow \mathbb{R}_{\geq 0},
+\]
+donde $\ell(y,\hat{y})$ cuantifica la discrepancia entre el valor verdadero
+$y\in\mathcal{Y}$ y una predicción
+$\hat{y}\in\widehat{\mathcal{Y}}$.
 
-De manera teórica, este objetivo puede formularse a través de la \textbf{función de riesgo}, definida como la esperanza del error del modelo bajo la distribución conjunta de las variables aleatorias $(\mathbf{x}, \mathbf{y})$:
+En particular, si
+\[
+    f(\,\cdot\,;\theta):\mathcal{X}\longrightarrow
+    \widehat{\mathcal{Y}}
+\]
+es una red neuronal parametrizada por $\theta\in\Theta$, entonces la pérdida
+asociada a un dato de entrenamiento $(x_i,y_i)$ está dada por
+\[
+    \ell\bigl(y_i,f(x_i;\theta)\bigr).
+\]
+
+\end{definition}
+
+Como ya se ha mencionado, el proceso de entrenamiento de una red neuronal tiene como propósito ajustar los parámetros del modelo $\theta \in \Theta$ para minimizar la discrepancia entre las predicciones $\hat{y}_i = f(x_i; \theta)$ y los valores reales $y_i$.
+
+De manera teórica, este objetivo puede obtenerse a través de la \textbf{función de riesgo}.
+
+\begin{definition}[Función de riesgo]
+    Sea $\mathcal{D}$ una distribución de probabilidad sobre el espacio producto $\mathcal{X} \times \mathcal{Y}$, donde $\mathcal{X}$ denota el espacio de entradas y $\mathcal{Y}$ el espacio de etiquetas verdaderas.
+
+    Dada una función de pérdida $L: \mathcal{Y} \times \widehat{\mathcal{Y}} \longrightarrow \mathbb{R}_{\geq 0}$ y una función de predicción $f(\,\cdot\,;\theta): \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ parametrizada por $\theta \in \Theta$, la \textbf{función de riesgo} (o riesgo esperado) es un mapeo $\mathcal{R}: \Theta \longrightarrow \mathbb{R}_{\geq 0}$ definido por la esperanza matemática del error:
+    \[
+        \mathcal{R}(\theta) = \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ L\bigl(y, f(x; \theta)\bigr) \right] = \int_{\mathcal{X} \times \mathcal{Y}} L\bigl(y, f(x; \theta)\bigr) \, \mathrm{d}\mathcal{D}(x,y).
+    \]
+    Esta función cuantifica la pérdida esperada que el modelo parametrizado por $\theta$ comete sobre toda la población de datos gobernada por la distribución subyacente $\mathcal{D}$.
+\end{definition}
+
+Hasta aquí hemos definido el riesgo esperado (o teórico). Sin embargo, en la práctica la distribución de probabilidad subyacente $\mathcal{D}$ es desconocida. Por ello, el riesgo teórico se aproxima mediante su \textbf{riesgo empírico}, calculado sobre una muestra finita $\{(x_i, y_i)\}_{i=1}^N$ proveniente de $\mathcal{D}$:
 
 \begin{equation}
-    \mathcal{R}(\theta) = \mathbb{E}_{(\mathbf{x},\mathbf{y}) \sim \mathcal{D}} \left[ L\bigl(y, f(x; \theta)\bigr) \right],
-\end{equation}
-
-donde $\mathcal{D}$ representa la distribución desconocida de los datos, y $L(y, f(x; \theta))$ es una función de pérdida que mide el error entre la predicción y el valor real.
-
-Sin embargo, en la práctica esta distribución $\mathcal{D}$ es desconocida. Por ello, el riesgo teórico se aproxima mediante su \textbf{riesgo empírico}, calculado sobre una muestra finita $\{(x_i, y_i)\}_{i=1}^N$ proveniente de $\mathcal{D}$:
-
-\begin{equation}
-    \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i; \theta)\bigr).
+    \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^N \ell\bigl(y_i, f(x_i; \theta)\bigr).
 \end{equation}
 
 De esta forma, el problema de aprendizaje se plantea como una tarea de \textit{minimización del riesgo empírico} (Empirical Risk Minimization, ERM):
 
 \begin{equation}
     \min_{\theta \in \Theta} \; \widehat{\mathcal{R}}(\theta)
-    = \min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N L\bigl(y_i, f(x_i; \theta)\bigr).
+    = \min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N \ell\bigl(y_i, f(x_i; \theta)\bigr).
 \end{equation}
 
-En este contexto, la función de pérdida $L$ cuantifica el error a nivel individual, mientras que la función de riesgo $\mathcal{R}(\theta)$ expresa dicho error en promedio —ya sea teóricamente (riesgo esperado) o empíricamente (riesgo observado).
+En este contexto, la función de pérdida $\ell$ cuantifica el error a nivel puntual, mientras que la función de riesgo $\mathcal{R}(\theta)$ expresa dicho error en promedio —ya sea teóricamente (riesgo esperado) o empíricamente (riesgo observado).
 
-El proceso de entrenamiento de la red busca, por tanto, minimizar una estimación del riesgo esperado mediante técnicas de optimización numérica como el \textit{descenso del gradiente estocástico} (Stochastic Gradient Descent, SGD).
+El proceso de entrenamiento de la red busca, por tanto, minimizar una estimación del riesgo esperado mediante técnicas de optimización numérica como el \textit{descenso del gradiente estocástico} (Stochastic Gradient Descent, SGD) y su variantes.
 
-Dado que en la práctica no conocemos la verdadera distribución $p(x,y)$ no podemos calcular directamente el riesgo esperado.En su lugar definimos otro tipo de función de riesgo:
+Así definimos a continuación formalmente la función de riesgo empírico.
 
 \begin{definition}[Función de riesgo empírico]
-    Sea $\{(x_i,y_i)\}, i \in\{1,\cdots,N\}$ un conjunto finito de datos de entrenamiento, la función de riesgo empírico está dada por:
+    Sea $S = \{(x_i, y_i)\}_{i=1}^N \subset \mathcal{X} \times \mathcal{Y}$ un conjunto de datos de entrenamiento con $N$ observaciones.
 
+    Dada una función de pérdida $\ell : \mathcal{Y} \times \widehat{\mathcal{Y}} \longrightarrow \mathbb{R}_{\geq 0}$ y una función de predicción $f(\,\cdot\,;\theta) : \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ parametrizada por $\theta \in \Theta$, la \textbf{función de riesgo empírico} es un mapeo $\widehat{\mathcal{R}} : \Theta \longrightarrow \mathbb{R}_{\geq 0}$ definido como:
     \[
-        \hat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{L} ( y_i,f(x_i;\theta)
-        )
+        \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \ell\bigl(y_i, f(x_i;\theta)\bigr).
     \]
+    Esta función calcula la pérdida promedio que comete el modelo con parámetros $\theta$ exclusivamente sobre el conjunto de datos observado $S$.
 \end{definition}
-Una manera de minimizar las funciones de pérdida, es utilizando el algoritmno de Gradiente Descendente. Para ello recordemos la definición de gradiente, así cómo visualizaremos el algoritmo de gradiente descendente.
+
+
+Como ya se ha mencionado, una manera de minimizar las funciones de pérdida, es utilizando el algoritmno de Gradiente Descendente. 
+
+Para ello recordemos la definición de gradiente, así cómo visualizaremos el algoritmo de gradiente descendente.
 
 \begin{definition}[Gradiente]
     Sea $f: \Omega \subset \mathbb{R}^n \longrightarrow \mathbb{R}$,una función diferenciable en $x_0$.Entonces el vector cuyas compnentes son las derivadas parciales de $f$ en $x_0$ es el vector gradiente, denotado por $\nabla f$, donde:
@@ -365,7 +451,10 @@ Este vector contiene la información de cuanto crece o decrece la función en un
     donde $\nabla_\theta J(\theta_k)$ denota el gradiente de $J$ evaluado en $\theta_k$.
 \end{definition}
 
-\begin{figure}[ht]
+Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta la velocidad y estabilidad de la convergencia hacia el mínimo.
+
+
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1.0]
 
@@ -451,10 +540,9 @@ Este vector contiene la información de cuanto crece o decrece la función en un
     \label{fig:descenso_gradiente}
 \end{figure}
 
+De esta forma podemos describir formalmente el algoritmo de actualización  de parámetros por medio del descenso de gradiente.
 
-Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta la velocidad y estabilidad de la convergencia hacia el mínimo.
-
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
     \caption{Algoritmo de actualización GD}\label{alg:cap}
     \begin{algorithmic}
         \Inputs{ $J:\Theta \longrightarrow \mathbb{R}$, $\mathbf{T} > 0$ número de iteraciones, $\eta$ rango de aprendizaje.}
@@ -476,125 +564,9 @@ A medida que va aumentando el número de capas en la red neuronal, también aume
 \subsection{Backpropagation}
 El algoritmo de \textbf{backpropagation} es un método eficiente para calcular los gradientes de la función de pérdida con respecto a los parámetros de una red neuronal. Este algoritmo se basa en la regla de la cadena del cálculo diferencial y permite propagar el error desde la capa de salida hacia las capas anteriores, ajustando los pesos y sesgos de manera iterativa para minimizar la función de pérdida.
 
+\vspace{1cm}
 
-\begin{definition}[Derivada función de riesgo]
-    Sea $f(x;\theta)$ una red neuronal con parametros $\theta$, la derivada de su función de riesgo $R(\theta)$ se define de la siguiente forma:
-    \[
-        \nabla_\theta R(\theta) = \nabla f^{(\mathbf{L})} \cdot \nabla f^{(\mathbf{L}-1)} \cdots \nabla f^{(2)} \cdot \nabla f^{(1)}
-    \]
-\end{definition}
-
-A partir de la definición anterior, podemos describir el algortimo de manera más general y dividirlo en dos partes principales: la propagación hacia adelante y la propagación hacia atrás.
-
-\noindent \textbf{Propagación hacía delante}\\
-En esta fase, los datos de entrada se pasan a través de la red capa por capa, calculando las activaciones en cada capa utilizando los pesos y sesgos actuales. La salida final de la red se compara con la etiqueta verdadera para calcular el error utilizando una función de pérdida.
-
-Sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
-
-\begin{itemize}
-    \item \textbf{Preactivación} \\
-          Dada la matriz de pesos $\mathbf{W}^{(L)}$ , el vector de sesgos $\mathbf{b}^{(L)}$ en la capa $L$ y $\mathbf{h}^{(L-1)}$ la salida de la capa anterior, entonces la preactivación está dada por:
-          \[
-              \mathbf{z}^{(L)} = \mathbf{W}^{(L)}\mathbf{h}^{(L-1)} + \mathbf{b}^{(L)}
-          \]
-    \item \textbf{Activación}\\
-          Dada $\sigma$ una función de activación (sigmoide,ReLu,etc), y $\mathbf{z}^{(L)}$ la preactivación de la capa $L$, entonces la activación en la capa $L$ está dada por:
-          \[
-              \mathbf{h}^{(L)} = \sigma \left( \mathbf{z}^{(L)} \right)
-          \]
-\end{itemize}
-De esta forma la salida de la última capa se compara con la etiqueta verdadera $\mathbf{y}$ utilizando alguna función de pérdida $\mathbf{J}(\mathbf{h}^{(L)},\mathbf{y})$ para calcular el error de la red.
-
-
-\noindent \textbf{Propagación hacía atrás}\\
-Para minimizar el error en la función de pérdida utilizamos la definición 45, por una serie de pasos dados de la siguiente manera:
-\begin{itemize}
-    \item \textbf{Error en la capa de salida}\\
-          Sea $\frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} $ el gradiente de la función de pérdida con respecto a la salida de la red, $\sigma ' (\mathbf{z}^{(L)})$, la derivada de la función de activación de la última capa, entonces el error en la capa de salida está dado por:
-          \[
-              \delta^{(L)} = \frac{\partial \mathbf{J}}{\partial \mathbf{z}^{(L)}} = \frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} \cdot \sigma ' (z^{(L)})
-          \]
-    \item \textbf{Propagación del error hacía atrás}\\
-          Sea $\delta ^{(L+1)}$ el error de la capa siguiente y $\sigma ' (z^{(L)})$ la derivada de la función de activación de la capa L, entonces la propagación del error se da mediante la siguiente expresión:
-          \[
-              \delta^{(L)} = \left( W^{(L+1)}\right)^T \delta ^{(L+1)} \cdot \sigma ' (z^{(L)})
-          \]
-    \item \textbf{Gradiente de los parámetros}\\
-          Para calcular los gradientes de los parametros, vemos que se realiza de la siguiente forma:
-          \begin{itemize}
-              \item Sea $h^{(L-1)}$ la salida de la capa anterior, entonces el gradiente de los pesos está dado por:
-                    \[
-                        \frac{\partial \mathbf{J}}{\partial \mathbf{    W}^{(L)}} = \delta ^{(L)} \cdot \left(a^{(L-1)}\right)^T
-                    \]
-              \item Y para los sesgos se calcula de la siguiente forma:
-                    \[
-                        \frac{\partial\mathbf{J}}{\partial b^{(L)}} = \delta^{(L)}
-                    \]
-          \end{itemize}
-
-          \noindent \textbf{Actualización de los parámetros}\\
-          Una vez que se tienen los pesos y sesgos calculados de la red, se actualizan utilizando descenso del gradiente, de esta forma la actualización está dada por:
-          \begin{itemize}
-              \item \textbf{Pesos}:
-                    \[
-                        W^{(L)} = W^{(L)}- \eta \frac{\partial \mathbf{J}}{\partial W^{(L)}}
-                    \]
-
-              \item \textbf{Bias}:
-                    \[
-                        b^{(L)} = b^{(L)}- \eta \frac{\partial\mathbf{J}}{\partial b^{(L)}}
-                    \]
-
-          \end{itemize}
-
-\end{itemize}
-
-
-
-Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf{backpropagation}.
-
-\begin{algorithm}
-    \caption{Algoritmo Backpropagation}
-    \begin{algorithmic}[1]
-        \State \textbf{Initialize} Inicializamos pesos $W^{[l]}$ y bias $b^{[l]}$ de manera aleatoria para cada capa $l = 1, \dots, L$
-
-        \For{cada época}
-        \For{cada ejemplo de entrenamiento $(x, y)$}
-
-        \State \textbf{Propagación hacía adelante}:
-        \State Asignamos $a^{[0]} = x$
-        \For{each layer $l = 1, \dots, L$}
-        \State $z^{[l]} = W^{[l]} a^{[l-1]} + b^{[l]}$
-        \State $a^{[l]} = g(z^{[l]})$
-        \EndFor
-
-        \State \textbf{Calculamos la pérdida} $J(a^{[L]}, y)$
-
-        \State \textbf{Backward Pass}:
-        \State Calculamos el error para cada capa de salida:
-        \State $\delta^{[L]} = \frac{\partial J}{\partial a^{[L]}} \cdot g'(z^{[L]})$
-
-        \For{cada capa $l = L-1, \dots, 1$}
-        \State Propagación del error hacía atrás:
-        \State $\delta^{[l]} = (W^{[l+1]})^\top \delta^{[l+1]} \cdot g'(z^{[l]})$
-        \State Calculamos los gradientes:
-        \State $\frac{\partial J}{\partial W^{[l]}} = \delta^{[l]} \cdot (a^{[l-1]})^\top$
-        \State $\frac{\partial J}{\partial b^{[l]}} = \delta^{[l]}$
-        \EndFor
-
-        \State \textbf{Actualización de parámetros} (Descenso del gradiente):
-        \For{each layer $l = 1, \dots, L$}
-        \State $W^{[l]} = W^{[l]} - \eta \cdot \frac{\partial J}{\partial W^{[l]}}$
-        \State $b^{[l]} = b^{[l]} - \eta \cdot \frac{\partial J}{\partial b^{[l]}}$
-        \EndFor
-
-        \EndFor
-        \EndFor
-
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.95,transform shape]
 
@@ -717,18 +689,134 @@ Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf
     \caption{Backpropagation: forward (azul) y backward (rojo) con trayectorias separadas mediante desplazamiento de anclajes.}
     \label{fig:backpropagation}
 \end{figure}
+\newpage
+\begin{definition}[Gradiente de la función de riesgo empírico]
+    Sea $f(\,\cdot\,;\theta): \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ una red neuronal de $L$ capas parametrizada por $\theta \in \Theta$, dada por la composición $f = f^{(L)} \circ f^{(L-1)} \circ \dots \circ f^{(1)}$.
+
+    El \textbf{gradiente de la función de riesgo empírico} $\widehat{\mathcal{R}}(\theta)$ respecto al vector de parámetros $\theta$ se define como:
+    \[
+        \nabla_\theta \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \nabla_\theta \ell\bigl(y_i, f(x_i;\theta)\bigr),
+    \]
+    donde el gradiente de la pérdida puntual $\ell$ para cada ejemplo $(x_i, y_i)$ se calcula mediante la regla de la cadena a través de las $L$ capas de la red:
+    \[
+        \nabla_\theta \ell\bigl(y_i, f(x_i;\theta)\bigr) = \frac{\partial \ell}{\partial f^{(L)}} \cdot \frac{\partial f^{(L)}}{\partial f^{(L-1)}} \cdots \frac{\partial f^{(2)}}{\partial f^{(1)}} \cdot \frac{\partial f^{(1)}}{\partial \theta}.
+    \]
+\end{definition}
+
+De esta forma a partir de la definición anterior, podemos comenzar con la definición formal del algoritmo dividiéndolo en dos partes principales: la propagación hacia adelante y la propagación hacia atrás.
+
+\noindent \textbf{Propagación hacía delante}\\
+En esta fase, los datos de entrada se pasan a través de la red capa por capa, calculando las activaciones en cada capa utilizando los pesos y sesgos actuales. La salida final de la red se compara con la etiqueta verdadera para calcular el error utilizando una función de pérdida.
+
+Así, sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
+\textbf{Preactivación} \\
+          Dada la matriz de pesos $\mathbf{W}^{(L)}$ , el vector de sesgos $\mathbf{b}^{(L)}$ en la capa $L$ y $\mathbf{h}^{(L-1)}$ la salida de la capa anterior, entonces la preactivación está dada por:
+          \[
+              \mathbf{z}^{(L)} = \mathbf{W}^{(L)}\mathbf{h}^{(L-1)} + \mathbf{b}^{(L)}
+          \]
+\textbf{Activación}\\
+          Dada $\sigma$ una función de activación (sigmoide,ReLu,etc), y $\mathbf{z}^{(L)}$ la preactivación de la capa $L$, entonces la activación en la capa $L$ está dada por:
+          \[
+              \mathbf{h}^{(L)} = \sigma \left( \mathbf{z}^{(L)} \right)
+          \]
+
+Así, la salida de la última capa se compara con la etiqueta verdadera $\mathbf{y}$ utilizando alguna función de pérdida $\mathbf{J}(\mathbf{h}^{(L)},\mathbf{y})$ para calcular el error de la red.
 
 
+\noindent \textbf{Propagación hacía atrás}\\
+Para minimizar el error en la función de pérdida utilizamos la definición 45, por una serie de pasos dados de la siguiente manera:
+
+\textbf{Error en la capa de salida}\\
+          Sea $\frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} $ el gradiente de la función de pérdida con respecto a la salida de la red, $\sigma ' (\mathbf{z}^{(L)})$, la derivada de la función de activación de la última capa, entonces el error en la capa de salida está dado por:
+          \[
+              \delta^{(L)} = \frac{\partial \mathbf{J}}{\partial \mathbf{z}^{(L)}} = \frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} \cdot \sigma ' (z^{(L)})
+          \]
+\newpage
+\textbf{Propagación del error hacía atrás}\\
+          Sea $\delta ^{(L+1)}$ el error de la capa siguiente y $\sigma ' (z^{(L)})$ la derivada de la función de activación de la capa L, entonces la propagación del error se da mediante la siguiente expresión:
+          \[
+              \delta^{(L)} = \left( W^{(L+1)}\right)^T \delta ^{(L+1)} \cdot \sigma ' (z^{(L)})
+          \]
+
+\textbf{Gradiente de los parámetros}\\
+Para calcular los gradientes de los parametros, vemos que se realiza de la siguiente forma:
+          \begin{itemize}
+              \item Sea $h^{(L-1)}$ la salida de la capa anterior, entonces el gradiente de los pesos está dado por:
+                    \[
+                        \frac{\partial \mathbf{J}}{\partial \mathbf{    W}^{(L)}} = \delta ^{(L)} \cdot \left(a^{(L-1)}\right)^T
+                    \]
+              \item Y para los sesgos se calcula de la siguiente forma:
+                    \[
+                        \frac{\partial\mathbf{J}}{\partial b^{(L)}} = \delta^{(L)}
+                    \]
+          \end{itemize}
+
+\textbf{Actualización de los parámetros}\\
+Una vez que se tienen los pesos y sesgos calculados de la red, se actualizan utilizando descenso del gradiente, de esta forma la actualización está dada por:
+          
+\textbf{Pesos}:
+                    \[
+                        W^{(L)} = W^{(L)}- \eta \frac{\partial \mathbf{J}}{\partial W^{(L)}}
+                    \]
+
+\textbf{Bias}:
+                    \[
+                        b^{(L)} = b^{(L)}- \eta \frac{\partial\mathbf{J}}{\partial b^{(L)}}
+                    \]
+
+
+Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf{backpropagation}.
+
+\begin{algorithm}[H]
+    \caption{Algoritmo Backpropagation}
+    \begin{algorithmic}[1]
+        \State \textbf{Initialize} Inicializamos pesos $W^{[l]}$ y bias $b^{[l]}$ de manera aleatoria para cada capa $l = 1, \dots, L$
+
+        \For{cada época}
+        \For{cada ejemplo de entrenamiento $(x, y)$}
+
+        \State \textbf{Propagación hacía adelante}:
+        \State Asignamos $a^{[0]} = x$
+        \For{each layer $l = 1, \dots, L$}
+        \State $z^{[l]} = W^{[l]} a^{[l-1]} + b^{[l]}$
+        \State $a^{[l]} = g(z^{[l]})$
+        \EndFor
+
+        \State \textbf{Calculamos la pérdida} $J(a^{[L]}, y)$
+
+        \State \textbf{Backward Pass}:
+        \State Calculamos el error para cada capa de salida:
+        \State $\delta^{[L]} = \frac{\partial J}{\partial a^{[L]}} \cdot g'(z^{[L]})$
+
+        \For{cada capa $l = L-1, \dots, 1$}
+        \State Propagación del error hacía atrás:
+        \State $\delta^{[l]} = (W^{[l+1]})^\top \delta^{[l+1]} \cdot g'(z^{[l]})$
+        \State Calculamos los gradientes:
+        \State $\frac{\partial J}{\partial W^{[l]}} = \delta^{[l]} \cdot (a^{[l-1]})^\top$
+        \State $\frac{\partial J}{\partial b^{[l]}} = \delta^{[l]}$
+        \EndFor
+
+        \State \textbf{Actualización de parámetros} (Descenso del gradiente):
+        \For{each layer $l = 1, \dots, L$}
+        \State $W^{[l]} = W^{[l]} - \eta \cdot \frac{\partial J}{\partial W^{[l]}}$
+        \State $b^{[l]} = b^{[l]} - \eta \cdot \frac{\partial J}{\partial b^{[l]}}$
+        \EndFor
+
+        \EndFor
+        \EndFor
+
+    \end{algorithmic}
+\end{algorithm}
 
 De esta forma hemos definido los componentes principales de una red neuronal, así como los algoritmos necesarios para su entrenamiento. A continuación, nos enfocaremos en un tipo específico de redes neuronales conocidas como \textbf{redes convolucionales (CNN)}, que son especialmente efectivas para procesar datos con estructura espacial, como imágenes y series temporales.
 
 
 \section{Redes convolucionales CNN}
-Las \textbf{redes neuronales convolucionales (CNN)} son una clase especializada de redes neuronales diseñadas para procesar datos que poseen una estructura de malla o grilla, como imágenes y series de tiempo. Estas redes se emplean comúnmente en tareas de procesamiento de imágenes, donde los datos se organizan en una malla bidimensional, o en el caso de las series temporales, que pueden representarse como una malla unidimensional con muestras tomadas a lo largo de intervalos de tiempo.
+Las \textbf{redes neuronales convolucionales (CNN)} son una clase especializada de redes neuronales diseñadas para procesar datos que poseen una estructura de malla, como imágenes y series de tiempo. Estas redes se emplean comúnmente en tareas de procesamiento de imágenes, donde los datos se organizan en una malla bidimensional, o en el caso de las series temporales, que pueden representarse como una malla unidimensional con muestras tomadas a lo largo de intervalos de tiempo.
 
 A diferencia de las redes neuronales tradicionales, donde se utiliza la multiplicación general de matrices, las CNN aplican la operación de convolución en al menos una de sus capas. Esto les permite extraer automáticamente características locales de los datos, como bordes, texturas o patrones, lo que mejora significativamente su capacidad para procesar datos con una estructura espacial clara.
 
-Estudiar las CNN es fundamental como antecedente para entender las redes gráficas convolucionales (GCN), ya que comparten la idea central de la convolución, pero aplicadas a estructuras de datos más complejas, como las gráficas. En esta sección, exploraremos la importancia de las CNN como base teórica, profundizando en su arquitectura y en las matemáticas que subyacen a este tipo particular de redes.La mayoría de las definiciones fueron obtenidas del libro \cite{Goodfellow-et-al-2016}.
+Estudiar las CNN es fundamental como antecedente para entender las redes gráficas convolucionales (GCN), ya que comparten la idea central de la convolución, pero aplicadas a estructuras de datos más complejas, como las gráficas. En esta sección, exploraremos la importancia de las CNN como base teórica, profundizando en su arquitectura y en las definiciones que subyacen a este tipo particular de redes.La mayoría de las definiciones fueron obtenidas del libro \cite{Goodfellow-et-al-2016}.
 
 \subsection{Operación de convolución}
 
@@ -1437,7 +1525,7 @@ Las definiciones que se presentan a continuación estan basadas en el libro \cit
 
 
 \subsection{Encoders y Decoders}
-En el contexto de las Redes Neuronales Gráficas (GNN), los conceptos de \textbf{encoder} y \textbf{decoder} son fundamentales para comprender cómo se procesan y representan los datos estructurados en forma de gráficas. A continuación, se presentan las definiciones formales de estos conceptos.
+Para el objeto de estudiode las Redes Neuronales Gráficas (GNN), los conceptos de \textbf{encoder} y \textbf{decoder} son de vital importancia para comprender cómo se procesan y representan los datos estructurados en forma de gráficas. A continuación, se presentan las definiciones formales de estos conceptos.
 
 
 
@@ -1655,118 +1743,165 @@ Con lo anterior, se ha establecido el marco general para la propagación de mens
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-    font=\sffamily,
-    >=Latex,
-    node distance=1.8cm,
-    every node/.style={align=center},
-    main/.style={
-        circle,
-        draw=black,
-        very thick,
-        minimum size=1.2cm,
-        fill=blue!15
-    },
-    neigh/.style={
-        circle,
-        draw=black,
-        thick,
-        minimum size=1.05cm,
-        fill=gray!15
-    },
-    box/.style={
-        rounded corners=4pt,
-        draw=black,
-        thick,
-        fill=white,
-        minimum height=1.1cm,
-        minimum width=3.6cm
-    },
-    smallbox/.style={
-        rounded corners=3pt,
-        draw=black,
-        thick,
-        fill=white,
-        minimum height=0.85cm,
-        minimum width=3.2cm
-    },
-    lab/.style={
-        font=\small
-    }
-]
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}[ 
+    font=\small\sffamily, 
+    >=Latex, 
+    every node/.style={align=center}, 
+    main/.style={ 
+        circle, 
+        draw=black, 
+        very thick, 
+        minimum size=1cm, 
+        inner sep=2pt, 
+        fill=blue!15 
+        }, 
+    neigh/.style={ 
+        circle, 
+        draw=black, 
+        thick, 
+        minimum size=0.9cm, 
+        inner sep=2pt, 
+        fill=gray!15 
+        }, 
+    box/.style={ 
+        rounded corners=3pt, 
+        draw=black, 
+        thick, 
+        fill=white, 
+        minimum height=0.9cm, 
+        minimum width=3cm, 
+        inner sep=4pt 
+        }, 
+    smallbox/.style={ 
+        rounded corners=3pt, 
+        draw=black, 
+        thick, 
+        fill=white, 
+        minimum height=0.7cm, 
+        minimum width=2.7cm, 
+        inner sep=3pt 
+        }, 
+    lab/.style={ 
+        font=\footnotesize 
+        }, 
+    flow/.style={ 
+        ->, very thick, 
+        shorten >=2pt, 
+        shorten <=2pt 
+        } 
+    ] 
+    \node[main] (v) at (0,0) 
+    {$v$\\[-1mm]\scriptsize $h_v^{(t-1)}$}; 
+    \node[neigh] (u1) at (-1.8,1.4) 
+    {$u_1$\\[-1mm]\scriptsize $h_{u_1}^{(t-1)}$}; 
+    \node[neigh] (u2) at (-1.9,-1.4) 
+    {$u_2$\\[-1mm]\scriptsize $h_{u_2}^{(t-1)}$}; 
+    \node[neigh] (u3) at (1.8,1.4) 
+    {$u_3$\\[-1mm]\scriptsize $h_{u_3}^{(t-1)}$}; 
 
-% -----------------------------
-% Graph nodes
-% -----------------------------
-\node[main] (v) at (0,0) {$v$\\[-1mm]\scriptsize $h_v^{(t-1)}$};
+    % ----------------------------- 
+    % Graph edges and message flow 
+    % ----------------------------- 
 
-\node[neigh] (u1) at (-2.2,1.8) {$u_1$\\[-1mm]\scriptsize $h_{u_1}^{(t-1)}$};
-\node[neigh] (u2) at (-2.4,-1.8) {$u_2$\\[-1mm]\scriptsize $h_{u_2}^{(t-1)}$};
-\node[neigh] (u3) at (2.2,1.8) {$u_3$\\[-1mm]\scriptsize $h_{u_3}^{(t-1)}$};
+    \draw[ 
+        ->, 
+        very thick, 
+        blue!70, 
+        shorten >=3pt, 
+        shorten <=3pt 
+        ] 
+    (u1) -- (v); 
+        
+    \draw[ 
+        ->, 
+        very thick, 
+        blue!70, 
+        shorten >=3pt, 
+        shorten <=3pt 
+        ] 
+    (u2) -- (v); 
+    
+    \draw[ 
+        ->, 
+        very thick, 
+        blue!70, 
+        shorten >=3pt, 
+        shorten <=3pt 
+        ] 
+    (u3) -- (v); 
 
-% Edges
-\draw[thick] (u1) -- (v);
-\draw[thick] (u2) -- (v);
-\draw[thick] (u3) -- (v);
+    % Neighborhood label 
+    \node[lab] at (0,-2.2) 
+    {$N_G(v)=\{u_1,u_2,u_3\}$};
 
-% Arrows showing flow
-\draw[->, very thick, blue!70] (u1) -- (-0.55,0.45);
-\draw[->, very thick, blue!70] (u2) -- (-0.55,-0.45);
-\draw[->, very thick, blue!70] (u3) -- (0.55,0.45);
+     % ----------------------------- 
+     % Aggregation block 
+     % ----------------------------- 
+     \node[box] (agg) at (5,0) { 
+        $\displaystyle m_v^{(t)} = \mathscr{A} \bigl( \{h_u^{(t-1)}:u\in N_G(v)\} \bigr) $ 
+        }; 
+    \draw[flow] (v.east) -- (agg.west); 
+    
+    % ----------------------------- 
+    % Update block 
+    % ----------------------------- 
+    
+    \node[box] (upd) at (9.5,0) { 
+        $\displaystyle h_v^{(t)} = \mathscr{U} \left( h_v^{(t-1)}, m_v^{(t)} \right) $ 
+        }; 
+    \draw[flow] (agg.east) -- (upd.west); 
+    % ----------------------------- 
+    % Updated node 
+    % ----------------------------- 
+    
+    \node[ main, fill=green!18 ] (newv) at (12.8,0) {
+        $v$\\[-1mm]\scriptsize $h_v^{(t)}$
+        }; 
+    \draw[flow] (upd.east) -- (newv.west); 
 
-% Neighborhood label
-\node[lab] at (0,-2.9) {$N_G(v)=\{u_1,u_2,u_3\}$};
+    % ----------------------------- 
+    % Final embedding 
+    % ----------------------------- 
+    
+    \node[smallbox] (final) at (9.5,-1.8) { 
+        $\displaystyle z_v=h_v^{(K)}$ 
+        }; 
 
-% -----------------------------
-% Aggregation block
-% -----------------------------
-\node[box] (agg) at (5.8,0.8) {
-$\displaystyle
-m_v^{(t)} = \mathscr{A}\bigl(\{\,h_u^{(t-1)} : u \in N_G(v)\,\}\bigr)
-$
-};
+    \node[lab] at (9.5,-2.65) {Representación final del nodo tras $K$ iteraciones}; 
+    
+    \draw[ 
+        ->, 
+        thick, 
+        dashed, 
+        rounded corners, 
+        shorten >=2pt, 
+        shorten <=2pt 
+        ] 
+        
+    (newv.south) |- (final.east); 
 
-\draw[->, very thick] (1.0,0) -- node[above, lab] {representaciones vecinas} (4.2,0.8);
-
-% -----------------------------
-% Update block
-% -----------------------------
-\node[box] (upd) at (11.5,0.8) {
-$\displaystyle
-h_v^{(t)} = \mathscr{U}\!\left(h_v^{(t-1)},\, m_v^{(t)}\right)
-$
-};
-
-\draw[->, very thick] (7.5,0.8) -- (9.9,0.8);
-
-% Updated node
-\node[main, fill=green!18] (newv) at (15.5,0.8) {$v$\\[-1mm]\scriptsize $h_v^{(t)}$};
-
-\draw[->, very thick] (13.3,0.8) -- (14.7,0.8);
-
-% -----------------------------
-% Final embedding annotation
-% -----------------------------
-\node[smallbox] (final) at (11.5,-2.2) {
-$\displaystyle z_u = h_u^{(K)}$
-};
-
-\node[lab] at (11.5,-3.2) {Representación final del nodo tras $K$ iteraciones};
-
-% -----------------------------
-% Step annotation
-% -----------------------------
-\node[lab, anchor=west] at (-3.4,3.0) {\textbf{Iteración \(t\):} propagación local en el grafo};
-\node[lab, anchor=west] at (4.0,2.3) {\textbf{1.} Agregación de vecinos};
-\node[lab, anchor=west] at (9.8,2.3) {\textbf{2.} Actualización del estado};
-
-\end{tikzpicture}
-
+        % ----------------------------- 
+        % Step annotations 
+        % ----------------------------- 
+        \node[lab, anchor=west] at (-2.7,2.4) {
+            \textbf{Iteración \(t\):} Propagación local
+            }; 
+            
+        \node[lab] at (5,1.8) {
+            \textbf{1.} Agregación
+            
+            }; 
+            
+            \node[lab] at (9.5,1.8) {
+                \textbf{2.} Actualización
+                }; 
+            
+            \end{tikzpicture} }
 \caption{Esquema del mecanismo de propagación de información en una red neuronal sobre grafos. En la iteración \(t\), cada nodo \(v\) agrega las representaciones de sus vecinos mediante una función invariante al orden \(\mathscr{A}\), obteniendo \(m_v^{(t)}\). Posteriormente, su representación se actualiza mediante \(\mathscr{U}\), combinando el estado previo con la información agregada. Tras \(K\) iteraciones, se obtiene la representación final \(z_u = h_u^{(K)}\), que captura información estructural del grafo.}
 \label{fig:gnn-message-passing-formal}
 \end{figure}
-
-
+\newpage
 \subsection{La GNN fundamental}
 Hasta el momento, se ha estudiado el marco de las GNN de una manera un poco abstracta utilizando las funciones que definimos en la sección anterior e iterando K veces.\\
 Para introducir una manera de abordarlas de forma más general, introducimos el modelo GNN más básico.
