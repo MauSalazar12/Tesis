@@ -137,3 +137,41 @@
 \newtheorem{lemma}{Lema}
 \newtheorem{corollary}{Corolario}
 \newtheorem{proposition}{Proposición}
+
+
+\definecolor{vscodeblue}{RGB}{0, 92, 197}
+\definecolor{vscodegreen}{RGB}{0, 128, 0}
+\definecolor{vscodeorange}{RGB}{163, 21, 21}
+\definecolor{vscodepurple}{RGB}{111, 0, 138}
+\definecolor{vscodegray}{RGB}{100, 100, 100}
+\definecolor{vscodebg}{RGB}{248, 248, 248}
+
+\lstdefinestyle{pythonVSCode}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{vscodeblue}\bfseries,
+    commentstyle=\color{vscodegreen}\itshape,
+    stringstyle=\color{vscodeorange},
+    backgroundcolor=\color{vscodebg},
+    numbers=left,
+    numberstyle=\tiny\color{vscodegray},
+    numbersep=8pt,
+    frame=single,
+    rulecolor=\color{vscodegray},
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    tabsize=4,
+    columns=fullflexible,
+    keepspaces=true,
+    emph={
+        np,
+        ndarray,
+        logical_or,
+        astype,
+        isinstance,
+        TypeError,
+        ValueError
+    },
+    emphstyle=\color{vscodepurple}
+}

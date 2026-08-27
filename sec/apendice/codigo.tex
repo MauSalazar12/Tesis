@@ -1,0 +1,91 @@
+\chapter{Codigo implementado en Python}\label{ap:codigo}
+\begin{lstlisting}[
+    style=pythonVSCode,
+    caption={Función de suma booleana mediante la operación OR},
+    label={lst:sumaBooleanaOr}
+]
+def sumaBoleanaOr(row1, row2):
+    """
+    Realiza una suma booleana (OR logico) elemento a elemento
+    entre dos arreglos de entrada.
+
+    Args:
+        row1 (np.ndarray): Primer arreglo de entrada.
+        row2 (np.ndarray): Segundo arreglo de entrada.
+
+    Returns:
+        np.ndarray: Resultado del OR logico.
+
+    Raises:
+        ValueError: Si las dimensiones no coinciden.
+        TypeError: Si las entradas no son arreglos de Numpy.
+    """
+
+    # Validar que las entradas sean arreglos de Numpy
+    if (
+        not isinstance(row1, np.ndarray)
+        or not isinstance(row2, np.ndarray)
+    ):
+        raise TypeError(
+            "Ambas entradas deben ser arreglos de Numpy "
+            "(np.ndarray)."
+        )
+
+    # Validar dimensiones
+    if row1.shape != row2.shape:
+        raise ValueError(
+            "Ambos arreglos deben tener las mismas dimensiones."
+        )
+
+    # Aplicar la operacion OR
+    boolean_result = np.logical_or(row1, row2)
+
+    # Convertir booleanos a enteros
+    return boolean_result.astype(int)
+\end{lstlisting}
+
+\begin{lstlisting}[
+    style=pythonVSCode,
+    caption={Función para eliminar un nodo y redistribuir sus adyacencias},
+    label={lst:eliminaNodoConAdyacencia}
+]
+def eliminaNodoConAdyacencia(nodo, matrizAdj):
+    """
+    Elimina un nodo de un grafo representado por una matriz
+    de adyacencia, redistribuyendo sus conexiones entre
+    sus vecinos.
+
+    Args:
+        nodo (int): Indice del nodo a eliminar.
+        matrizAdj (np.ndarray): Matriz de adyacencia
+        del grafo.
+
+    Returns:
+        np.ndarray: Matriz de adyacencia actualizada.
+
+    Raises:
+        ValueError: Si el nodo no es valido o la matriz
+        no es cuadrada.
+    """
+
+    # Obtener los vecinos del nodo
+    neighbors = torch.where(
+        matrizAdj[nodo] == 1
+    )[0]
+
+    # Redistribuir las conexiones del nodo a sus vecinos
+    for v in neighbors:
+        matrizAdj[v] = torch.logical_or(
+            matrizAdj[v],
+            matrizAdj[nodo]
+        ).type(torch.int)
+
+    # Eliminar las conexiones del nodo
+    # Poner a cero la fila del nodo
+    matrizAdj[nodo, :] = 0
+
+    # Poner a cero la columna del nodo
+    matrizAdj[:, nodo] = 0
+
+    return matrizAdj
+\end{lstlisting}

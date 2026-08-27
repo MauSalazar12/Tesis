@@ -47,3 +47,4 @@
 \contentsline {section}{\numberline {5.3}An^^c3^^a1lisis de resultados}{72}{section.5.3}%
 \contentsline {section}{\numberline {5.4}Conclusiones}{73}{section.5.4}%
 \contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{75}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {B}Codigo implementado en Python}{76}{appendix.Alph2}%
