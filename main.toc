@@ -38,11 +38,12 @@
 \contentsline {section}{\numberline {4.6}M^^c3^^a9todo general para la reducci^^c3^^b3n de nodos}{64}{section.4.6}%
 \contentsline {section}{\numberline {4.7}An^^c3^^a1lisis de Complejidad}{65}{section.4.7}%
 \contentsline {chapter}{\numberline {5}Resultados}{67}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Arquitecturas utilizadas (Fourier Neural Operator, Dynamic Graph CNN, PointNet, PointNet++)}{68}{section.5.1}%
+\contentsline {section}{\numberline {5.1}Arquitecturas utilizadas}{67}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Fourier Neural Operator}{68}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Dynamic Graph CNN}{68}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}PointNet}{68}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}PointNet++}{69}{subsection.5.1.4}%
-\contentsline {section}{\numberline {5.2}Resultados de la evaluaci^^c3^^b3n}{69}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Conclusiones}{70}{section.5.3}%
-\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{72}{appendix.Alph1}%
+\contentsline {subsection}{\numberline {5.1.2}Dynamic Graph CNN}{69}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}PointNet}{69}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}PointNet++}{71}{subsection.5.1.4}%
+\contentsline {section}{\numberline {5.2}Diferencias clave}{72}{section.5.2}%
+\contentsline {section}{\numberline {5.3}An^^c3^^a1lisis de resultados}{72}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Conclusiones}{73}{section.5.4}%
+\contentsline {chapter}{\numberline {A}Definiciones b^^c3^^a1sicas}{75}{appendix.Alph1}%

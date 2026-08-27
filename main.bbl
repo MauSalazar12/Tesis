@@ -1,4 +1,10 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{bronstein2021geometric}
+Michael~M. Bronstein, Joan Bruna, Taco Cohen, and Petar Veli{\v{c}}kovi{\'c}.
+\newblock Geometric deep learning: Grids, groups, graphs, geodesics, and
+  gauges.
+\newblock {\em arXiv preprint arXiv:2104.13478}, 2021.
 
 \bibitem{Introduction-toalgorithm}
 Thomas~H. Cormen, Charles~E. Leiserson, Ronald~L. Rivest, and Clifford Stein.
@@ -14,6 +20,12 @@ Carlos~Prieto de~Castro.
 Reinhard Diestel.
 \newblock {\em Graph Theory}.
 \newblock Springer, Graduate Texts in Mathematics, 2017.
+
+\bibitem{2025eulearn}
+Rodrigo Fritz, Pablo Suárez-Serrato, Victor Mijangos, Anayanzi~D.
+  Martinez-Hernandez, and Eduardo~Ivan Velazquez~Richards.
+\newblock Eulearn: A 3d database for learning euler characteristics.
+\newblock {\em arXiv preprint}, 2025.
 
 \bibitem{Goodfellow-et-al-2016}
 Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
@@ -36,6 +48,13 @@ D~Knuth.
 \newblock {\em The Art of Computer Programming}.
 \newblock ADDISON-WESLEY An Imprint of Addison Wesley Longman, Inc., 1998.
 
+\bibitem{minian_complejos_simpliciales_poliedros}
+E.~G. Minian.
+\newblock {\em Complejos Simpliciales y Poliedros (Introducci{\'o}n): Notas --
+  Ejercicios Guiados}.
+\newblock Departamento de Matem{\'a}tica, Facultad de Ciencias Exactas y
+  Naturales, Universidad de Buenos Aires.
+
 \bibitem{munkres_topology_2000}
 James~R. Munkres.
 \newblock {\em Topology}.
@@ -45,5 +64,10 @@ James~R. Munkres.
 Andrew Pressley.
 \newblock {\em Elementary Differential Geometry}.
 \newblock Springer Undergraduate Mathematics Series, 2010.
+
+\bibitem{xu2019powerful}
+Keyulu Xu, Weihua Hu, Jure Leskovec, and Stefanie Jegelka.
+\newblock How powerful are graph neural networks?
+\newblock In {\em International Conference on Learning Representations}, 2019.
 
 \end{thebibliography}

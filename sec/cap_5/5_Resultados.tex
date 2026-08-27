@@ -1,22 +1,23 @@
 \chapter{Resultados}
 
-Uno de los principales problemas que motivaron el método de optimización propuesto en esta tesis es la dificultad de diversas arquitecturas de aprendizaje profundo para capturar propiedades topológicas globales en estructuras tridimensionales, especialmente en superficies de género mayor que uno. Aunque modelos basados en operadores neuronales, mecanismos de atención o nubes de puntos han mostrado buenos resultados en tareas geométricas, su desempeño puede verse limitado cuando la clasificación depende de invariantes topológicos como la característica de Euler o el género, ya que suelen privilegiar información local o relaciones geométricas extrínsecas sin incorporar explícitamente la conectividad de la malla.
-
+Uno de los principales problemas que motivaron el método de optimización propuesto en este escrito es la dificultad de diversas arquitecturas de aprendizaje profundo para capturar propiedades topológicas globales en estructuras tridimensionales, especialmente en superficies de género mayor que uno. Aunque modelos basados en operadores neuronales, mecanismos de atención o nubes de puntos han mostrado buenos resultados en tareas geométricas, su desempeño puede verse limitado cuando la clasificación depende de invariantes topológicos como la característica de Euler o el género, ya que suelen dar prioridad a información local o relaciones geométricas extrínsecas sin incorporar explícitamente la conectividad de los puntos que conforman la malla.
 En este contexto surge EuLearn \cite{2025eulearn}, una base de datos diseñada para evaluar modelos de aprendizaje profundo en tareas de clasificación topológica. A diferencia de otros conjuntos de datos tridimensionales enfocados en reconocimiento de objetos, EuLearn contiene superficies con géneros controlados, lo que permite analizar si una arquitectura es capaz de distinguir entre diferentes clases topológicas a partir de campos escalares, nubes de puntos, mallas trianguladas o gráficas asociadas.
-
-Uno de los principales retos al trabajar con estas superficies es el tamaño y la complejidad de las mallas, compuestas por una gran cantidad de vértices, aristas y caras. Esto incrementa el costo computacional y dificulta el entrenamiento eficiente de los modelos. Además, una reducción ingenua de puntos puede eliminar relaciones de adyacencia relevantes para la clasificación topológica. Por ello, en esta tesis se analiza un método de optimización sobre gráficas que reduce la representación original de la malla preservando relaciones estructurales esenciales.
-
+Uno de los principales retos al trabajar con estas superficies es el tamaño y la complejidad de las mallas, compuestas por una gran cantidad de vértices, aristas y caras. Esto incrementa el costo computacional y dificulta el entrenamiento eficiente de los modelos. Además, una reducción aleatoria de puntos puede eliminar relaciones de adyacencia relevantes para la clasificación topológica. Por ello, en esta tesis se analiza un método de optimización sobre gráficas que reduce la representación original de la malla preservando relaciones estructurales esenciales.
 El método propuesto puede interpretarse como una estrategia de muestreo estructurado sobre la gráfica asociada a la malla. A diferencia de enfoques basados únicamente en distancia euclidiana, como ocurre en ciertas etapas de arquitecturas tipo PointNet++, esta aproximación considera la conectividad intrínseca de la superficie. De esta manera, se reduce la dimensionalidad de los datos de entrada sin descartar información local relevante, facilitando el entrenamiento y favoreciendo una mejor capacidad de generalización.
-
 A lo largo de este capítulo se presentan las arquitecturas utilizadas para evaluar el método propuesto, incluyendo Fourier Neural Operator, Dynamic Graph CNN, PointNet, PointNet++, modelos basados en atención, Graph Sampled PointNet y Graph Sampled Attention. Asimismo, se comparan los resultados obtenidos sobre EuLearn y se discute cómo el uso de información de adyacencia mejora el aprendizaje de propiedades topológicas globales asociadas al género y a la característica de Euler de superficies tridimensionales.
 
-\section{Arquitecturas utilizadas (Fourier Neural Operator, Dynamic Graph CNN, PointNet, PointNet++)}
-
-A lo largo de la evaluación de la base de datos, se utilizan diversas arquitecturas de aprendizaje profundo, cada una con características particulares que las hacen adecuadas para procesar datos tridimensionales. A continuación, se describen brevemente las principales arquitecturas empleadas.
+\section{Arquitecturas utilizadas}
+A lo largo de la evaluación de las superficies contenidas en la base de datos \cite{2025eulearn}, se utilizan diversas arquitecturas de aprendizaje profundo, cada una con características particulares que las hacen adecuadas para procesar datos tridimensionales. A continuación, se describen brevemente las principales arquitecturas empleadas.
 
 \subsection{Fourier Neural Operator}
+El modelo Fourier Neural Operator (FNO) es una arquitectura diseñada para aprender operadores entre espacios de funciones. En el contexto de EuLearn, esta arquitectura se utiliza sobre la representación continua de la superficie, en lugar de operar directamente sobre la nube de puntos o la malla triangular. Su idea principal consiste primero en transformar información geométrica en un conjunto de frecuencias mediante la transformada de Fourier, posteriormente la red aprende qué patrones de esas frecuencias son relevantes y, finalmente transforma nuevamente la información al espacio original mediante la transformada inversa de Fourier. De esta forma esta estrategia permite capturar relaciones globales en la superficie lo cual es de suma importancia para la clasificacón topológica.
 
-El modelo Fourier Neural Operator (FNO) es una arquitectura diseñada para aprender operadores entre espacios de funciones. En el contexto de EuLearn, esta arquitectura se utiliza sobre la representación de campo escalar de la superficie, en lugar de operar directamente sobre la nube de puntos o la malla triangular. Su idea principal consiste en transformar la entrada al dominio de Fourier, aplicar una transformación aprendible en el espacio frecuencial y regresar posteriormente al dominio espacial mediante la transformada inversa.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/comparacion.png}
+    \caption{Comparación entre malla triangulada, nube de puntos y campo escalar.}
+    \label{fig:comparacion}
+\end{figure}
 
 De manera general, un bloque FNO puede escribirse como
 \[
@@ -30,15 +31,18 @@ R_\theta \cdot \mathcal{F}(v_t)
 \right)(x)
 \right),
 \]
-
 donde $(v_t)$ es la representación de entrada en la capa $(t)$, $(W)$ es una transformación lineal local, $(\mathcal{F})$ y $(\mathcal{F}^{-1})$ denotan la transformada de Fourier y su inversa, respectivamente, $(R_\theta)$ es un tensor de pesos aprendibles en el dominio frecuencial y $(\sigma)$ es una función de activación.
 
-
-
-
 \subsection{Dynamic Graph CNN}
+La arquitectura Dynamic Graph CNN (DGCNN) es una arquitectura diseñada para procesar nubes de puntos mediante convoluciones definidas sobre gráficas dinámicas. Para cada punto , identifica los más cercanos, usualmente mediante (k)-nearest neighbors, y los conecta formando una gráfica, de esta forma, la red analiza la relación entre cada punto y sus vecinos para aprender características locales de la forma de la superficie. Además, estas conexiones pueden volver a calcularse durante las diferentes capas de la red, por lo que la gráfica cambia dinámicamente conforme el modelo aprende nuevas características.
 
-La arquitectura Dynamic Graph CNN (DGCNN) procesa nubes de puntos mediante convoluciones definidas sobre gráficas dinámicas. A partir de una nube de puntos, se construye una gráfica usando vecinos más cercanos, usualmente mediante (k)-nearest neighbors. A diferencia de una convolución tradicional, DGCNN aplica operaciones sobre las aristas de la gráfica, lo que permite modelar relaciones locales entre puntos.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/DGCNN.png}
+    \caption{Flujo de la operación EdgeConv en DGCNN.}
+    \label{fig:DGCNN}
+\end{figure}
+
 
 La operación central de DGCNN es EdgeConv, definida como
 
@@ -54,8 +58,28 @@ donde $(h_i^{(l)})$ representa la característica del punto $(i)$ en la capa $(l
 
 \subsection{PointNet}
 
-PointNet es una arquitectura diseñada para procesar directamente nubes de puntos sin necesidad de convertirlas en vóxeles o imágenes. Su principal propiedad es la invariancia ante permutaciones, es decir, el resultado no depende del orden en que se presenten los puntos de entrada.
+PointNet es una arquitectura diseñada para procesar directamente nubes de puntos. Cada punto contiene normalmente coordenadas trdimensionales $(x,y,z)$, por lo que no es necesario transformar previamente el objeto en imágenes o vóxeles.Su principal propiedad es la invariancia ante permutaciones, es decir, el resultado no depende del orden en que se presenten los puntos de entrada, por lo que PointNet está diseñada para producir el mismo resultado aunque los puntos se presenten en un orden diferente. Esto se logra mediante el uso de operaciones simétricas, como la función $(\max)$, que agregan información de todos los puntos sin importar su orden.Así, PointNet puede obtener una representación global de la forma que puede utilizarse para tareas de clasificación o segmentación.
 
+\begin{figure}[H]
+    \centering
+
+    % Primera imagen
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pointnet1.png}
+        \label{fig:pointnet1}
+    \end{subfigure}
+    \vspace{0.1cm}
+    % Segunda imagen
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pointnet2.png}
+        \label{fig:pointnet2}
+    \end{subfigure}
+
+    \caption{Flujo de la arquitectura PointNet. La primera imagen muestra la transformación de cada punto mediante una red MLP, mientras que la segunda ilustra la agregación de características mediante la operación simétrica $\max$ y la posterior clasificación mediante otra red MLP.}
+    \label{fig:flujo_pointnet}
+\end{figure}
 Dada una nube de puntos
 
 \[
@@ -79,7 +103,27 @@ donde $(\phi)$ transforma cada punto de manera independiente, $(\max)$ es una op
 
 \subsection{PointNet++}
 
-PointNet++ extiende PointNet incorporando una estructura jerárquica de agrupamiento local. En lugar de procesar todos los puntos de manera completamente independiente, PointNet++ selecciona subconjuntos de puntos y construye vecindades locales alrededor de ellos. Sobre cada vecindad se aplica una versión local de PointNet para extraer características a distintas escalas.
+PointNet++ extiende PointNet incorporando una estructura jerárquica de agrupamiento local. En lugar de procesar todos los puntos de manera completamente independiente, PointNet++ selecciona algunos puntos representativos y construye al rededor de ellos vecindades locales.Cada uno de estas vecindades representa una pequeña región de la superficie y es procesado mediante una versión local de PontNet para extraer características de esa zona. Después, estas regiones pueden volver a agruparse para formar regiones más grandes, así , PointNet++ aprende características de la superficie a diferentes escalas, lo que permite capturar tanto información local como global.
+
+\begin{figure}[H]
+    \centering
+    % Primera imagen
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pointnetplus1.png}
+        \label{fig:pointnetplus1}
+    \end{subfigure}
+    \vspace{0.1cm}
+    % Segunda imagen
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/pointnetplus2.png}
+        \label{fig:pointnetplus2}
+    \end{subfigure}
+
+    \caption{Flujo de la arquitectura PointNet++.}
+    \label{fig:flujo_pointnet_plus}
+\end{figure}
 
 De forma esquemática, para un punto central $(x_i)$, se considera una vecindad local
 \[
@@ -100,9 +144,12 @@ x_j - x_i
 
 donde $(x_j - x_i)$ representa la posición relativa de los puntos vecinos respecto al centroide $(x_i)$. Posteriormente, estas representaciones locales se combinan jerárquicamente para obtener una representación global de la nube de puntos.
 
+\section{Diferencias clave}
+Una vez descrita cada arquitectura que se ha utilizado para la evaluación de las superficies disponibles en la base de datos Eulearn, es importante destacar las diferencias clave entre ellas y a partir de estas diferencias, notar la importancia de la incorporación de información de adyacencias disponibles en las nuevas arquitecturas propuestas en \cite{2025eulearn}, así cómo la relevancia de los métodos de optimización propuestos en esta tesis.
 
 
-\section{Resultados de la evaluación}
+
+\section{Análisis de resultados}
 
 Con el objetivo de evaluar la efectividad del método de optimización propuesto en esta tesis, se realizaron diversos experimentos sobre el conjunto de datos EuLearn, el cual contiene superficies tridimensionales con distintas características topológicas. Se comparó el desempeño de diferentes arquitecturas de aprendizaje profundo utilizando las métricas de Precisión (Precision), Exhaustividad (Recall), Medida $F_{1}$ y Exactitud (Accuracy).
 
