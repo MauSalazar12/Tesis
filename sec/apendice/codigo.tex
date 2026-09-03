@@ -1,91 +1,263 @@
 \chapter{Codigo implementado en Python}\label{ap:codigo}
 \begin{lstlisting}[
     style=pythonVSCode,
-    caption={Función de suma booleana mediante la operación OR},
-    label={lst:sumaBooleanaOr}
+    caption={Algoritmo principal de muestreo con preservación de adyacencias},
+    label={lst:samplingPrincipal}
 ]
-def sumaBoleanaOr(row1, row2):
+import numpy as np
+from copy import deepcopy
+from scipy.sparse.csgraph import minimum_spanning_tree
+
+
+def generaPuntosUniformes(h, k, l, num_puntos):
     """
-    Realiza una suma booleana (OR logico) elemento a elemento
-    entre dos arreglos de entrada.
+    Genera puntos uniformemente distribuidos
+    dentro de una esfera unitaria centrada
+    en (h, k, l).
+    """
+
+    puntos = []
+
+    for _ in range(num_puntos):
+
+        # Metodo de Marsaglia para generar
+        # una direccion uniforme en la esfera
+        while True:
+            V1, V2 = np.random.uniform(-1, 1, 2)
+            S = V1**2 + V2**2
+
+            if 0 < S < 1:
+                break
+
+        a = np.sqrt(1 - S)
+
+        # Direccion sobre la esfera unitaria
+        dx = 2 * V1 * a
+        dy = 2 * V2 * a
+        dz = 2 * S - 1
+
+        # Radio con distribucion proporcional
+        # al volumen de la esfera
+        r = np.random.uniform(0, 1)**(1 / 3)
+
+        # Trasladar el punto al centro (h, k, l)
+        x = h + r * dx
+        y = k + r * dy
+        z = l + r * dz
+
+        puntos.append([x, y, z])
+
+    return np.array(puntos)
+
+
+def sampling(x, adjacency, size=1000, alcance=1.0, esfera_size=50):
+    """
+    Reduce el numero de nodos de una grafica
+    conservando informacion de adyacencia.
 
     Args:
-        row1 (np.ndarray): Primer arreglo de entrada.
-        row2 (np.ndarray): Segundo arreglo de entrada.
+        x:
+            Coordenadas de los nodos.
+
+        adjacency:
+            Matriz de adyacencia original.
+
+        size:
+            Numero objetivo de nodos.
+
+        alcance:
+            Distancia maxima utilizada para
+            identificar vecinos espaciales.
+
+        esfera_size:
+            Numero de puntos utilizados para
+            construir la region de busqueda.
 
     Returns:
-        np.ndarray: Resultado del OR logico.
+        new_x:
+            Coordenadas de los nodos conservados.
 
-    Raises:
-        ValueError: Si las dimensiones no coinciden.
-        TypeError: Si las entradas no son arreglos de Numpy.
+        new_adj:
+            Matriz de adyacencia reducida.
     """
 
-    # Validar que las entradas sean arreglos de Numpy
-    if (
-        not isinstance(row1, np.ndarray)
-        or not isinstance(row2, np.ndarray)
-    ):
-        raise TypeError(
-            "Ambas entradas deben ser arreglos de Numpy "
-            "(np.ndarray)."
+    # --------------------------------------------------
+    # 1. Construccion del arbol generador minimo (MST)
+    # --------------------------------------------------
+
+    mst = minimum_spanning_tree(adjacency).toarray().astype(int)
+
+    # Convertir el MST en una estructura simetrica
+    mst = mst + mst.T
+
+    # --------------------------------------------------
+    # 2. Recorrido DFS sobre el MST
+    # --------------------------------------------------
+
+    def dfs_order(node, visited, order):
+        visited[node] = True
+        order.append(node)
+
+        neighbors = np.where(mst[node] == 1)[0]
+
+        for neighbor in neighbors:
+            if not visited[neighbor]:
+                dfs_order(neighbor, visited, order)
+
+    visited = np.zeros(adjacency.shape[0], dtype=bool)
+    order = []
+
+    # Comenzar el recorrido desde el nodo 0
+    dfs_order(0, visited, order)
+
+    # --------------------------------------------------
+    # 3. Inicializacion del muestreo
+    # --------------------------------------------------
+
+    new_adj = deepcopy(adjacency)
+
+    # Orden inicial inducido por DFS
+    queue = list(order)
+
+    # Nodos que seran eliminados
+    delel = []
+
+    M = adjacency.shape[0]
+
+    # --------------------------------------------------
+    # 4. Proceso iterativo de reduccion
+    # --------------------------------------------------
+
+    while M - len(set(delel)) > size and len(queue) > 0:
+
+        # Si ya existen nodos eliminados,
+        # reorganizar los candidatos
+        if delel:
+
+            # Nodos que aun permanecen
+            index_selected = list(set(range(M)) - set(delel))
+            selected_coords = x[index_selected]
+
+            # Calcular el centroide de los
+            # puntos que permanecen
+            centroid = selected_coords.mean(axis=0)
+
+            # Distancia de cada nodo de la
+            # cola respecto al centroide
+            dists = np.linalg.norm(x[queue] - centroid, axis=1)
+
+            # Priorizar los puntos mas alejados
+            queue = [queue[i] for i in np.argsort(dists)[::-1]]
+
+        # --------------------------------------------------
+        # 5. Seleccion del nodo central
+        # --------------------------------------------------
+
+        idx = queue.pop(0)
+        h, k, l = x[idx]
+
+        # --------------------------------------------------
+        # 6. Construccion de la region espacial
+        # --------------------------------------------------
+
+        sphere_points = generaPuntosUniformes(h, k, l, esfera_size)
+
+        # Calcular la distancia de cada nodo
+        # a los puntos de la region generada
+        distances = np.linalg.norm(
+            x[:, None] - sphere_points[None, :], axis=2
         )
 
-    # Validar dimensiones
-    if row1.shape != row2.shape:
-        raise ValueError(
-            "Ambos arreglos deben tener las mismas dimensiones."
+        # Nodos que cumplen la condicion
+        # de proximidad espacial
+        sphere_neighbors = np.where(
+            distances.min(axis=1) <= alcance
+        )[0]
+
+        # --------------------------------------------------
+        # 7. Interseccion con la adyacencia
+        # --------------------------------------------------
+
+        adjacent_neighbors = np.where(adjacency[idx] == 1)[0]
+
+        # Un nodo se considera candidato unicamente
+        # si cumple proximidad espacial y adyacencia
+        neigs = np.intersect1d(sphere_neighbors, adjacent_neighbors)
+
+        # Ignorar nodos eliminados previamente
+        neigs = np.array([n for n in neigs if n not in delel])
+
+        # Evitar eliminar mas nodos de los
+        # necesarios para alcanzar la medida objetivo
+        remaining = M - len(set(delel)) - size
+
+        if len(neigs) > remaining:
+            neigs = neigs[:remaining]
+
+        # Eliminar los vecinos seleccionados
+        # de la cola de candidatos
+        queue = list(set(queue).difference(neigs))
+
+        # --------------------------------------------------
+        # 8. Redistribucion de adyacencias
+        # --------------------------------------------------
+
+        for n in neigs:
+
+            # Vecinos del nodo que sera eliminado
+            nears = list(
+                set(np.where(new_adj[n] == 1)[0]).difference(delel)
+            )
+
+            if len(nears) == 0:
+                continue
+
+            # Reunir las conexiones de
+            # los vecinos del nodo n
+            result = new_adj[nears].sum(axis=0)
+
+            # Transferir las conexiones
+            # hacia el nodo central idx
+            new_adj[idx] += result
+            new_adj.T[idx] += result
+
+        # --------------------------------------------------
+        # 9. Eliminacion de los nodos seleccionados
+        # --------------------------------------------------
+
+        new_adj[neigs] = 0
+        new_adj.T[neigs] = 0
+
+        delel += list(neigs)
+
+        # Eliminar elementos repetidos
+        delel = list(set(delel))
+
+    # --------------------------------------------------
+    # 10. Construccion de la grafica reducida
+    # --------------------------------------------------
+
+    new_adj = np.delete(new_adj, delel, axis=0)
+    new_adj = np.delete(new_adj, delel, axis=1)
+
+    # Binarizar la matriz de adyacencia
+    new_adj = 1 * (new_adj > 0)
+
+    # Eliminar posibles auto-conexiones
+    np.fill_diagonal(new_adj, 0)
+
+    # Indices correspondientes
+    # a los nodos conservados
+    index = list(set(range(M)).difference(delel))
+
+    # Nueva nube de puntos
+    new_x = x[index, :]
+
+    print(
+        '\nOriginal size: {}\nSampling size: {}'.format(
+            x.shape, new_x.shape
         )
+    )
 
-    # Aplicar la operacion OR
-    boolean_result = np.logical_or(row1, row2)
-
-    # Convertir booleanos a enteros
-    return boolean_result.astype(int)
-\end{lstlisting}
-
-\begin{lstlisting}[
-    style=pythonVSCode,
-    caption={Función para eliminar un nodo y redistribuir sus adyacencias},
-    label={lst:eliminaNodoConAdyacencia}
-]
-def eliminaNodoConAdyacencia(nodo, matrizAdj):
-    """
-    Elimina un nodo de un grafo representado por una matriz
-    de adyacencia, redistribuyendo sus conexiones entre
-    sus vecinos.
-
-    Args:
-        nodo (int): Indice del nodo a eliminar.
-        matrizAdj (np.ndarray): Matriz de adyacencia
-        del grafo.
-
-    Returns:
-        np.ndarray: Matriz de adyacencia actualizada.
-
-    Raises:
-        ValueError: Si el nodo no es valido o la matriz
-        no es cuadrada.
-    """
-
-    # Obtener los vecinos del nodo
-    neighbors = torch.where(
-        matrizAdj[nodo] == 1
-    )[0]
-
-    # Redistribuir las conexiones del nodo a sus vecinos
-    for v in neighbors:
-        matrizAdj[v] = torch.logical_or(
-            matrizAdj[v],
-            matrizAdj[nodo]
-        ).type(torch.int)
-
-    # Eliminar las conexiones del nodo
-    # Poner a cero la fila del nodo
-    matrizAdj[nodo, :] = 0
-
-    # Poner a cero la columna del nodo
-    matrizAdj[:, nodo] = 0
-
-    return matrizAdj
+    return new_x, new_adj
 \end{lstlisting}

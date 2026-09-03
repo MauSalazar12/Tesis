@@ -144,10 +144,6 @@ x_j - x_i
 
 donde $(x_j - x_i)$ representa la posición relativa de los puntos vecinos respecto al centroide $(x_i)$. Posteriormente, estas representaciones locales se combinan jerárquicamente para obtener una representación global de la nube de puntos.
 
-\section{Diferencias clave}
-Una vez descrita cada arquitectura que se ha utilizado para la evaluación de las superficies disponibles en la base de datos Eulearn, es importante destacar las diferencias clave entre ellas y a partir de estas diferencias, notar la importancia de la incorporación de información de adyacencias disponibles en las nuevas arquitecturas propuestas en \cite{2025eulearn}, así cómo la relevancia de los métodos de optimización propuestos en esta tesis.
-
-
 
 \section{Análisis de resultados}
 
@@ -175,15 +171,10 @@ GS Attention (propuesto) & 0.81 & 0.81 & 0.79 & 0.81 \\
 \end{table}
 
 Los resultados muestran que las arquitecturas tradicionales presentan dificultades para capturar propiedades topológicas globales de las superficies. Esto se observa particularmente en los modelos basados en atención y en DGCNN, cuyos valores de precisión y exactitud permanecen por debajo del $20\%$.
-
 Por otra parte, las arquitecturas diseñadas específicamente para el procesamiento de nubes de puntos, como PointNet y PointNet++, muestran una mejora considerable, alcanzando exactitudes de $49\%$ y $63\%$, respectivamente. Estos resultados sugieren que la incorporación de información geométrica local permite una mejor representación de las superficies, aunque todavía existen limitaciones para capturar adecuadamente características topológicas globales.
-
 La principal contribución de este trabajo se refleja en las variantes GS PointNet y GS Attention, las cuales incorporan el método de optimización desarrollado en esta tesis. Dicho procedimiento realiza una reducción estructurada de la representación original preservando relaciones de adyacencia y propiedades topológicas relevantes. Como consecuencia, ambas arquitecturas obtienen los mejores resultados experimentales.
-
 En particular, GS Attention alcanzó una exactitud del $81\%$ y una medida $F_{1}$ de $0.79$, mientras que GS PointNet obtuvo una precisión de $0.82$ y una exactitud del $79\%$. Estos valores representan mejoras significativas respecto a sus contrapartes tradicionales.
-
 Comparando directamente PointNet++ con GS Attention, se observa un incremento absoluto de $18$ puntos porcentuales en exactitud ($63\%$ frente a $81\%$), lo que equivale a una mejora relativa aproximada del $28.6\%$. Asimismo, la medida $F_{1}$ aumenta de $0.52$ a $0.79$, evidenciando una mejor capacidad para identificar correctamente las distintas clases topológicas presentes en el conjunto de datos.
-
 Estos resultados permiten concluir que el método de optimización propuesto contribuye de manera significativa a la preservación de información estructural relevante para el aprendizaje. La mejora observada en todas las métricas evaluadas sugiere que la estrategia desarrollada facilita la extracción de características topológicas discriminativas, permitiendo a las redes neuronales capturar propiedades globales de las superficies con mayor efectividad.
 
 \section{Conclusiones}
