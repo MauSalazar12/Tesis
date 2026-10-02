@@ -1,66 +1,67 @@
-\chapter{Construcción de algoritmo de muestreo}
+\chapter{Construcción de algoritmo de muestreo}\label{cap:muestreo}
 
-En los últimos años, el Aprendizaje Profundo (\textit{Deep Learning}) se ha consolidado sobre bases matemáticas sólidas procedentes del álgebra lineal, el análisis matemático y la estadística \cite{Goodfellow-et-al-2016}. Sin embargo, la interacción entre ambas disciplinas no se limita a la fundamentación teórica de los modelos; por el contrario, las redes neuronales se emplean cada vez más como herramientas exploratorias para analizar la estructura de objetos matemáticos abstractos y complejos \cite{bronstein2021geometric}.
+El Capítulo~\ref{cap:graficasysuperficies} estableció los fundamentos para representar superficies mediante complejos simpliciales, mientras que el Capítulo~\ref{cap:redes} introdujo el uso de las relaciones de adyacencia en modelos neuronales sobre gráficas. A partir de la Definición~\ref{def:complejo-simplicial} y del mecanismo de propagación de mensajes de la Definición~\ref{def:propagacion-mensajes}, este capítulo desarrolla la metodología implementada para reducir el número de nodos de la representación computacional de una superficie triangulada.
 
-En este contexto, el presente capítulo aborda el estudio y modelado de superficies tridimensionales construidas a partir de nudos de Lissajous, definidos mediante funciones armónicas periódicas que dan lugar a variedades con diversas configuraciones topológicas y grados de autointersección. Si bien las Redes Neuronales de Gráficas (\textit{Graph Neural Networks}, GNNs) \cite{xu2019powerful} han demostrado ser efectivas en el dominio de datos no euclidianos, las implementaciones convencionales presentan limitaciones para reconocer invariantes topológicos debido a que el muestreo euclidiano tradicional pierde la conectividad y adyacencia intrínsecas de la variedad \cite{2025eulearn}.
+La elección de la representación de entrada forma parte del estudio de modelos de aprendizaje profundo sobre datos geométricos \cite{Goodfellow-et-al-2016,bronstein2021geometric}. En esta tesis, EuLearn \cite{2025eulearn} proporciona el contexto de datos y clasificación de superficies al que se aplica el procedimiento. El muestreo transforma la representación de cada superficie antes de su procesamiento por los modelos; no constituye el entrenamiento de la red ni la selección de observaciones del conjunto de entrenamiento de la Definición~\ref{def:conjunto-entrenamiento}. La descripción del método implementado se distingue de los resultados reportados por los autores de EuLearn y de los experimentos de esta tesis, que se presentan en el Capítulo~\ref{cap:resultados}.
 
-Con el fin de superar esta limitación, el objetivo principal de este capítulo es desarrollar la metodología para la generación de estas superficies e implementar un algoritmo de muestreo adaptativo no euclidiano. Tal como proponen 
-\cite{2025eulearn}, este esquema de muestreo preserva la estructura topológica y la información de adyacencia, optimizando el entrenamiento y la capacidad predictiva de las redes de aprendizaje profundo. A lo largo del capítulo se detallará la metodología empleada, la cual integra el procesamiento geométrico, la representación gráfica, el algoritmo de muestreo diseñado y la evaluación de las GNNs en tareas de clasificación topológica, resaltando el potencial de estas herramientas para abordar problemas fundamentales en la teoría de nudos y la geometría computacional.
+La exposición sigue la cadena superficie, complejo simplicial, gráfica original, árbol auxiliar, proceso de reducción y gráfica reducida. Primero se identifican las coordenadas y adyacencias utilizadas como entrada; después se describen la construcción de un árbol generador mínimo, el recorrido en profundidad, la selección espacial de candidatos y la reasignación de conexiones. Finalmente, estos componentes se integran en el método general y se analiza su costo computacional tomando como referencia la implementación del Apéndice~\ref{ap:codigo}.
+
+El propósito de la reasignación es incorporar información de las conexiones al disminuir el número de nodos. Como el procedimiento actúa sobre coordenadas y adyacencias, sin actualizar las caras de la triangulación, se distingue esta reducción combinatoria de la conservación de propiedades topológicas de la superficie.
 
 \section{Construcción de superficies a partir de símplices}
-La metodología seguida para estudiar nudos de Lissajous desde un enfoque basado en gráficas comienza con la generación de superficies en $\mathbb{R}^3$ a partir de curvas de Lissajous ``engordadas'', con el objetivo de obtener objetos tridimensionales con volumen. Estas superficies se discretizan mediante una triangulación utilizando la librería \textbf{trimesh} de Python, lo cual permite representar la geometría del nudo como una malla finita compuesta por vértices y caras triangulares.
-Un archivo en formato STL describe este tipo de superficies poligonales en $\mathbb{R}^3$ mediante una colección finita de triángulos. A partir de esta representación, se construye una estructura combinatoria asociada asignando un nodo a cada vértice geométrico y añadiendo, por cada triángulo, las tres aristas que unen sus vértices. Este procedimiento, implementado mediante la librería \textbf{networkX}, produce una gráfica que corresponde al $1$-esqueleto de la triangulación de la superficie.
-En este contexto, la malla triangulada induce de manera natural un complejo simplicial bidimensional $K = (V,E,F)$, donde $V$ es el conjunto de vértices, $E$ el conjunto de aristas y $F$ el conjunto de caras triangulares (véase la definición formal en el Capítulo 1). La gráfica construida mediante \textbf{networkX} representa entonces el $1$-esqueleto de dicho complejo.
-No obstante, para estudiar rigurosamente el objeto como una superficie, no basta considerar únicamente la gráfica; es necesario incorporar también la información de las caras triangulares. La realización geométrica del complejo simplicial $K$ proporciona una aproximación discreta de la superficie original y permite analizar propiedades topológicas globales como la conectividad, la presencia de frontera y la característica de Euler,
-\[
-\chi = |V| - |E| + |F|.
-\]
+
+La construcción descrita en este trabajo parte de curvas de Lissajous en $\mathbb{R}^3$ y de superficies asociadas a su engrosamiento. Una curva es un objeto unidimensional; una región obtenida al engrosarla puede tener volumen, mientras que la superficie que delimita dicha región es bidimensional cuando satisface las condiciones de la Definición~\ref{def:superficie}. Por tanto, estar situada en $\mathbb{R}^3$ no convierte a la superficie en un objeto de dimensión tres. La implementación de muestreo del Apéndice~\ref{ap:codigo} recibe coordenadas y adyacencias ya construidas: no especifica la parametrización, el engrosamiento ni la triangulación de estas superficies.
+
+La representación computacional considerada es una malla triangular, que puede almacenarse en formato STL como una colección de triángulos. Al identificar los vértices compartidos, cada triángulo determina tres aristas. Esta descripción establece la representación de entrada, sin atribuir al código de muestreo operaciones de construcción de mallas que no aparecen en él.
+
+Retomando la Definición~\ref{def:complejo-simplicial}, se utiliza la notación computacional $K=(V,E,F)$ para registrar los vértices, las aristas y los $2$-símplices o caras triangulares. Esta terna organiza los símplices por dimensión; no sustituye la definición abstracta de complejo como familia cerrada bajo la toma de caras. En particular, cada cara triangular incluye sus aristas y vértices en el complejo. La Figura~\ref{fig:dos_simplice_cara} ilustra esta correspondencia.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.62\textwidth]{img/cara.png}
-    \caption{Identificación de una cara triangular en la malla asociada a una superficie triangulada. La región resaltada en rojo representa un $2$-símplice del complejo simplicial bidimensional inducido por la triangulación, mientras que sus lados corresponden a $1$-símplices y sus vértices a $0$-símplices. La colección de estas caras, junto con sus aristas y vértices, determina la estructura combinatoria de la superficie discretizada.}
+    \caption{Identificación de una cara triangular en la malla. La región roja representa un $2$-símplice; sus lados y vértices corresponden a los símplices de dimensiones uno y cero.}
     \label{fig:dos_simplice_cara}
 \end{figure}
 
-Desde un punto de vista topológico, esta construcción permite verificar si la malla define una $2$-variedad. En efecto, si cada arista pertenece exactamente a dos triángulos y el entorno de cada vértice es homeomorfo a un disco, entonces la realización geométrica del complejo es una superficie. Dado que la triangulación es finita, esta superficie es compacta; y si además no existen aristas de borde, se trata de una superficie cerrada.
-En términos computacionales, aunque la construcción de la gráfica a partir del archivo STL captura correctamente la estructura de adyacencia entre vértices, es fundamental almacenar explícitamente las caras triangulares para preservar la naturaleza bidimensional del objeto. Esto se logra manteniendo un registro de las ternas de vértices que definen cada triángulo, lo cual permite reconstruir el complejo simplicial completo.
-Finalmente, esta representación discreta resulta fundamental para el análisis mediante técnicas modernas de aprendizaje profundo sobre gráficas, como las Graph Neural Networks (GNNs), ya que facilita tanto la visualización —apoyada en herramientas como \textbf{matplotlib}— como el procesamiento estructural de los nudos desde una perspectiva combinatoria y geométrica.
+Para una triangulación finita de una superficie, la característica de Euler se calcula mediante
+\[
+\chi=|V|-|E|+|F|.
+\]
+La información de $F$ es indispensable para interpretar esta expresión como un invariante de la superficie triangulada. El algoritmo estudiado no recibe ni actualiza $F$; por ello, su salida no determina automáticamente una nueva triangulación y no permite concluir que se conserve la característica de Euler o el género.
+
+Una malla finita tiene realización geométrica compacta, en el sentido de la Definición~\ref{def:espacio-compacto}, pero no toda malla triangular representa una superficie. Para una superficie triangulada sin borde deben verificarse, entre otras condiciones, que cada arista pertenezca a dos caras y que cada vértice admita un entorno abierto homeomorfo a un disco abierto. La ausencia de borde como variedad no debe confundirse con la frontera de un subconjunto del espacio ambiente de la Definición~\ref{def:frontera}. En este contexto, una superficie cerrada es compacta y sin borde; estas propiedades y su género requieren comprobaciones que no se deducen de la Figura~\ref{fig:dos_simplice_superficie} ni son realizadas por la función de muestreo.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.62\textwidth]{img/superficie.png}
-    \caption{Superficie triangulada generada a partir de una curva de Lissajous engrosada en $\mathbb{R}^3$. La discretización induce un complejo simplicial bidimensional $K=(V,E,F)$, en el cual cada cara corresponde a un $2$-símplice. La superficie es compacta y sin frontera, es decir, una superficie cerrada, y posee género $1$, por lo que es topológicamente equivalente a un toro. La representación presenta una estructura entrelazada con auto-intersecciones aparentes en su proyección, producto de la parametrización periódica subyacente. Esta modelación discreta permite el análisis de propiedades topológicas mediante su estructura combinatoria, incluyendo el cálculo de invariantes como la característica de Euler.}
+    \caption{Visualización de una malla triangular asociada a la construcción basada en Lissajous. La figura ilustra su disposición espacial; por sí sola no verifica la ausencia de borde, el género ni la equivalencia topológica con otra superficie.}
     \label{fig:dos_simplice_superficie}
 \end{figure}
 
-\section{Transformación superficie a gráfica}
+\section{Transformación de superficie a gráfica}
 
-A partir de la triangulación de la superficie, el objeto geométrico puede describirse mediante un complejo simplicial bidimensional \(K=(V,E,F)\), donde \(V\) es el conjunto de vértices, \(E\) el conjunto de aristas y \(F\) el conjunto de caras triangulares. Esta representación conserva la información bidimensional de la superficie y permite estudiar propiedades topológicas globales, como la conectividad, la presencia de frontera y la característica de Euler.
+A partir de $K$, se considera su $1$-esqueleto $G=(V,E)$, conforme a la Definición~\ref{def:grafica-simple}. Se mantienen los mismos vértices y aristas y se omite $F$ en la entrada del algoritmo. Este paso conserva la adyacencia entre los vértices originales, pero deja de registrar explícitamente las caras; todavía no reduce el número de nodos.
 
-Sin embargo, para ciertos procedimientos computacionales y de visualización, resulta conveniente considerar únicamente la estructura subyacente formada por los vértices y las aristas del complejo. En este caso, se induce de manera natural una gráfica no dirigida \(G=(V,E)\), obtenida al omitir el conjunto de caras \(F\) y conservar únicamente la relación de adyacencia entre vértices. Desde este punto de vista, cada vértice del complejo simplicial se interpreta como un nodo de la gráfica, mientras que cada arista simplicial se interpreta como una arista de la gráfica.
-
-Esta reducción del complejo simplicial a su \(1\)-esqueleto es especialmente útil cuando el interés se centra en el análisis estructural del objeto, ya que permite trabajar con una representación combinatoria más ligera, sin perder la información de conectividad local. En términos formales, la gráfica \(G\) codifica la incidencia entre los vértices de la malla y proporciona una estructura adecuada para estudiar nociones propias de teoría de gráficas, tales como caminos, grados, vecindades, componentes conexas y recorridos sobre la superficie discretizada.
-
-Además, dado que cada nodo conserva su posición geométrica en \(\mathbb{R}^3\), es posible dotar a la gráfica de una realización espacial. Es decir, a cada nodo \(v \in V\) se le asocia un atributo de posición 
+A cada vértice $v\in V$ se le asocia una aplicación de posición
 \[
-\operatorname{pos}(v) = (x_v,y_v,z_v)\in \mathbb{R}^3,
+\operatorname{pos}(v)=(x_v,y_v,z_v)\in\mathbb{R}^3.
 \]
-de modo que la gráfica no sólo mantiene su estructura combinatoria, sino también su inserción geométrica en el espacio tridimensional. Esto permite visualizar la gráfica respetando la forma de la superficie original.
+Las filas del arreglo $x\in\mathbb{R}^{\nu_G\times3}$ contienen estas coordenadas, donde $\nu_G$ es el orden de la gráfica según la Definición~\ref{def:orden-tamano-adyacencia}. Junto con la matriz de adyacencia $A$ de la Definición~\ref{def:matriz-adyacencia}, determinan la entrada computacional del método. Se supone que la fila de coordenadas y la fila y columna de adyacencias con el mismo índice corresponden al mismo nodo.
 
-Con base en esta representación, la visualización se lleva a cabo construyendo, por un lado, el conjunto de nodos a partir de sus coordenadas espaciales y, por otro, el conjunto de aristas a partir de las parejas de vértices adyacentes. De esta manera, la gráfica \(G=(V,E)\) puede representarse en tres dimensiones como una nube de nodos enlazados por segmentos, lo cual permite inspeccionar visualmente la conectividad de la estructura triangulada y analizar la distribución espacial de sus vértices.
+En la arquitectura de la Definición~\ref{def:arquitectura-gnn}, las coordenadas pueden utilizarse como características iniciales, mientras que $A$ determina las conexiones para la propagación de mensajes. Estas posiciones geométricas no deben confundirse con la matriz de encajes aprendidos de la Definición~\ref{def:matriz-encajes}. La Figura~\ref{fig:superficie_grafica} muestra conjuntamente la posición de los nodos y su adyacencia; si se omiten las aristas, queda únicamente la nube de puntos.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.62\textwidth]{img/grafica_superficie.png}
-    \caption{Representación tridimensional del $1$-esqueleto de la superficie triangulada asociada a una curva de Lissajous engrosada. Los nodos, mostrados en azul, corresponden a los vértices de la malla, mientras que las aristas representan la conectividad entre vértices adyacentes en el complejo simplicial. La estructura resultante define una gráfica no dirigida embebida en $\mathbb{R}^3$, que preserva la geometría global de la superficie original. Esta visualización permite analizar la distribución espacial de los nodos, así como las relaciones de vecindad y conectividad inherentes a la discretización.}
+    \caption{Representación espacial del $1$-esqueleto de la malla. Los nodos azules conservan las coordenadas de los vértices originales y los segmentos representan sus aristas; las caras no forman parte de esta representación de entrada.}
     \label{fig:superficie_grafica}
 \end{figure}
 
-\section{Muestreo por árbol generador mínimo}
-Durante el análisis de la estructura de la gráfica, se identificó un problema asociado al procesamiento de los datos, derivado de las limitaciones del entorno local. Para abordar este desafío, se desarrolló un conjunto de métodos y técnicas orientadas a realizar un muestreo eficiente sobre la superficie y los nodos del grafo, preservando al mismo tiempo su estructura original.
-Uno de los principales retos en la obtención de muestras de una gráfica consiste en definir un esquema de recorrido que evite imponer un orden arbitrario y garantice que cada nodo sea visitado a lo más una vez. Esta propiedad es fundamental para prevenir sesgos en los resultados, los cuales pueden surgir debido al orden en que los nodos son procesados.
-Con el objetivo de realizar un muestreo aleatorio sin un orden predefinido, se proponen diversas técnicas que surgen de la integración de dos conceptos introducidos previamente en el Capítulo 2.
+\section{Árbol generador mínimo y recorrido auxiliar}
+
+Antes de seleccionar nodos para su eliminación, se construye una estructura auxiliar que organiza el recorrido inicial. Un árbol generador es una subgráfica generadora y, por tanto, conserva todos los vértices de $G$ (Definiciones~\ref{def:arbol-generador} y~\ref{def:subgrafica-generadora}). Para una gráfica conexa existe tal árbol, por el Teorema~\ref{teo:existencia-arbol-generador}, y contiene $\nu_G-1$ aristas según el Teorema~\ref{teo:caracterizaciones-arbol}. Construirlo no elimina nodos: la reducción ocurre en etapas posteriores.
+
+La Definición~\ref{def:arbol-generador-minimo} introduce la minimización de la suma de pesos. La implementación pasa directamente la matriz binaria $A$ a \texttt{minimum\_spanning\_tree}, de SciPy, que utiliza Kruskal. En consecuencia, todas las aristas presentes tienen peso uno y cualquier árbol generador tiene peso $\nu_G-1$; no se emplean distancias euclidianas como pesos ni se establece una prioridad geométrica entre aristas. Los pesos distintos de la Figura~\ref{fig:original_mst} ilustran el problema general ponderado, no los datos que recibe esta implementación.
 
 \begin{figure}[H]
 \centering
@@ -83,7 +84,7 @@ Con el objetivo de realizar un muestreo aleatorio sin un orden predefinido, se p
 ]
 
 \node[font=\Large\bfseries] at (3.8,6.7) {Gráfica original};
-\node[font=\Large\bfseries] at (15.2,6.7) {Árbol Generador Mínimo};
+\node[font=\Large\bfseries] at (15.2,6.7) {Árbol generador mínimo};
 
 
 % Nodos
@@ -176,20 +177,18 @@ Con el objetivo de realizar un muestreo aleatorio sin un orden predefinido, se p
 
     \end{tikzpicture}
 
-\caption{Comparación entre la gráfica original y el árbol generador mínimo obtenido.}
+\caption{Ejemplo ilustrativo de un árbol generador mínimo en una gráfica ponderada. Ambos objetos contienen los mismos vértices. Los pesos de este dibujo, incluido el cero, no representan la matriz binaria usada por el código, donde cero indica ausencia de arista.}
 \label{fig:original_mst}
 \end{figure}
 
-
-En primer lugar, se construye un árbol generador mínimo a partir de la matriz de adyacencia $A$ de la gráfica $G$, utilizando el algoritmo de Kruskal, el cual se describe a continuación:
-
+El Algoritmo~\ref{alg:kruskal} presenta la formulación general. La estructura \textit{Union-Find} mantiene una partición de los vértices: \textsc{Find} identifica el componente al que pertenece un vértice y \textsc{Union} reúne dos componentes. Así se decide si añadir una arista formaría un ciclo.
 
 \begin{algorithm}[H]
-\caption{Algoritmo de Kruskal para el Árbol de Expansión Mínima (MST)}
+\caption{Algoritmo de Kruskal para el árbol generador mínimo}
 \label{alg:kruskal}
 \begin{algorithmic}[1]
-\Require Grafo no dirigido \( G = (V, E) \) con pesos en las aristas
-\Ensure Árbol de expansión mínima (MST)
+\Require Gráfica conexa no dirigida \( G = (V, E) \) con pesos en las aristas
+\Ensure Árbol generador mínimo
 
 \State \textbf{Inicializar} \( MST \gets \emptyset \) \Comment{Conjunto vacío para el MST}
 \State \textbf{Ordenar} las aristas \( E \) en orden creciente de pesos
@@ -205,251 +204,149 @@ En primer lugar, se construye un árbol generador mínimo a partir de la matriz 
     \EndIf
 \EndFor
 
-\State \Return \( MST \) \Comment{Devolver el árbol de expansión mínima}
+\State \Return \( MST \) \Comment{Devolver el árbol generador mínimo}
 \end{algorithmic}
 \end{algorithm}
 
-Posteriormente a utilizar el algortimo de Kruskal para generar el árbol generador mínimo, convertimos el árbol resultante a una matriz simétrica de la siguiente forma : $A_{s} = A_{mst} + A_{mst}^T $.
+La matriz devuelta por la rutina se simetriza mediante $A_s=A_{\mathrm{mst}}+A_{\mathrm{mst}}^T$. Sobre $A_s$, almacenada como \texttt{mst}, se aplica búsqueda en profundidad (DFS). Para una entrada conexa, el recorrido visita todos los nodos una vez; la matriz original $A$ se conserva por separado para seleccionar candidatos. Si la entrada es disconexa, la rutina de árbol produce un bosque y el DFS iniciado únicamente en el nodo cero recorre sólo su componente.
 
-El objetivo de generar el árbol generador mínimo es recorrer la estructura de la gráfica completa sin recorrer todas las aristas, sino sólo las más importantes que en este caso, son las que dan la estructura a la gráfica original.
-Una vez obtenido el MST, procedemos a recorrerlo mediante un orden impuesto por el algoritmo "DFS", el cual es un algortimo que sirve para recorrer una gráfica en profundidad, es decir a lo "largo" asegurando así que visitaremos todos los nodos de dicha gráfica para preservar lo que nos interesa que es la estructura de la gráfica.
-
-A continuación enunciaremos el algortimo DFS, y su implmentación en nuestro método:
+El orden depende del vértice inicial y del orden de exploración de los vecinos. En el código se inicia en cero y \texttt{np.where} enumera los vecinos por índice creciente. Por tanto, este recorrido no constituye una selección libre de sesgos ni una garantía de equivarianza a permutaciones en el sentido de la Definición~\ref{def:equivarianza-permutaciones}.
 
 \begin{algorithm}[H]
-\caption{DFS Order}
+\caption{Recorrido en profundidad del árbol auxiliar}
 \label{alg:DFS}
 \begin{algorithmic}[1]
-\Require Nodo actual $nodo$, lista de nodos visitados $visitados$, lista del orden $orden$
-\Ensure Lista $orden$ con el orden en que los nodos son visitados
-\Statex
-\Function{DFS\_Order}{$nodo, visitados, orden$}
-    \State $visitados[nodo] \gets \text{True}$
-    \Comment{Marcar el nodo como visitado}
-    \State Agregar $nodo$ a la lista $orden$
-    \Comment{Registrar el nodo en el orden de visita}
-    \ForAll{$vecino$ en posiciones donde $mst[nodo] = 1$}
-        \If{$visitados[vecino] = \text{False}$}
-            \State \Call{DFS\_Order}{$vecino, visitados, orden$}
-            \Comment{Llamada recursiva para el vecino no visitado}
+\Require Matriz simétrica $mst$, nodo actual $node$, arreglo $visited$, lista $order$
+\Ensure Se añaden a $order$ los nodos alcanzables todavía no visitados
+\Function{dfs\_order}{$node,visited,order$}
+    \State $visited[node]\gets\text{True}$; añadir $node$ a $order$
+    \ForAll{$neighbor$ en índices crecientes tales que $mst[node,neighbor]=1$}
+        \If{$visited[neighbor]=\text{False}$}
+            \State \Call{dfs\_order}{$neighbor,visited,order$}
         \EndIf
     \EndFor
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-Posterior a establecer el orden en el que se recorrerá la gráfica, generamos un orden entre nodos para vistar los nodos más lejanos del nodo actual, asegurando de esta forma ir lo más lejos posible en el menor número de pasos.
 
-\section{Muestreo por Esferas}
-Una de las formas de mantener la estructura original de la gráfica es enfocándonos en su estructura local, es decir, podemos mirar a partir de un nodo  $v$ su vecindario, así como también tomar una pequeña esfera $S_v(r)$ con radio $r$ y centro en $v$ que interseque su vecindario $N_G(v)$, para así mantener las propiedades locales y poder asegurar que se preserve la estructura recibida.
-\\ Para identificar la muestra resultado de la intersección entre $N_G(V)$ y la esfera $S_v(r)$ se ha construido un método denominado Método polar para desviaciones normales \cite[p.~122-123]{Knuth}.
-A continuación describiremos un algortimo que sirve como base a la implementación realizada para muestrear uniformemente puntos en el volumen de una esfera, se conoce cómo \textit{Método polar para desviaciones normales} o \textit{Método polar de Marsaglia}.
+El Algoritmo~\ref{alg:DFS} determina únicamente el orden inicial. Una vez que se han marcado nodos para eliminación, el método general vuelve a ordenar los nodos pendientes mediante sus distancias al centroide de los que permanecen.
+
+\section{Muestreo por esferas}
+
+El siguiente componente combina la adyacencia de $G$ con un criterio espacial. El vecindario $N_G(v)$ de la Definición~\ref{def:vecindario} contiene vértices, mientras que una bola en $\mathbb{R}^3$ contiene posiciones. Esta distinción permite relacionar la selección con los vecinos utilizados en la propagación de mensajes (Definición~\ref{def:propagacion-mensajes}) sin identificar adyacencia y cercanía euclidiana.
+
+Para un nodo central $v$, el código genera $s=\texttt{esfera\_size}$ puntos auxiliares $q_1,\ldots,q_s$ dentro de la bola unitaria centrada en $\operatorname{pos}(v)$. Estos puntos no se incorporan como vértices de la malla. Con $\rho=\texttt{alcance}$, la región de búsqueda es
+\[
+\bigcup_{j=1}^{s}\{p\in\mathbb{R}^3:\|p-q_j\|_2\leq\rho\}.
+\]
+Por ello, el criterio efectivo para un candidato $u$ es
+\[
+u\in N_G(v),\qquad
+\min_{1\leq j\leq s}\|\operatorname{pos}(u)-q_j\|_2\leq\rho.
+\]
+No se trata simplemente de tomar todos los vértices contenidos en una bola de radio $\rho$ centrada en $v$. Además, $N_G(v)$ se consulta siempre en la matriz original, no en la matriz modificada durante la reducción. Los nodos ya marcados para eliminación se excluyen después.
+
+Para justificar la generación aleatoria, conviene distinguir el método polar para variables normales \cite{Knuth} de la transformación empleada para obtener direcciones y puntos en una bola. Ambos parten del rechazo de puntos fuera del disco unitario; la función del apéndice no genera variables normales como paso intermedio.
 
 \begin{algorithm}[H]
 \caption{Método polar para desviaciones normales}
 \label{alg:desviaciones}
 \begin{algorithmic}[1]
-\State \textbf{P1} [Obtener variables uniformes]
-\State Generar dos variables aleatorias independientes \( U_1, U_2 \sim U(0,1) \).
-\State Asignar \( V_1 \gets 2U_1 - 1 \), \( V_2 \gets 2U_2 - 1 \), ahora \( V_1, V_2 \sim U(-1,1) \).
-
-\State \textbf{P2} [Calcular \( S \)]
-\State Asignar \( S \gets V_1^2 + V_2^2 \).
-
-\State \textbf{P3} [¿Es \( S \geq 1 \)?]
-\If{\( S \geq 1 \)}
-    \State Regresar al paso \textbf{P1}.
-\EndIf
-
-\State \textbf{P4} [Calcular \( X_1, X_2 \)]
-\State Asignar:
-\[
-X_1 \gets V_1 \sqrt{\frac{-2 \ln S}{S}}, \quad X_2 \gets V_2 \sqrt{\frac{-2 \ln S}{S}}
-\]
-
+\Repeat
+    \State Generar $V_1,V_2$ independientes y uniformes en $(-1,1)$
+    \State $S\gets V_1^2+V_2^2$
+\Until{$0<S<1$}
+\State $X_1\gets V_1\sqrt{-2\ln(S)/S}$; $X_2\gets V_2\sqrt{-2\ln(S)/S}$
+\State \Return $X_1,X_2$
 \end{algorithmic}
 \end{algorithm}
+
+El Algoritmo~\ref{alg:desviaciones} produce dos variables normales estándar independientes, como se comprueba a continuación.
+\begin{proof}
+Condicionado a $0<S<1$, el par $(V_1,V_2)$ es uniforme en el disco unitario, salvo el origen, de probabilidad cero. En coordenadas polares, $V_1=R\cos\theta$ y $V_2=R\sin\theta$, la densidad conjunta es $r/\pi$ para $0<r<1$ y $0\leq\theta<2\pi$. Por tanto, $S=R^2$ es uniforme en $(0,1)$ e independiente de $\theta$, que es uniforme en $[0,2\pi)$.
+
+Si $R'=\sqrt{-2\ln S}$, entonces, para $r\geq0$,
+\[
+\mathbb{P}(R'\leq r)=\mathbb{P}(S\geq e^{-r^2/2})=1-e^{-r^2/2}.
+\]
+Su densidad es $re^{-r^2/2}$, y $R'$ sigue siendo independiente de $\theta$. Al transformar $(R',\theta)$ a $(X_1,X_2)=(R'\cos\theta,R'\sin\theta)$, el jacobiano polar da la densidad
+\[
+f_{X_1,X_2}(x_1,x_2)=\frac{1}{2\pi}e^{-(x_1^2+x_2^2)/2}
+=\frac{e^{-x_1^2/2}}{\sqrt{2\pi}}\frac{e^{-x_2^2/2}}{\sqrt{2\pi}}.
+\]
+La factorización prueba la afirmación.
+\end{proof}
+
+Para construir direcciones en la esfera se utiliza el mismo par aceptado $(V_1,V_2)$, pero una transformación distinta. Se toma $Z=2S-1$ y el ángulo polar $\phi$ de dicho par. Las otras coordenadas satisfacen
+\begin{equation}\label{XY}
+X=\sqrt{1-Z^2}\cos\phi,\qquad Y=\sqrt{1-Z^2}\sin\phi.
+\end{equation}
+Como $\cos\phi=V_1/\sqrt S$ y $\sin\phi=V_2/\sqrt S$, al sustituir en \eqref{XY} se obtiene
+\[
+\sqrt{\frac{1-(2S-1)^2}{S}}=\sqrt{\frac{4S-4S^2}{S}}=2\sqrt{1-S}.
+\]
+Así, la dirección utilizada por el código es
+\[
+(X,Y,Z)=\bigl(2V_1\sqrt{1-S},\,2V_2\sqrt{1-S},\,2S-1\bigr),
+\]
+y cumple
+\[
+X^2+Y^2+Z^2=4S(1-S)+(2S-1)^2=1.
+\]
+La pertenencia a la esfera no basta para probar uniformidad. En este caso, $Z$ es uniforme en $(-1,1)$ e independiente de $\phi$, uniforme en $[0,2\pi)$; como el elemento de área de la esfera unitaria en estas coordenadas es $d\phi\,dZ$, la dirección es uniforme respecto del área. La Figura~\ref{fig:muestreo_esfera} ilustra direcciones sobre la esfera, no la etapa radial posterior.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.62\textwidth]{img/muestreo.jpg}
-    \caption{La figura muestra la distribución de un conjunto de puntos generados mediante un proceso de muestreo aleatorio uniforme sobre la superficie de una esfera unitaria centrada en el origen. Cada punto corresponde a una realización de variables aleatorias transformadas a coordenadas tridimensionales (x,y,z), garantizando una cobertura homogénea sin sesgos de concentración en regiones específicas. Esta representación permite visualizar la correcta dispersión espacial de los puntos, lo cual es fundamental para aplicaciones posteriores como la construcción de grafos geométricos, análisis de vecindades locales o procesos de aprendizaje sobre estructuras tridimensionales.}
+    \caption{Ilustración de puntos sobre la esfera unitaria. La uniformidad de las direcciones se justifica mediante su distribución, no por la apariencia de la nube de puntos.}
     \label{fig:muestreo_esfera}
 \end{figure}
 
-Para probar la validez del método anterior utilizaremos geometría analítica y un poco de cálculo.
-\begin{proof}
-Notamos que si $S < 1 $ en el paso $P3$, el punto en el plano cartesiano con las coordenadas $(V_1,V_2)$ es un punto aleatorio uniformemente dsitribuido dentro del círculo unitario.
-\\Transformando a coordenadas polares tenemos que:
-$V_1 = Rcos\theta$, $V_2 = Rsen\theta$ y sustituyendo tenemos que:
+Para obtener puntos uniformes respecto del volumen de la bola unitaria se genera, independientemente, $U\sim\mathcal U(0,1)$ y se toma $r=U^{1/3}$. Entonces $\mathbb P(r\leq t)=t^3$ para $0\leq t\leq1$, que coincide con la proporción de volumen de una bola de radio $t$. El punto final, con centro $(h,k,l)$, es
 \[
-S = R^2, \hspace{5pt} X_1=(Rcos\theta) \sqrt{\frac{-2lnS}{R^2}}, \hspace{5pt} X_2=(Rsen\theta) \sqrt{\frac{-2lnS}{R^2}}
+q=(h,k,l)+r(X,Y,Z).
 \]
-De aquí observamos que:
-\begin{align*} 
-X_1 &= (Rcos\theta) \sqrt{\frac{-2lnS}{R^2}} \\ 
- &=  Rcos\theta \frac{\sqrt{-2lnS}}{\sqrt{R^2}}\\
- &= Rcos\theta \frac{\sqrt{-2lnS}}{|R|} \\
-&= cos\theta \sqrt{-2lnS}
-\end{align*}
-Pues $R >0$
-De igual forma $X_2 = sen\theta\sqrt{-2lnS}$.
-Utilizando coordenadas polares y haciendo: 
-\[
-R' = \sqrt{-2lnS}, \hspace{1cm}\theta' = \theta
-\]
-Tenemos que $X_1 = R'cos\theta', \hspace{5pt} X_2 = R'sen\theta'$
-Así, observamos que $R'$ y $\theta'$ son independientes pues $R$ y $\theta$ lo son.
-También $\theta' \sim U(0,2\pi)$ pues es el rango de las funciones $sen$ y $cos$. 
-\\A su vez notamos que:
-\begin{align*}
-P(R' \leq r) &=P(-2lnS \leq r^2)\\
-&= P(S \geq e^{\frac{-r^2}{2}})
-\end{align*}
-Por otro lado , como $S \sim U(0,1)$ entonces su función de distribución accumulada es :
-\[
-F(s) = P(S\leq s) = s, \hspace{1cm} s \in[0,1]
-\]
-De esta forma la probabilidad complementaria es:
-\begin{align*}
-P(S < s) &= 1 - P(S \geq s)\\
-P(S \geq s) &= 1 - P(S<s)
-\end{align*}
-Por tanto:
-\begin{align*}
-P(S\geq e^{\frac{-r^2}{2}} ) &= 1 -P(S < e^{\frac{-r^2}{2}})\\
-&= 1 - e^{\frac{-r^2}{2}}  
-\end{align*}
+La traslación se realiza después del escalamiento radial. El radio de esta bola es uno; \texttt{alcance} se usa después en la selección de candidatos y no modifica la distribución de los puntos auxiliares.
 
-Ahora, la probabilidad que $R'$ esté entre $r$ y $r +dr$ es la derivada de $1-e^{\frac{-r^2}{2}}$ que es igual a $re^{\frac{-r^2}{2}}dr$. Similarmente la probabilidad de que $\theta'$ esté entre $\theta$ y $\theta + d\theta$ es $\frac{1}{2\pi}d\theta$
-De esta forma, la probabilidad conjunta de $X_1 \leq x_1$ y $X_2 \leq x_2$ es:
-
-\begin{align*}
-    \int_{\{(r,\theta) | rcos\theta \leq x_1 , r sen\theta \leq x_"\}} \frac{1}{2\pi}e^{\frac{-r^2}{2}} r dr d\theta &= \frac{1}{2\pi} \int_{\{(x,y) | x \leq x_1, y \leq x_2\}}e^{\frac{-(x^2 + y^2)}{2}} dx dy \\
-    &= \left(  \sqrt{\frac{1}{2\pi}} \int_{-\infty}^{x_1} e^{\frac{-x^2}{2}}dx\right)\left(  \sqrt{\frac{1}{2\pi}} \int_{-\infty}^{x_2} e^{\frac{-y^2}{2}}dy\right)
-\end{align*}
-
-Lo cual prueba que $X_1$ y $X_2$ son variables aleatorias independientes con distribución normal, tal como se requería.
-    
-\end{proof}
-Basado en el algortimo 3, podemos derivar un método que permita generar puntos aleatorios dentro de una esfera en 3 dimensiones.
-Sean $U_1,U_2 \sim \mathcal{U}(0,1)$ entonces, hacemos $V_1,V_2$ y $S$ como:
-\[
-    V_1 = 2U_1-1, \hspace{5pt} V_2=2U_2-1, \hspace{5pt} S = V_1^2+V_2^2
-\]
-Notamos entonces que $V_1,V_2 \sim \mathcal{U}(-1,1)$
-\\Por otro lado, sabemos que la esfera $\mathbb{S}^2$ tiene las siguientes coordenadas:
-\[
-X = sen(\theta)cos(\phi),  \hspace{5pt} Y = sen(\theta)sen(\phi),  \hspace{5pt} Z = cos(\theta) 
-\]
-
-Notamos que $Z = cos(\theta)$ tiene un rango de valores de $[-1,1]$, entonces utilizando la transformación $Z = 2S-1$ para $S = V_1^2 + V_2^2 \leq 1$ esto implica que. $Z=cos(\theta) = 2S-1 \in [-1,1]$
-Por otro lado;
-
-\begin{align*}
-    cos^2(\theta) + sen^2(\theta) &= 1\\
-    sen^2(\theta)&=1-cos^2(\theta)\\
-    sen^2(\theta)&=1-Z^2\\
-    sen(\theta)&=\sqrt{1-Z^2}
-\end{align*}
-
-Por tanto:
-
-\begin{align*} \tag{1} \label{XY}
-  X = \sqrt{1-Z^2} cos(\phi), \hspace{1cm} Y=\sqrt{1-Z^2}sen(\phi)  
-\end{align*}
-
-
-Por otro lado, notamos que por construcción
-
-\begin{align*}
-S &= V_1^2 + V_2^2\\
-\sqrt{S}  &= \sqrt{V_1^2 + V_2^2}
-\end{align*}
-
-Y además, en el plano $XY$
-
-\begin{align*}
-    cos(\phi) &= \frac{V_1}{\sqrt{V_1^2 + V_2^2}}\\
-    &= \frac{V_1}{\sqrt{S}}
-\end{align*}
-
-Análogamente: $sen(\phi) = \frac{V_2}{\sqrt{S}}$
-
-
-Sustituyendo en \ref{XY}
-
-\begin{align*}
-    X &= \sqrt{1-Z^2} \frac{V_1}{\sqrt{S}}\\
-      &= \frac{\sqrt{1- Z^2}}{\sqrt{S}} V_1\\
-      &= \sqrt{\frac{1-Z^2}{S}} V_1
-\end{align*}
-
-Desarrollando $\sqrt{\frac{1-Z^2}{S}}$ :
-
-\begin{align*}
-    \sqrt{\frac{1-Z^2}{S}} &= \sqrt{\frac{1 - (2S-1)^2}{S}}\\
-    &= \sqrt{\frac{1-((2S)^2 + (4S)(-1)+1)}{S}}\\
-    &= \sqrt{\frac{1 - (4S^2 -4S +1)}{S}}\\
-    &= \sqrt{\frac{-4S^2 - 4S}{S}}\\
-    &= \sqrt{\frac{4S(-S+1)}{S}}\\
-    &= \sqrt{4(1-S)}\\
-    &= \sqrt{4}\sqrt{1-S}\\
-    &=2\sqrt{1-S} 
-\end{align*}
-
-Es decir se toma la parte positiva de la raiz cuadrada ya que se están normalizando coordenadas, por otro lado notamos que $1-S \geq 0$ pues $S \leq 1$.
-Así, por convención hacemos $\alpha = 2\sqrt{1-S}$, por tanto
-$X = \alpha V_1$ y análogamente,
-$Y = \alpha V_2$
-De esta forma la generación de puntos aleatorios en la superficie de la esfera es:
-\[
-(\alpha V_1, \alpha V_2, 2S-1)
-\]
-Donde:
-\begin{align*}
-    X^2 + Y^2 + Z^2 &= (\alpha V_1)^2 + (\alpha V_2)^2 + (2S-1)^2\\
-    &= \alpha^2(V_1^2 + V_2^2) + (2S-1)^2\\
-    &= S(2\sqrt{1-S})^2 + (2S-1)^2\\
-    &= 4S(1-S)+ 4S^2 -4S + 1\\
-    &= -4S^2 + 4S + 4S^2 - 4S + 1\\
-    &= 1
-\end{align*}
-Por último, para generar puntos aleatorios, dentro del volumen de la esfera, basta con generar un radio aleatorio de la siguiente forma: 
-Dado $ R = \mathcal{U}(0,1)^\frac{1}{3}$, los puntos distribuidos dentro de la esfera están dados por:
-\[
-R(\alpha V_1, \alpha V_2, 2S-1)
-\]
-De esta forma mostraremos el algoritmo resultante en la siguiente forma;
 \begin{algorithm}[H]
-\caption{Generar Puntos Uniformes en una Esfera}
+\caption{Generación de puntos uniformes dentro de una bola unitaria}
 \label{alg:generaPuntos}
 \begin{algorithmic}[1]
-\Require Coordenadas del centro $h, k, l$, número de puntos $num\_puntos$
-\Ensure Matriz de puntos uniformemente distribuidos en la esfera
-\Statex
-\Function{GenerarPuntosUniformes}{$h, k, l, num\_puntos$}
-    \State Inicializar una lista vacía $puntos$
-    \For{$i \gets 1$ \textbf{to} $num\_puntos$}
+\Require Centro $(h,k,l)$ y entero positivo $num\_puntos$
+\Ensure Arreglo de $num\_puntos$ puntos auxiliares
+\Function{generaPuntosUniformes}{$h,k,l,num\_puntos$}
+    \State $puntos\gets[\,]$
+    \For{$i\gets1$ \textbf{to} $num\_puntos$}
         \Repeat
-            \State Generar $V1, V2 \gets \textsc{Uniform}(-1, 1)$
-            \State Calcular $S \gets V1^2 + V2^2$
-        \Until{$S < 1$}
-        \State Calcular $a \gets \sqrt{1 - S}$
-        \State Calcular $x \gets a \cdot V1 + h$
-        \State Calcular $y \gets a \cdot V2 + k$
-        \State Calcular $z \gets 2 \cdot S - 1 + l$
-        \State Generar $r \gets \textsc{Uniform}(0, 1)^{\frac{1}{3}}$
-        \State Agregar $[r \cdot x, r \cdot y, r \cdot z]$ a la lista $puntos$
+            \State Generar $V_1,V_2$ independientes, uniformes en $(-1,1)$
+            \State $S\gets V_1^2+V_2^2$
+        \Until{$0<S<1$}
+        \State $a\gets\sqrt{1-S}$
+        \State $dx\gets2V_1a$; $dy\gets2V_2a$; $dz\gets2S-1$
+        \State Generar $U\sim\mathcal U(0,1)$ independiente; $r\gets U^{1/3}$
+        \State Añadir $[h+r\,dx,k+r\,dy,l+r\,dz]$ a $puntos$
     \EndFor
-    \State \Return Matriz convertida a partir de $puntos$
+    \State \Return $\operatorname{array}(puntos)$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
+La Figura~\ref{fig:flujo algoritmo} resume la generación y el uso posterior de los puntos del Algoritmo~\ref{alg:generaPuntos}.
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{img/flujo.png}
-    \caption{Flujo del algoritmo de muestro por esferas.}
-    \label{fig:flujo algoritmo}
+\centering
+\begin{tabular}{c}
+Par uniforme en el cuadrado $(-1,1)^2$\\
+$\downarrow$\\
+Aceptar $0<S<1$ y construir la dirección $(X,Y,Z)$\\
+$\downarrow$\\
+Generar $r=U^{1/3}$ y trasladar: $q=(h,k,l)+r(X,Y,Z)$\\
+$\downarrow$\\
+Repetir hasta obtener $s$ puntos auxiliares\\
+$\downarrow$\\
+Seleccionar nodos por distancia a esos puntos y adyacencia original
+\end{tabular}
+\caption{Flujo de generación de puntos auxiliares y selección de candidatos. Los puntos generados no se añaden a la gráfica.}
+\label{fig:flujo algoritmo}
 \end{figure}
 
 \begin{figure}[H]
@@ -459,14 +356,14 @@ De esta forma mostraremos el algoritmo resultante en la siguiente forma;
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/Muestreo.png}
-        \caption{Muestreo uniforme en la esfera.}
+        \caption{Puntos auxiliares en la región espacial.}
         \label{fig:muestreo_uniforme}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/Muestreo2.png}
-        \caption{Grafo de vecindad esférica.}
+        \caption{Representación espacial de conexiones.}
         \label{fig:grafo_vecindad}
     \end{subfigure}
 
@@ -476,205 +373,224 @@ De esta forma mostraremos el algoritmo resultante en la siguiente forma;
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/Muestreo3.png}
-        \caption{Vecindad local.}
+        \caption{Selección local ilustrativa.}
         \label{fig:vecindad_local}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/Muestreo4.png}
-        \caption{Resumen del algoritmo.}
+        \caption{Esquema de la selección.}
         \label{fig:resumen_algoritmo}
     \end{subfigure}
 
-    \caption{Proceso de muestreo uniforme y construcción de la gráfica de vecindad esférica.}
-    \label{fig:muestreo_esfera}
+    \caption{Ilustración de la selección espacial. La condición implementada combina la distancia a puntos auxiliares con la adyacencia original; el dibujo no representa una reconstrucción de las caras de la malla.}
+    \label{fig:seleccion-espacial}
 \end{figure}
-\newpage
+
+La Figura~\ref{fig:seleccion-espacial} ofrece una representación esquemática de esta etapa. Una vez seleccionados los candidatos, es necesario precisar qué conexiones modifica realmente la implementación.
+
 \section{Reasignación de adyacencias}
 
-En el punto anterior notamos que cuando se elimina un nodo contenido dentro de la esfera de muestreo, los vecinos de este nodo pierden cierta información estructural contenida en el nodo eliminado, para evitar esto y preservar la estructura lo más parecida posible a la inicial hacemos una reasignación de adyacencias.
+El procedimiento del Apéndice~\ref{ap:codigo} acumula conexiones en el nodo central de la iteración antes de aislar los nodos seleccionados. Esta operación no equivale a conectar entre sí todos los vecinos de un vértice eliminado, ni a transferir únicamente su fila de adyacencias. Las operaciones de transferencia e aislamiento están implementadas directamente dentro de \texttt{sampling}.
 
-Describiremos a continuación el proceso para eliminar un nodo $v$ de $G$ y que sus vecinos mantengan la adyacencia entre ellos, es decir si dos nodos $u,w$ eran vecinos de $v$ entonces después de eliminar $v$, $u$ y $w$ pasaran a ser vecinos entre ellos.
+Se mantiene la matriz de adyacencia de la Definición~\ref{def:matriz-adyacencia}; la única convención adicional es la indexación de Python, $i,j\in\{0,\ldots,\nu_G-1\}$. Durante el proceso se conserva $A$ sin cambios y se utiliza una copia numérica $B$, correspondiente a \texttt{new\_adj}, para acumular las actualizaciones. Sea $D$ el conjunto de índices ya marcados para eliminación y sea $idx$ el nodo central.
 
-\begin{definition}
-    Sea $G$ una gráfica y $A$ su matriz de adyacencia, entonces definimos al elemento $(A)_{ij}$ como el elemento ij-ésimo de la matriz $A$, donde $i,j \in \{0,...,\nu_G -1\}$
-\end{definition}
-
-\begin{example}
-Sea la matriz $A$ dada por :
-\begin{center}
-\begin{equation}
-A(G) =
-\begin{pmatrix}
-0 & 1 & 0 & 0 & 0 & 0\\
-1 & 0 & 1 & 0 & 0 & 1\\
-0 & 1 & 0 & 1 & 0 & 1\\
-0 & 0 & 1 & 0 & 1 & 0\\
-0 & 0 & 0 & 1 & 0 & 1\\
-0 & 1 & 1 & 0 & 1 & 0
-\end{pmatrix}
-\end{equation}
-\end{center}
-Entonces los elementos $(A)_{02},(A)_{23},(A)_{54}$ son iguales a :
-\begin{align*}
-    (A)_{02} &= 0 \\
-    (A)_{23} &= 1\\
-    (A)_{54} &= 1
-\end{align*}
-\end{example}
-
-Dada esta definición podemos ahora establecer una operación que sirve como punto de partida para implementar un método de eliminación controlada para los nodos de la gráfica.
-La siguiente definición implementará una operación entre los elementos de la matriz de adyacencia $A_n$ donde $n$ representa el paso antes de realizar la operación y por ende la matriz $A_{n+1}$ denota a la matriz de adyacencia $A$ después de la operación.
-
-\begin{definition}[Eliminación del nodo k]
-Sea $G$ una gráfica $A_n$ la matriz de adyacencia en el paso $n$, $A_{n+1}$ la matriz de adyacencia en el paso $n+1$, $k$ el nodo a eliminar y $N_G(k)$ el vecindario del nodo $k$.\\
-Entonces definimos la función,
+Para cada candidato $n$, en el orden de \texttt{neigs}, se calcula
 \[
-\psi : (A_n)_{ij} \times (A_n)_{kj} \rightarrow (A_{n+1})_{ij}
+J_n=\{j:B_{nj}=1\}\setminus D,\qquad
+b^{(n)}_t=\sum_{j\in J_n}B_{jt},\quad 0\leq t<\nu_G.
 \]
-Dada por:
-\begin{equation}
-    \psi_{ij} := (A_{n+1})_{ij}= \left\{ \begin{array}{lcc} (A_n)_{ij} \hspace{5pt} +_{or} \hspace{5pt} (A_n)_{kj} & , & i \neq j, j \neq k \\ \\0 & , & k = j, i=j \\  \end{array} \right.
-\end{equation}
-Con $i \in N_G(k) \cup \{k\}$, además $\psi_{kj} = 0$, $\forall \hspace{5pt} j \in \{0,...,\nu_G\}$
-    
-\end{definition}
+Si $J_n$ es vacío no se realiza la transferencia para ese candidato. En caso contrario, se suma el vector $b^{(n)}$ a la fila $idx$ y luego a la columna $idx$:
+\[
+B_{idx,:}\gets B_{idx,:}+b^{(n)},\qquad
+B_{:,idx}\gets B_{:,idx}+b^{(n)}.
+\]
+El vector se calcula antes de ambas sumas. La entrada diagonal $B_{idx,idx}$ recibe dos incrementos; en consecuencia, $B$ es un acumulador intermedio, no necesariamente la matriz binaria de una gráfica simple. Las actualizaciones son sumas numéricas, no operaciones de disyunción lógica.
+
+La prueba literal del código es $B_{nj}=1$, no $B_{nj}>0$. Después de acumular sumas pueden aparecer entradas mayores que uno, que no se incluyen en búsquedas posteriores de $J_n$. Por ello, sólo al inicio $J_n$ coincide con el vecindario de $n$ en la gráfica original, salvo los índices de $D$. La suma de filas recoge conexiones de los vecinos seleccionados, relacionadas inicialmente con recorridos de dos aristas desde $n$ (Definición~\ref{def:caminos-ciclos}); no debe interpretarse como una regla invariable sobre vecindarios de una matriz binaria.
+
+Las actualizaciones de distintos candidatos son secuenciales: cada una utiliza la matriz ya modificada por las anteriores. Los demás candidatos del mismo lote no se excluyen mediante $D$, pues éste se actualiza al finalizar el lote. Después se ponen a cero todas las filas y columnas de \texttt{neigs}. Esto aísla esos nodos en el sentido de la Definición~\ref{def:vertice-aislado}; sus índices siguen ocupando posiciones en la matriz hasta la eliminación final de filas y columnas.
 
 \begin{example}
-    Dada la matriz $A_0 = A(G)$ del ejemplo (2), $k = 5$, $\nu_G = 6$, $j \in \{0,...5\}$ entonces calcularemos los valores de $\psi$.
-    Observamos que $N_G(k) = \{1,2,4\}$, entonces:
-    \begin{align*}
-    \psi_{10} : = (A_1)_{10 } &= (A_0)_{10} \hspace{5pt} +_{or} \hspace{5pt} (A_0)_{50} \\
-     &= 1 \hspace{5pt} +_{or} \hspace{5pt} 0 \\
-     &= 1\\
-    \psi_{11} := (A_1)_{11} &= 0 \\
-    \psi_{12} := (A_1)_{12} &= (A_0)_{12}  \hspace{5pt} +_{or} \hspace{5pt} (A_0)_{52}\\
-        &= 1 \hspace{5pt} +_{or} \hspace{5pt} 1\\
-        &= 1\\
-        \psi_{5j} := (A_1)_{5j} &= 0 \hspace{1cm} \forall \hspace{5pt} j \in \{0,...,5\}
-    \end{align*} 
-    Y notamos que análogamente para $i = \{2,4\}$.
-    De esta forma la matriz $A_1$ quedaría de la siguiente forma:   
-    \begin{center}
-\begin{equation}
-A_1(G) = \begin{pmatrix}
-0 & 1 & 0 & 0 & 0 & 0\\
-1 & 0 & 1 & 0 & 1 & 0\\
-0 & 1 & 0 & 1 & 1 & 0\\
-0 & 0 & 1 & 0 & 1 & 0\\
-0 & 1 & 1 & 1 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 0
-\end{pmatrix}
-\end{equation}
-\end{center}
+Se retoma la gráfica de la Figura~\ref{fig:G} del Capítulo~\ref{cap:graficasysuperficies}, ahora con índices desde cero. Su matriz es
+\[
+A=\begin{pmatrix}
+0&1&0&0&0&0\\
+1&0&1&0&0&1\\
+0&1&0&1&0&1\\
+0&0&1&0&1&0\\
+0&0&0&1&0&1\\
+0&1&1&0&1&0
+\end{pmatrix}.
+\]
+En particular, $A_{02}=0$, $A_{23}=1$ y $A_{54}=1$. Si $B=A$, $D=\varnothing$, $idx=1$ y el único candidato es $n=5$, entonces $J_5=\{1,2,4\}$ y
+\[
+b^{(5)}=B_{1,:}+B_{2,:}+B_{4,:}=(1,1,1,2,0,3).
+\]
+Después de las dos sumas y de aislar el índice cinco, se obtiene
+\[
+B=\begin{pmatrix}
+0&2&0&0&0&0\\
+2&2&2&2&0&0\\
+0&2&0&1&0&0\\
+0&2&1&0&1&0\\
+0&0&0&1&0&0\\
+0&0&0&0&0&0
+\end{pmatrix}.
+\]
+Si se termina el proceso en este punto, se elimina la última fila y columna, se reemplazan las entradas positivas por uno y se anula la diagonal. El resultado es
+\[
+A_{\mathrm{red}}=\begin{pmatrix}
+0&1&0&0&0\\
+1&0&1&1&0\\
+0&1&0&1&0\\
+0&1&1&0&1\\
+0&0&0&1&0
+\end{pmatrix}.
+\]
+Se añade la arista entre los índices uno y tres, pero no se conectan entre sí todos los elementos de $J_5$.
 \end{example}
-Así, hemos definido una operación para las matrices de adyacencia donde, dado un nodo $k$ podemos eliminarlo de dicha matriz, es decir, $(A)_{kj}$,$(A)_{ik} = 0$, donde $i,j \in \{0,...,\nu_G \}$ asegurando que sus vecinos preserven la adyacencia entre ellos, sin modificar la estructura original de la gráfica.
-De esta forma podemos definimos el algoritmo de la siguiente manera:
+
+El Algoritmo~\ref{alg:elimnaAdyacencias} representa el bloque interno de transferencia y aislamiento. Su nombre es auxiliar para el pseudocódigo; no introduce una función adicional en Python.
 \begin{algorithm}[H]
-\caption{Eliminar Nodo con Redistribución de Adyacencias}
+\caption{Transferencia al nodo central y aislamiento de un lote}
 \label{alg:elimnaAdyacencias}
 \begin{algorithmic}[1]
-\Require Nodo a eliminar $nodo$, matriz de adyacencia $matrizAdj$
-\Ensure Matriz de adyacencia actualizada sin el nodo y con conexiones redistribuidas
-\Statex
-\Function{EliminaNodoConAdyacencia}{$nodo, matrizAdj$}
-    \State Obtener los vecinos del nodo: $neighbors \gets \textsc{Where}(matrizAdj[nodo] = 1)$
-    \Comment{Lista de nodos directamente conectados a $nodo$.}
-    \ForAll{$v$ en $neighbors$}
-        \State $matrizAdj[v] \gets \textsc{LogicalOr}(matrizAdj[v], matrizAdj[nodo])$
-        \Comment{Redistribuir conexiones del nodo eliminado a sus vecinos.}
+\Require Nodo central $idx$, candidatos $neigs$, acumulador $B$, eliminados $D$
+\Ensure Acumulador actualizado, con los candidatos aislados
+\Function{TransferirAislar}{$idx,neigs,B,D$}
+    \ForAll{$n$ en $neigs$, en su orden actual}
+        \State $J_n\gets\{j:B_{nj}=1\}\setminus D$
+        \If{$J_n\neq\varnothing$}
+            \State $b\gets\sum_{j\in J_n}B_{j,:}$
+            \State $B_{idx,:}\gets B_{idx,:}+b$
+            \State $B_{:,idx}\gets B_{:,idx}+b$
+        \EndIf
     \EndFor
-    \State $matrizAdj[nodo, :] \gets 0$
-    \Comment{Eliminar todas las conexiones salientes del nodo.}
-    \State $matrizAdj[:, nodo] \gets 0$
-    \Comment{Eliminar todas las conexiones entrantes al nodo.}
-    \State \Return $matrizAdj$
+    \State $B[neigs,:]\gets0$; $B[:,neigs]\gets0$
+    \State \Return $B$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+Las Figuras~\ref{fig:flujo-reduccion} y~\ref{fig:algoritmo_eliminacion} distinguen la acumulación, el aislamiento y la eliminación efectiva. La matriz final es simétrica y tiene diagonal nula, suponiendo aritmética sin desbordamiento. Como pueden añadirse aristas, la gráfica reducida no es necesariamente una subgráfica de $G$, ni la subgráfica inducida por los nodos conservados (Definiciones~\ref{def:subgrafica} y~\ref{def:subgrafica-inducida}). Tampoco se reconstruyen las caras del complejo.
+
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{img/Resume.png}
-    \caption{Flujo del algoritmo de reducción de nodos.}
-    \label{fig:flujo algoritmo}
+\centering
+\begin{tabular}{c}
+Nodo central $idx$, lote $neigs$, acumulador $B$ y eliminados $D$\\
+$\downarrow$\\
+Para cada $n$: buscar $B_{nj}=1$, excluir $D$ y sumar las filas seleccionadas\\
+$\downarrow$\\
+Añadir la suma a la fila y columna de $idx$\\
+$\downarrow$\\
+Al finalizar el lote: poner a cero las filas y columnas de $neigs$\\
+$\downarrow$\\
+Al terminar el muestreo: borrar índices, binarizar y anular la diagonal
+\end{tabular}
+\caption{Flujo de la reasignación implementada. Las sumas numéricas preceden a la binarización final.}
+\label{fig:flujo-reduccion}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
+\centering
+\begin{subfigure}[t]{0.95\textwidth}
+\centering
+\begin{tabular}{c}
+$n=5$, $idx=1$, $J_5=\{1,2,4\}$\\
+$b^{(5)}=(1,1,1,2,0,3)$\\
+$B_{1,:}\gets B_{1,:}+b^{(5)}$,\quad $B_{:,1}\gets B_{:,1}+b^{(5)}$
+\end{tabular}
+\caption{Selección de filas y acumulación en el nodo central del ejemplo.}
+\label{fig:algoritmo_parte1}
+\end{subfigure}
 
-    \begin{subfigure}[t]{0.95\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{img/Adyacency_1.png}
-        \caption{Etapas 1 a 3 del algoritmo.}
-        \label{fig:algoritmo_parte1}
-    \end{subfigure}
-
-    \vspace{0.3cm}
-
-    \begin{subfigure}[t]{0.95\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{img/Adyacency_2.png}
-        \caption{Etapas 4 a 6 del algoritmo.}
-        \label{fig:algoritmo_parte2}
-    \end{subfigure}
-
-    \caption{Proceso de eliminación de un nodo y redistribución de sus conexiones.}
-    \label{fig:algoritmo_eliminacion}
+\vspace{0.4cm}
+\begin{subfigure}[t]{0.95\textwidth}
+\centering
+\begin{tabular}{c}
+Aislar el índice cinco: matriz de $6\times6$ con fila y columna nulas\\
+$\downarrow$\\
+Eliminar ese índice: matriz de $5\times5$\\
+$\downarrow$\\
+Binarizar y anular la diagonal: $A_{\mathrm{red}}$
+\end{tabular}
+\caption{Aislamiento y eliminación son operaciones distintas.}
+\label{fig:algoritmo_parte2}
+\end{subfigure}
+\caption{Etapas de la reasignación para el ejemplo. Se distingue el acumulador numérico de la matriz final de una gráfica simple.}
+\label{fig:algoritmo_eliminacion}
 \end{figure}
+
 \section{Método general para la reducción de nodos}
 
-Una vez establecidos los métodos descritos anteriormente, es posible combinar sus principios para desarrollar un enfoque generalizado de reducción de nodos. 
-\\En esta sección, exploraremos en detalle dicho enfoque, examinando su complejidad computacional, describiendo su implementación paso a paso y destacando las ventajas clave que se derivan de su aplicación.
+La función \texttt{sampling} recibe el arreglo de coordenadas $x$, la matriz binaria original $\texttt{adjacency}=A$ y el número objetivo de nodos conservados \texttt{size}. Recibe además $\texttt{alcance}\geq0$ y el entero positivo $\texttt{esfera\_size}$. Para la descripción se supone una gráfica simple conexa de orden $\nu_G\geq1$, coordenadas alineadas con $A$ y $1\leq\texttt{size}\leq\nu_G$. El código no valida expresamente todas estas condiciones. Las salidas previstas son \texttt{new\_x}, con las coordenadas conservadas, y \texttt{new\_adj}, con la matriz reducida, sujetas a las limitaciones de implementación indicadas al final de esta sección.
 
-El proceso de muestreo eficiente en una gráfica se basa en reducir el número de nodos mientras se conservan sus propiedades clave. Primero, se genera un orden de recorrido utilizando un árbol generador mínimo y el algoritmo DFS, lo que permite recorrer toda la gráfica y establecer un orden basado en DFS.
+Según la Definición~\ref{def:orden-tamano-adyacencia}, \texttt{size} representa el \emph{orden objetivo}, no el tamaño de la gráfica, que es el número de aristas $\varepsilon_G$. El árbol del Algoritmo~\ref{alg:kruskal} y el recorrido del Algoritmo~\ref{alg:DFS} inicializan la lista de nodos pendientes. El Algoritmo~\ref{alg:generaPuntos} determina los puntos auxiliares y el Algoritmo~\ref{alg:elimnaAdyacencias} expresa el bloque de modificación de conexiones.
 
-En el ciclo principal, se iteran los nodos hasta alcanzar el tamaño deseado de la muestra. Se calculan las distancias promedio entre los nodos ordenados y el centroide de la muestra, priorizando los más lejanos para evitar sesgos. Con el nuevo orden, se generan puntos alrededor de cada nodo utilizando una esfera, identificando y eliminando vecinos dentro de un radio definido, manteniendo la adyacencia. Este proceso se repite hasta obtener la muestra requerida. El algoritmo se divide en fases para facilitar su comprensión. 
+Si $D$ contiene los índices ya marcados, el centroide de los nodos que permanecen es
+\[
+\frac{1}{\nu_G-|D|}\sum_{i\in\{0,\ldots,\nu_G-1\}\setminus D}x_i.
+\]
+Después de la primera eliminación, la cola se ordena en sentido decreciente por la distancia individual de cada nodo a este centroide. No se calculan distancias promedio entre pares de nodos ni se demuestra que esta prioridad evite sesgos. La conversión de la cola a conjunto para retirar candidatos puede perder el orden previo; el criterio de desempate tampoco establece invariancia frente a un cambio de índices.
+
+Los candidatos se obtienen mediante \texttt{np.intersect1d}, que los ordena por índice. Si hay más de los necesarios, se conservan los primeros hasta completar $\nu_G-|D|-\texttt{size}$ eliminaciones posibles. Esta truncación impide reducir el orden por debajo del objetivo, pero no garantiza alcanzarlo. El ciclo termina al alcanzar el objetivo o al agotarse la cola, siempre que no ocurra un error de ejecución. Cada iteración retira al menos su nodo central de la cola, aun si no selecciona vecinos; por ello hay a lo más $\nu_G$ iteraciones.
+
 \begin{algorithm}[H]
-\caption{Método General}
+\caption{Método general de reducción: operaciones de \texttt{sampling}}
 \label{alg:metodoGeneral}
 \begin{algorithmic}[1]
-\Require Lista de nodos con coordenadas $x$, Matriz de adyacencia $adjacency$, Tamaño de muestra $size$, Radio $alcance$, Tamaño de la muestra de esfera $esfera\_size$
-\Ensure Nueva lista de nodos $new\_x$, Matriz de adyacencia Actualizada $new\_adj$
-\Statex
-\Function{Sampling}{$x, adjacency, size, alcance, esfera\_size$}
-    \State Obtener el árbol generador mínimo (MST) desde $adjacency$ \Comment{Algoritmo \ref{alg:kruskal}}
-    \State Inicializar $visited[] \gets FALSE$ ; $order[] \gets empty\_list$
-    \State Obtener orden mediante DFS $dfs\_order(0, visited, order) $\Comment{Algoritmo \ref{alg:DFS}} 
-
-    \State Inicializar $removed\_nodes[] \gets empty\_list$; $queue[] \gets copy(order)$
-    
-    \While{$number\_nodes - removed\_nodes \geq size$}
-        \If{$removed\_nodes$ no es vacío}
-            \State $dist \gets dist(currency\_node,centroid) $
-            \State Ordena $queue$ por distancias en orden descendente
-        \EndIf
-        \State Obtener coordenadas del primer elemento de $queue$.
-        \\ \hfil $idx \gets queue.pop()$; $h, k, l \gets x[idx]$ 
-        \State Obtenemos esfera uniforme \Call{GeneraPuntosUniformes}{$idx$} \Comment{Algoritmo \ref{alg:generaPuntos}}
-        \State Hacemos $neighbors \gets neighbors \cap GeneraPuntosUniformes(idx)$
-        \ForAll{$vecinos \in vecinos - eliminados$}
-            \State \Call{EliminaNodoConAdyacencia}{$n$,$adyacency$} \Comment{Algoritmo \ref{alg:elimnaAdyacencias}}
-        \EndFor
-    \EndWhile
-    \State \Return $new\_x, new\_adj$
-\EndFunction
+\Require $x,A,size,alcance,esfera\_size$, con las condiciones indicadas en el texto
+\Ensure Coordenadas conservadas y matriz reducida, si la ejecución concluye
+\State $mst\gets\operatorname{minimum\_spanning\_tree}(A)$, convertido a matriz entera
+\State $mst\gets mst+mst^T$; inicializar $visited$ y $order$
+\State \Call{dfs\_order}{$0,visited,order$}
+\State $M\gets\nu_G$; $B\gets\operatorname{copy}(A)$; $D\gets\varnothing$; $queue\gets order$
+\While{$M-|D|>size$ \textbf{and} $queue\neq[\,]$}
+    \If{$D\neq\varnothing$}
+        \State Calcular el centroide de $\{x_i:i\notin D\}$
+        \State Ordenar $queue$ por distancia decreciente al centroide
+    \EndIf
+    \State $idx\gets queue.\operatorname{pop}(0)$; $(h,k,l)\gets x[idx]$
+    \State $Q\gets$ \Call{generaPuntosUniformes}{$h,k,l,esfera\_size$}
+    \State $P\gets\{i:\min_{q\in Q}\|x_i-q\|_2\leq alcance\}$
+    \State $neigs\gets\operatorname{intersect1d}(P,\{i:A_{idx,i}=1\})$
+    \State Retirar de $neigs$ los índices de $D$, conservando su orden
+    \State Truncar $neigs$ a los primeros $M-|D|-size$ elementos, si es necesario
+    \State $queue\gets\operatorname{list}(\operatorname{set}(queue)\setminus\operatorname{set}(neigs))$
+    \State $B\gets$ \Call{TransferirAislar}{$idx,neigs,B,D$}
+    \State $D\gets D\cup\operatorname{set}(neigs)$
+\EndWhile
+\State Borrar de $B$ las filas y columnas con índices de $D$
+\State $B\gets1\cdot(B>0)$; anular su diagonal
+\State $index\gets\operatorname{list}(\operatorname{set}(\{0,\ldots,M-1\})\setminus D)$
+\State \Return $x[index,:],B$
 \end{algorithmic}
 \end{algorithm}
-\section{Análisis de Complejidad}
 
-El análisis de complejidad de nuestro algoritmo se realiza descomponiendo sus principales componentes y justificando cada cálculo. La construcción del Árbol Generador Mínimo (MST) utiliza el algoritmo de Kruskal, que tiene una complejidad de \( \mathcal{O}(E \log(V)) \)\cite{Introduction-toalgorithm}, donde \( E \) es el número de aristas y \( V \) el número de vértices de la gráfica. Este paso es esencial para establecer una estructura inicial que guía el muestreo de nodos.
-El siguiente paso es ordenar los nodos del grafo mediante un recorrido en profundidad (DFS), cuya complejidad es \( \mathcal{O}(V + E) \)\cite{Introduction-toalgorithm}. Esto se debe a que el DFS visita cada vértice y cada arista exactamente una vez. Este orden nos permite recorrer sistemáticamente los nodos y controlar las operaciones de muestreo.
+El Algoritmo~\ref{alg:metodoGeneral} conserva las operaciones y el orden de actualización del listado Python. Hay dos limitaciones concretas que deben considerarse al interpretar sus salidas. Primero, si no hay candidatos, \texttt{np.array([n for n in neigs if n not in delel])} produce un arreglo vacío de tipo flotante. Usarlo como índice en \texttt{new\_adj[neigs]} provoca un error en NumPy; por tanto, el listado actual no implementa correctamente el caso vacío, aunque el procedimiento sobre conjuntos tenga sentido.
 
-El bucle principal del algoritmo, que se ejecuta hasta alcanzar el tamaño deseado de la muestra, domina la mayor parte del costo computacional, en el peor de los casos este bucle se ejecuta \(V\) veces, considerando que el tamaño de la muestra puede representar una cota ya que en cada iteración se elimina un nodo por tanto su costo podría acotarse por \(\mathcal{O} (V)\). 
+Segundo, \texttt{np.delete} mantiene el orden original de los índices conservados en la matriz, mientras que \texttt{list(set(...).difference(...))} no garantiza ese mismo orden para las coordenadas. Para obtener una entrada válida para los modelos, ambas salidas deben usar una enumeración común. Esta correspondencia debe verificarse o corregirse en la implementación antes de interpretar el par como una gráfica con atributos. Asimismo, el DFS recursivo está sujeto al límite de recursión de Python. Estas limitaciones no se resuelven mediante una afirmación de que el método siempre alcanza el orden solicitado.
 
-Dentro de este bucle, el cálculo de distancias entre los nodos y el centroide de la muestra se calcula mediante la norma euclideana, es decir se calcula la distancia a lo más $V$ veces y se repite por el número $d$ de dimensión que en este caso $d=3$ por tanto la complejidad total es: $\mathcal{O}(V)$ .
+\section{Análisis de complejidad}
 
-Luego, la complejidad del algoritmo para generar la muestra uniforme está determinado por el número de veces que se ejecuta su bucle principal, ya que, las operaciones realizadas no dependen del número de puntos a generer, por lo tanto la complejidad es constante, de esta forma el número de pasos que realiza el método es en el orde de $esfera\_size$ que, para términos de la implementación de dicho algorimot, siempre es constante.
+Se utilizan $\nu_G=|V|$ y $\varepsilon_G=|E|$ conforme a la Definición~\ref{def:orden-tamano-adyacencia}, y $s=\texttt{esfera\_size}$. El análisis corresponde a matrices densas, dimensión espacial tres y ejecuciones que concluyen, suponiendo aritmética de costo constante sin desbordamiento y el costo esperado habitual de las operaciones con conjuntos de Python. No se consideran constantes ni $s$ ni el número de nodos eliminados.
 
-La intersección de los vecinos generados en la esfera con los vecinos del nodo en la matriz de adyacencia tiene un costo lineal de \( \mathcal{O}(V) \). Este cálculo depende del tamaño de los conjuntos comparados, donde el conjunto mayor está determinado por el número de vértices de la gráfica. Una vez identificados los nodos dentro de la esfera, el algoritmo actualiza la matriz de adyacencia. Dado que esta matriz tiene un tamaño de \( V \times V \), las operaciones de reajuste tienen un costo de \( \mathcal{O}(V^2) \).
+La construcción del árbol combina el procesamiento de la matriz densa, de costo $\mathcal O(\nu_G^2)$, con el ordenamiento de aristas de Kruskal, acotado por $\mathcal O(\varepsilon_G\log(\max\{2,\nu_G\}))$ \cite{Introduction-toalgorithm}. Convertir el resultado a matriz y simetrizarlo requiere nuevamente $\mathcal O(\nu_G^2)$. Aunque DFS con listas de adyacencia tiene costo $\mathcal O(\nu_G+\varepsilon_G)$, la implementación busca vecinos mediante \texttt{np.where} sobre una fila completa de longitud $\nu_G$ por nodo visitado. Su costo es entonces $\mathcal O(\nu_G^2)$. La diferencia depende de las representaciones de las Definiciones~\ref{def:matriz-adyacencia} y~\ref{def:lista-adyacencia}.
 
-Finalmente, los nodos eliminados deben ser descartados de la matriz de adyacencia, lo que implica un costo adicional de \( \mathcal{O}(V) \) por le número de pasos k, donde \( k \) es el número de nodos eliminados que para terminos de la implementación lo podemos dejar como una constante, por lo tanto la complejidad final sería $\mathcal{O}(V)$.
- Este costo se suma al procesamiento necesario para mantener la consistencia de la estructura de datos.
-Resumiendo , notamos que las operaciones más costosas que otorgan la complejidad final al algoritmo es la obtención del MST $\mathcal{O}(E\log V)$ y las iteraciones del bucle principal, que resulta ser $\mathcal{O}(V * V^2) = \mathcal{O}(V^3)$ pues, las operaciones se ejecutan $V$ veces multiplicado por el reordenamiento de la matriz de adyacencia, entonces dado las dos operaciones mas costosas en diferentes fases del algortimo la complejidad final está dada por: $\mathcal{O}(E \log V +  V^3)$. 
-\\Como observación final, en el peor de los casos sabemos que $E = V^2$, pero como estamos trabajando con un tipo de gráficas especiales, para este caso $E \neq V^2$, en específico $E < V^2$ captura equivarianzas sobre la superficie por eso los resultados parecen ser mejores.
+El ciclo principal tiene a lo más $\nu_G$ iteraciones porque cada una retira un elemento de la cola sin reintroducirlo. Calcular el centroide y las distancias a éste cuesta $\mathcal O(\nu_G)$ por iteración; ordenar la cola cuesta $\mathcal O(\nu_G\log(\max\{2,\nu_G\}))$. Generar $s$ puntos cuesta $\mathcal O(s)$ en esperanza: cada intento del rechazo se acepta con probabilidad $\pi/4$. No existe una cota determinista para el número de intentos de ese ciclo aleatorio. El arreglo de distancias entre todos los nodos y todos los puntos auxiliares requiere $\mathcal O(\nu_G s)$ tiempo y memoria.
+
+La búsqueda en una fila de $A$ cuesta $\mathcal O(\nu_G)$. Para la intersección ordenada se obtiene la cota $\mathcal O(\nu_G\log(\max\{2,\nu_G\}))$. El filtrado mediante pertenencia a \texttt{delel}, que es una lista en Python, puede costar $\mathcal O(\nu_G^2)$ por iteración. Las conversiones a conjuntos y la extracción del primer elemento de la lista también tienen costo dependiente de su longitud.
+
+Para cada nodo eliminado, la búsqueda de $J_n$ examina una fila y la suma de sus filas seleccionadas puede procesar hasta $\nu_G^2$ entradas; añadir el vector a una fila y columna cuesta $\mathcal O(\nu_G)$. Como cada nodo se marca a lo más una vez, estas transferencias suman $\mathcal O(\nu_G^3)$ en toda la ejecución, no por iteración. Poner a cero filas y columnas de los lotes acumula $\mathcal O(\nu_G^2)$. Al finalizar, borrar filas y columnas de una matriz densa y binarizarla cuesta $\mathcal O(\nu_G^2)$, mientras que extraer las coordenadas cuesta $\mathcal O(\nu_G)$.
+
+Una cota superior del tiempo esperado que reúne estas operaciones es
+\[
+\mathcal O\bigl(\varepsilon_G\log(\max\{2,\nu_G\})+\nu_G^3+\nu_G^2s\bigr),
+\]
+con memoria auxiliar $\mathcal O(\nu_G^2+\nu_Gs)$. Cuando $s$ se fija independientemente de la entrada, el término cúbico domina esta cota; si $s$ crece, debe mantenerse su contribución. Se trata de una cota superior del código matricial, no de una medición experimental de tiempos.
+
+El número de aristas y la densidad afectan el costo computacional, pero no establecen equivarianza a permutaciones. Esta última propiedad, definida en la Definición~\ref{def:equivarianza-permutaciones}, requiere estudiar la transformación de la salida al reindexar la entrada; no se deduce de que $\varepsilon_G<\nu_G^2$ ni de las propiedades de las capas neuronales. El recorrido, la selección y la truncación por índices tampoco la garantizan.
+
+La salida pretendida del procedimiento es una gráfica reducida con coordenadas de nodos conservados y adyacencias actualizadas, previa comprobación de su correspondencia de índices. No es por sí misma una superficie triangulada ni una prueba de conservación topológica. Esta representación permite estudiar el efecto del muestreo sobre la entrada de los modelos; su evaluación y las arquitecturas específicas se presentan en el Capítulo~\ref{cap:resultados}.

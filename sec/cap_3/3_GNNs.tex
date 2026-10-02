@@ -1,9 +1,10 @@
-\chapter{Redes Neuronales Gráficas}
+\chapter{Redes Neuronales Gráficas}\label{cap:redes}
 
-En las últimas décadas, las redes neuronales han emergido como una herramienta fundamental en el campo del aprendizaje automático y la inteligencia artificial. Su capacidad para aprender de grandes volúmenes de datos, reconocer patrones complejos y adaptarse a distintos entornos ha sido clave para su popularidad y adopción en una amplia gama de tareas. Estas aplicaciones abarcan desde el procesamiento del lenguaje natural y la visión por computadora hasta la predicción de series temporales y la toma de decisiones, consolidando a las redes neuronales como una tecnología esencial en desarrollos tan diversos como los sistemas de recomendación y la conducción autónoma.
-Aunque la literatura actual ha abordado ampliamente las redes neuronales convencionales, la creciente demanda de resolver problemas más complejos ha impulsado la evolución hacia arquitecturas más especializadas. Entre estas, las Redes Neuronales Gráficas (Graph Neural Networks o GNN) se han destacado por su capacidad para trabajar con datos estructurados en forma de gráficas, lo que las hace especialmente útiles para el objetivo de este trabajo.
-A través de este capítulo, se busca proporcionar una comprensión sólida de cómo las GNNs pueden abordar problemas complejos y ofrecer soluciones efectivas en contextos donde los datos presentan relaciones intrincadas y no lineales.
-La primera parte de este capítulo, que comprenden las definiciones de conceptos principales, se basa en la obra \cite{Goodfellow-et-al-2016}, la segunda parte que abarca conceptos que profundiza en el tema de Redes Neuronales Gráficas se basa en el texto \cite{graph_representation_learning}.
+El Capítulo~\ref{cap:graficasysuperficies} estableció las representaciones combinatorias de las superficies mediante complejos simpliciales y gráficas. El presente capítulo introduce los modelos neuronales que permiten transformar los atributos de esas representaciones en predicciones. Se estudian primero las capas y su entrenamiento, después las operaciones locales de las redes convolucionales y, finalmente, la agregación de información sobre vecindarios de una gráfica.
+
+Esta organización proporciona los fundamentos para distinguir dos etapas posteriores: el muestreo del Capítulo~\ref{cap:muestreo}, que modifica la representación de entrada, y la clasificación del Capítulo~\ref{cap:resultados}, que utiliza representaciones aprendidas. En particular, será necesario diferenciar las coordenadas de los nodos de sus encajes, y la equivarianza de las capas de la invarianza de una predicción global. La Figura~\ref{fig:red_neuronal_multicapa} muestra la composición de capas que sirve como punto de partida.
+
+Los fundamentos de redes neuronales y convoluciones se presentan siguiendo \cite{Goodfellow-et-al-2016}; el tratamiento de las redes neuronales gráficas se apoya en \cite{graph_representation_learning}.
 
 \begin{figure}[H]
     \centering
@@ -28,16 +29,15 @@ La primera parte de este capítulo, que comprenden las definiciones de conceptos
 \section{Redes Neuronales}
 
 \subsection{Conceptos básicos}
-Una red neuronal puede entenderse cómo la composición de múltiples funciones no lineales, que en conjunto forman un modelo capaz de aprender representaciones complejas de los datos. Estas redes están inspiradas en la estructura y funcionamiento del cerebro humano, donde las neuronas se conectan entre sí para procesar información y tomar decisiones.
-
-A continuación se daremos la definición formal del modelo de red neuronal partiendo de la unidad más básica denominada como perceptrón.
+Una red neuronal se construye mediante la composición de transformaciones parametrizadas y funciones de activación. Estas operaciones aparecen tanto en los clasificadores como en las funciones que generan y actualizan mensajes sobre gráficas. Se comienza con el perceptrón como modelo de decisión binaria y después se generaliza su transformación afín a capas con activaciones adecuadas para el entrenamiento.
 
 \begin{definition}[Perceptrón]
+\label{def:perceptron}
     Sea $\mathbf{w} \in \mathbb{R}^d$ un vector de pesos, $\mathbf{x} \in \mathbb{R}^d$ un vector de entrada y $b \in \mathbb{R}$ un sesgo (umbral). Definimos la función
     \[
         f:\mathbb{R}^d \to \{0,1\}, \qquad f(\mathbf{x}) = \chi_{\{\, \mathbf{y} \in \mathbb{R}^d : \mathbf{w}^T \mathbf{y} + b > 0 \,\}}(\mathbf{x}),
     \]
-    donde $\chi_{A}$ denota la función característica del conjunto $A \subseteq \mathbb{R}^d$.
+    donde $\chi_{A}$ denota la función indicadora del conjunto $A \subseteq \mathbb{R}^d$; este uso no corresponde a la característica de Euler de una superficie.
 
     En forma explícita,
     \[
@@ -68,7 +68,7 @@ A continuación se daremos la definición formal del modelo de red neuronal part
         in {\NO,...,1}{ % loop over nodes
                 \ifnum\i=1 % high-lighted node
                     \node[node hidden]
-                    (NO-\i) at (1,\y) {$y = f(z)$};
+                    (NO-\i) at (1,\y) {$y = f(\mathbf x)$};
                     \foreach \j [evaluate={\index=(\j<\NI?int(\j):"n");}] in {1,...,\NI}{ % loop over nodes in previous layer
                             \draw[connect,white,line width=1.2] (NI-\j) -- (NO-\i);
                             \draw[connect] (NI-\j) -- (NO-\i)
@@ -92,7 +92,7 @@ A continuación se daremos la definición formal del modelo de red neuronal part
                 \begin{array}{l}
                     z = \mathbf{w}^{T}\mathbf{x} + b
                     = \displaystyle\sum_{i=1}^{n} x_{i}w_{i} + b, \\[8pt]
-                    y = f(z)
+                    y = f(\mathbf x)
                     = \left\{
                     \begin{array}{ll}
                         1, & \text{si } z > 0,    \\[4pt]
@@ -109,7 +109,7 @@ A continuación se daremos la definición formal del modelo de red neuronal part
 \end{figure}
 
 
-De la anterior definición, podemos observar que el perceptrón es un clasificador lineal que toma una decisión binaria basada en una combinación lineal de las entradas ponderadas por los pesos y ajustada por un sesgo. La función característica $\chi_{A}$ actúa como una función de activación que determina si la salida es 1 o 0, dependiendo de si la combinación lineal supera el umbral definido por el sesgo.
+El perceptrón de la Definición~\ref{def:perceptron} separa las entradas mediante el hiperplano $\mathbf w^T\mathbf x+b=0$, cuando $\mathbf w\neq0$. Las Figuras~\ref{fig:perceptron} y~\ref{fig:clasificador_lineal} muestran su operación y su frontera de decisión. La activación escalón da una salida binaria; las capas siguientes utilizan otras activaciones para construir modelos entrenables mediante gradientes.
 
 \begin{figure}[H]
     \centering
@@ -143,28 +143,28 @@ De la anterior definición, podemos observar que el perceptrón es un clasificad
     }
 
     % Vector normal w
-    \draw[dashed,->,thick] (1.9,1.1) -- (2.8,1.7);
-    \node[right] at (2.8,1.7) {$\mathbf{w}$};
+    \draw[dashed,->,thick] (1.9,1.1) -- (2.56,2.10);
+    \node[right] at (2.56,2.10) {$\mathbf{w}$};
 
     % Regiones
-    \node at (4.2,3.5) {$\chi_A(w^T x + b)=1$};
-    \node at (4.2,3.0) {$(w^T x + b \geq 0)$};
+    \node at (4.2,3.5) {$\chi_A(x)=1$};
+    \node at (4.2,3.0) {$(w^T x + b > 0)$};
 
-    \node at (-0.1,-1.6) {$\chi_A(w^T x + b)=0$};
-    \node at (-0.1,-2.1) {$(w^T x + b < 0)$};
+    \node at (-0.1,-1.6) {$\chi_A(x)=0$};
+    \node at (-0.1,-2.1) {$(w^T x + b \leq 0)$};
 
     \end{tikzpicture}
     \caption{Ejemplo de clasificador lineal. Los círculos representan la clase positiva y las cruces la clase negativa. La línea representa la frontera de decisión definida por el perceptrón.}
     \label{fig:clasificador_lineal}
 \end{figure}
 
-Con el perceptrón definido, podemos construir redes neuronales más complejas al combinar múltiples perceptrones en capas.
-Una capa, cómo lo veremos a continuación, es la combinación de funciones entre un perceptrón y una función de activación.
+La capa densa generaliza la combinación afín del perceptrón a varias unidades. La no linealidad se aplica después de esta combinación, como se ilustra en la Figura~\ref{fig:capa_red_neuronal}.
 
 \begin{definition}[Capa densa de una red neuronal]
+\label{def:capa-densa}
     Sea $L \in \mathbb{N}$ el índice de una capa en una red neuronal.
     Sean:
-    $\mathbf{W}^{(L)} \in \mathbb{R}^{n_L \times n_{L-1}}$ la matriz de pesos que conecta la capa $(L-1)$ con la capa $L$, $\mathbf{b}^{(L)} \in \mathbb{R}^{n_L}$ el vector de sesgos (bias), $\sigma : \mathbb{R} \to \mathbb{R}$ una función de activación (aplicada componente a componente).
+    $\mathbf{W}^{(L)} \in \mathbb{R}^{n_L \times n_{L-1}}$ la matriz de pesos que conecta la capa $(L-1)$ con la capa $L$, $\mathbf{b}^{(L)} \in \mathbb{R}^{n_L}$ el vector de sesgos, $\sigma : \mathbb{R} \to \mathbb{R}$ una función de activación (aplicada componente a componente).
 
     Definimos la \textbf{capa $L$-ésima} como la aplicación
     \[
@@ -249,7 +249,8 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
 \end{figure}
 
 \begin{observation}
-    La función de activación $\sigma$ introduce no linealidad en la red neuronal, lo cual es de importancia para que una red pueda aprender representaciones complejas y no lineales de los datos.
+\label{obs:funciones-activacion}
+    Una función de activación no lineal $\sigma$ introduce no linealidad en la red neuronal, lo cual es de importancia para que una red pueda aprender representaciones complejas y no lineales de los datos.
     Algunas funciones de activación comunes son:
     \begin{itemize}
         \item \textbf{Función sigmoide}: $\sigma(x) = \frac{1}{1 + e^{-x}}$
@@ -258,22 +259,23 @@ Una capa, cómo lo veremos a continuación, es la combinación de funciones entr
     \end{itemize}
 \end{observation}
 
-Con la definición anterior podemos ahora entender y definir formalmente cómo se compone una red neuronal a partir de múltiples capas.
+La composición de las capas de la Definición~\ref{def:capa-densa} determina la red completa. En este contexto, una red formada por capas densas se denomina también perceptrón multicapa (MLP).
 
 \begin{definition}[Red neuronal]
+\label{def:red-neuronal}
     Sea $L \in \mathbb{N}$ el número de capas. Una \textbf{red neuronal} con $L$ capas es una función
     \[
-        f(\mathbf{x};\boldsymbol{\theta}) : \mathbb{R}^{n_0} \longrightarrow \mathbb{R}^{n_L}
+        f(\,\cdot\,;\theta) : \mathbb{R}^{n_0} \longrightarrow \mathbb{R}^{n_L}
     \]
     definida como la composición
     \[
-        f(\mathbf{x};\boldsymbol{\theta}) = f^{(L)} \circ f^{(L-1)} \circ \dotsb \circ f^{(2)} \circ f^{(1)} (\mathbf{x}),
+        f(\mathbf{x};\theta) = \bigl(f^{(L)} \circ f^{(L-1)} \circ \dotsb \circ f^{(1)}\bigr)(\mathbf{x}),
     \]
     donde:
-    $\mathbf{x} \in \mathbb{R}^{n_0}$ es el vector de entrada, para cada $i \in \{1,\dotsc,L\}$, $f^{(i)} : \mathbb{R}^{n_{i-1}} \to \mathbb{R}^{n_i}$ es la transformación asociada a la $i$-ésima capa, $\boldsymbol{\theta} = \{\mathbf{W}^{(i)}, \mathbf{b}^{(i)} \mid i=1,\dotsc,L\}$ es el conjunto de parámetros de la red (matrices de pesos y vectores de sesgo), $\mathbf{y} = f(\mathbf{x};\boldsymbol{\theta}) \in \mathbb{R}^{n_L}$ es la salida de la red.
+    $\mathbf{x} \in \mathbb{R}^{n_0}$ es el vector de entrada, para cada $i \in \{1,\dotsc,L\}$, $f^{(i)} : \mathbb{R}^{n_{i-1}} \to \mathbb{R}^{n_i}$ es la transformación asociada a la $i$-ésima capa, $\theta = (\mathbf{W}^{(i)}, \mathbf{b}^{(i)})_{i=1}^{L}$ es la colección de parámetros de la red (matrices de pesos y vectores de sesgo), $\hat{\mathbf{y}} = f(\mathbf{x};\theta) \in \mathbb{R}^{n_L}$ es la salida de la red.
 \end{definition}
 
-En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red, y a la capa $f^{(L)}$ se le conoce como la capa de salida. A las capas restantes se les conoce como capas ocultas
+La capa $f^{(L)}$ es la capa de salida y las capas $f^{(1)},\ldots,f^{(L-1)}$ son ocultas. La entrada es $\mathbf x$, no una capa con parámetros entrenables. La Figura~\ref{fig:red_neuronal} ilustra el caso de una capa oculta.
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[x=2.7cm,y=1.6cm,scale=0.8,transform shape]
@@ -346,11 +348,10 @@ En este caso a la función $f^{(1)}$ se le conoce como la primer capa de la red,
 
 \subsection{Entrenamiento de redes neuronales}
 
-El entrenamiento de una red neuronal implica ajustar sus parámetros $\theta$ para minimizar la función de pérdida $\mathbf{L}(y,\hat{y})$. Este proceso se lleva a cabo mediante un conjunto de datos de entrenamiento, que consiste en pares de entrada-salida $(x_i, y_i)$. Esta función cuantifica la discrepancia entre las predicciones de la red $\hat{y}_i = f(x_i;\theta)$ y los valores reales $y_i$. El objetivo del entrenamiento es encontrar los parámetros $\theta$ tales que minimicen esta función en promedio sobre todo el conjunto de datos.
-
-A continuación, presentamos las definiciones formales de los conceptos involucrados en el entrenamiento de redes neuronales.
+Entrenar una red consiste en ajustar sus parámetros a partir de observaciones etiquetadas. Se distinguirán la pérdida de una predicción, su promedio en la distribución de datos y el promedio calculable sobre el conjunto de entrenamiento. Esta distinción permite interpretar la evaluación de clasificación del Capítulo~\ref{cap:resultados} sin identificar el error de entrenamiento con el comportamiento en datos no utilizados para ajustar el modelo.
 
 \begin{definition}[Conjunto de entrenamiento]
+\label{def:conjunto-entrenamiento}
     Sea $\mathcal{X}$ el espacio de entrada (o espacio de características) y sea $\mathcal{Y}$ el espacio de salida (o espacio de etiquetas). 
     
     Un \textbf{conjunto de datos de entrenamiento} es una colección finita de $N$ observaciones empíricas, denotada por
@@ -360,7 +361,10 @@ A continuación, presentamos las definiciones formales de los conceptos involucr
     donde cada par $(x_i, y_i) \in \mathcal{X} \times \mathcal{Y}$ representa un ejemplo individual. En este contexto, $x_i$ corresponde a las características observadas del $i$-ésimo ejemplo y $y_i$ es su valor verdadero o etiqueta asociada.
 \end{definition}
 
+En la tarea de clasificación de superficies, cada $x_i$ representa una superficie mediante los datos que recibe el modelo, y $y_i$ es la etiqueta de esa observación. El muestreo del Capítulo~\ref{cap:muestreo} modifica la representación de $x_i$; reducir sus nodos no equivale a retirar observaciones de $\mathcal D$.
+
 \begin{definition}[Función de pérdida]
+\label{def:funcion-perdida}
 Sea $\mathcal{Y}$ el espacio de valores verdaderos y sea
 $\widehat{\mathcal{Y}}$ el espacio de predicciones de un modelo.
 
@@ -378,7 +382,7 @@ En particular, si
     f(\,\cdot\,;\theta):\mathcal{X}\longrightarrow
     \widehat{\mathcal{Y}}
 \]
-es una red neuronal parametrizada por $\theta\in\Theta$, entonces la pérdida
+es una red neuronal parametrizada por $\theta\in\Theta$, donde $\Theta$ es el espacio de parámetros, entonces la pérdida
 asociada a un dato de entrenamiento $(x_i,y_i)$ está dada por
 \[
     \ell\bigl(y_i,f(x_i;\theta)\bigr).
@@ -386,63 +390,43 @@ asociada a un dato de entrenamiento $(x_i,y_i)$ está dada por
 
 \end{definition}
 
-Como ya se ha mencionado, el proceso de entrenamiento de una red neuronal tiene como propósito ajustar los parámetros del modelo $\theta \in \Theta$ para minimizar la discrepancia entre las predicciones $\hat{y}_i = f(x_i; \theta)$ y los valores reales $y_i$.
-
-De manera teórica, este objetivo puede obtenerse a través de la \textbf{función de riesgo}.
+La pérdida puntual se promedia respecto de una distribución de probabilidad para formular el objetivo poblacional del aprendizaje. Se denota esta distribución por $\mathbb P$, reservando $\mathcal D$ para la colección finita de observaciones.
 
 \begin{definition}[Función de riesgo]
-    Sea $\mathcal{D}$ una distribución de probabilidad sobre el espacio producto $\mathcal{X} \times \mathcal{Y}$, donde $\mathcal{X}$ denota el espacio de entradas y $\mathcal{Y}$ el espacio de etiquetas verdaderas.
-
-    Dada una función de pérdida $L: \mathcal{Y} \times \widehat{\mathcal{Y}} \longrightarrow \mathbb{R}_{\geq 0}$ y una función de predicción $f(\,\cdot\,;\theta): \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ parametrizada por $\theta \in \Theta$, la \textbf{función de riesgo} (o riesgo esperado) es un mapeo $\mathcal{R}: \Theta \longrightarrow \mathbb{R}_{\geq 0}$ definido por la esperanza matemática del error:
-    \[
-        \mathcal{R}(\theta) = \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ L\bigl(y, f(x; \theta)\bigr) \right] = \int_{\mathcal{X} \times \mathcal{Y}} L\bigl(y, f(x; \theta)\bigr) \, \mathrm{d}\mathcal{D}(x,y).
-    \]
-    Esta función cuantifica la pérdida esperada que el modelo parametrizado por $\theta$ comete sobre toda la población de datos gobernada por la distribución subyacente $\mathcal{D}$.
+\label{def:riesgo-esperado}
+Sea $\mathbb P$ una distribución de probabilidad sobre $\mathcal X\times\mathcal Y$. Para una pérdida $\ell$ y un predictor $f(\,\cdot\,;\theta)$, se define el \textbf{riesgo esperado} por
+\[
+\mathcal R(\theta)=\mathbb E_{(x,y)\sim\mathbb P}\bigl[\ell(y,f(x;\theta))\bigr],
+\]
+siempre que la pérdida compuesta sea medible e integrable. Bajo esta condición, $\mathcal R:\Theta\to\mathbb R_{\geq0}$ cuantifica la pérdida promedio sobre la distribución de datos.
 \end{definition}
 
-Hasta aquí hemos definido el riesgo esperado (o teórico). Sin embargo, en la práctica la distribución de probabilidad subyacente $\mathcal{D}$ es desconocida. Por ello, el riesgo teórico se aproxima mediante su \textbf{riesgo empírico}, calculado sobre una muestra finita $\{(x_i, y_i)\}_{i=1}^N$ proveniente de $\mathcal{D}$:
-
-\begin{equation}
-    \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^N \ell\bigl(y_i, f(x_i; \theta)\bigr).
-\end{equation}
-
-De esta forma, el problema de aprendizaje se plantea como una tarea de \textit{minimización del riesgo empírico} (Empirical Risk Minimization, ERM):
-
-\begin{equation}
-    \min_{\theta \in \Theta} \; \widehat{\mathcal{R}}(\theta)
-    = \min_{\theta \in \Theta} \; \frac{1}{N} \sum_{i=1}^N \ell\bigl(y_i, f(x_i; \theta)\bigr).
-\end{equation}
-
-En este contexto, la función de pérdida $\ell$ cuantifica el error a nivel puntual, mientras que la función de riesgo $\mathcal{R}(\theta)$ expresa dicho error en promedio —ya sea teóricamente (riesgo esperado) o empíricamente (riesgo observado).
-
-El proceso de entrenamiento de la red busca, por tanto, minimizar una estimación del riesgo esperado mediante técnicas de optimización numérica como el \textit{descenso del gradiente estocástico} (Stochastic Gradient Descent, SGD) y su variantes.
-
-Así definimos a continuación formalmente la función de riesgo empírico.
+Como la distribución $\mathbb P$ es desconocida, se emplea un promedio sobre las observaciones disponibles.
 
 \begin{definition}[Función de riesgo empírico]
-    Sea $S = \{(x_i, y_i)\}_{i=1}^N \subset \mathcal{X} \times \mathcal{Y}$ un conjunto de datos de entrenamiento con $N$ observaciones.
-
-    Dada una función de pérdida $\ell : \mathcal{Y} \times \widehat{\mathcal{Y}} \longrightarrow \mathbb{R}_{\geq 0}$ y una función de predicción $f(\,\cdot\,;\theta) : \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ parametrizada por $\theta \in \Theta$, la \textbf{función de riesgo empírico} es un mapeo $\widehat{\mathcal{R}} : \Theta \longrightarrow \mathbb{R}_{\geq 0}$ definido como:
-    \[
-        \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \ell\bigl(y_i, f(x_i;\theta)\bigr).
-    \]
-    Esta función calcula la pérdida promedio que comete el modelo con parámetros $\theta$ exclusivamente sobre el conjunto de datos observado $S$.
+\label{def:riesgo-empirico}
+Dado el conjunto de entrenamiento $\mathcal D=\{(x_i,y_i)\}_{i=1}^{N}$, con $N\geq1$, el \textbf{riesgo empírico} es
+\[
+\widehat{\mathcal R}(\theta)=\frac1N\sum_{i=1}^{N}\ell\bigl(y_i,f(x_i;\theta)\bigr).
+\]
+El problema de minimización del riesgo empírico consiste en buscar parámetros que reduzcan $\widehat{\mathcal R}$ sobre $\Theta$.
 \end{definition}
 
 
-Como ya se ha mencionado, una manera de minimizar las funciones de pérdida, es utilizando el algoritmno de Gradiente Descendente. 
-
-Para ello recordemos la definición de gradiente, así cómo visualizaremos el algoritmo de gradiente descendente.
+La pérdida $\ell$ corresponde a una observación, mientras que $\mathcal R$ y $\widehat{\mathcal R}$ son promedios distintos. Reducir la pérdida de entrenamiento no garantiza obtener buena clasificación en datos nuevos. Para ajustar los parámetros se utilizan métodos de optimización que, cuando existen las derivadas necesarias, se apoyan en el gradiente.
 
 \begin{definition}[Gradiente]
-    Sea $f: \Omega \subset \mathbb{R}^n \longrightarrow \mathbb{R}$,una función diferenciable en $x_0$.Entonces el vector cuyas compnentes son las derivadas parciales de $f$ en $x_0$ es el vector gradiente, denotado por $\nabla f$, donde:
-
-    \[\nabla f(x_0) = \left( \frac{\partial f(x_0)}{\partial x_1},\dotsc , \frac{\partial f(x_0)}{\partial x_n} \right)\]
+\label{def:gradiente}
+Sea $f:\Omega\to\mathbb R$, con $\Omega\subseteq\mathbb R^n$ abierto, diferenciable en $x_0\in\Omega$. Su \textbf{gradiente} en $x_0$ es el vector columna
+\[
+\nabla f(x_0)=\left(\frac{\partial f}{\partial x_1}(x_0),\ldots,\frac{\partial f}{\partial x_n}(x_0)\right)^T.
+\]
 \end{definition}
-Este vector contiene la información de cuanto crece o decrece la función en un punto en específico.
+El producto $\nabla f(x_0)^T d$ da la derivada direccional en la dirección $d$. Si el gradiente es distinto de cero, su opuesto es una dirección de descenso local.
 
 \begin{definition}[Descenso por gradiente]
-    Sea $J : \Theta \to \mathbb{R}$ una función diferenciable, denominada \textit{función objetivo}, donde $\Theta \subseteq \mathbb{R}^n$ representa el espacio de parámetros.
+\label{def:descenso-gradiente}
+    Sea $J : \Theta \to \mathbb{R}$ una función diferenciable, denominada \textit{función objetivo}, donde $\Theta=\mathbb{R}^n$ representa el espacio de parámetros sin restricciones.
     Dado un valor inicial $\theta_0 \in \Theta$ y una tasa de aprendizaje $\eta > 0$, el \textit{método de descenso por gradiente} genera una sucesión
     $\{ \theta_k \}_{k \in \mathbb{N}}$ definida recursivamente por
     \[
@@ -451,7 +435,7 @@ Este vector contiene la información de cuanto crece o decrece la función en un
     donde $\nabla_\theta J(\theta_k)$ denota el gradiente de $J$ evaluado en $\theta_k$.
 \end{definition}
 
-Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta la velocidad y estabilidad de la convergencia hacia el mínimo.
+Notamos que el descenso por gradiente es un método iterativo que busca minimizar una función objetivo $J(\theta)$ ajustando los parámetros $\theta$ en la dirección opuesta al gradiente de la función. La tasa de aprendizaje $\eta$ controla el tamaño de los pasos que se dan en cada iteración, lo que afecta el comportamiento del método. La actualización no garantiza por sí sola convergencia ni descenso para cualquier valor de $\eta$.
 
 
 \begin{figure}[H]
@@ -543,28 +527,24 @@ Notamos que el descenso por gradiente es un método iterativo que busca minimiza
 De esta forma podemos describir formalmente el algoritmo de actualización  de parámetros por medio del descenso de gradiente.
 
 \begin{algorithm}[H]
-    \caption{Algoritmo de actualización GD}\label{alg:cap}
-    \begin{algorithmic}
-        \Inputs{ $J:\Theta \longrightarrow \mathbb{R}$, $\mathbf{T} > 0$ número de iteraciones, $\eta$ rango de aprendizaje.}
-        \Initialize{Seleccionar $\theta ^ {(0)} \in \Theta$ aleatoriamente.}
-        \For{$t \in \{1,\dotsc,\mathbf{T}\}$}
-        \State Calcular $R(\theta ^{(t)})$, $\nabla_{\theta^{(T)}}R(\theta ^{(t)})$
-        \If{$\nabla_{\theta^{(T)}}R(\theta ^{(t)}) \neq$  0}
-        \State $\theta ^{(t+1)} \gets \theta^{(t)} - \eta \nabla_{\theta^{(t)}}R(\theta ^{(t)})$
-        \Else
-        \State Fin del algoritmo
-        \EndIf
-        \EndFor
-    \end{algorithmic}
+\caption{Actualización por descenso del gradiente}\label{alg:descenso-gradiente}
+\begin{algorithmic}[1]
+\Require Objetivo diferenciable $J:\mathbb R^n\to\mathbb R$, $T\geq1$, $\eta>0$, $\theta^{(0)}$
+\For{$t=0,\ldots,T-1$}
+    \State $g\gets\nabla J(\theta^{(t)})$
+    \If{$g=0$}
+        \State \Return $\theta^{(t)}$
+    \EndIf
+    \State $\theta^{(t+1)}\gets\theta^{(t)}-\eta g$
+\EndFor
+\State \Return $\theta^{(T)}$
+\end{algorithmic}
 \end{algorithm}
-\noindent
 
-A medida que va aumentando el número de capas en la red neuronal, también aumenta la complejidad de determinar los pesos de todas las conexiones de manera correcta para minimizar los errores, es por eso que nace la necesidad de implementar algoritmos más complejos para la optimización de redes multicapa, de ahí que nace el \textbf{BackPropagation}.
+En el entrenamiento puede tomarse $J=\widehat{\mathcal R}$. El Algoritmo~\ref{alg:descenso-gradiente} presupone que se conoce su gradiente; la retropropagación permite calcularlo a través de las capas sin ser, por sí misma, una regla de actualización de parámetros.
 
 \subsection{Backpropagation}
-El algoritmo de \textbf{backpropagation} es un método eficiente para calcular los gradientes de la función de pérdida con respecto a los parámetros de una red neuronal. Este algoritmo se basa en la regla de la cadena del cálculo diferencial y permite propagar el error desde la capa de salida hacia las capas anteriores, ajustando los pesos y sesgos de manera iterativa para minimizar la función de pérdida.
-
-\vspace{1cm}
+La \textbf{retropropagación} (\textit{backpropagation}) aplica la regla de la cadena para calcular las derivadas de la pérdida respecto de los parámetros. Se separan el cálculo de activaciones, la propagación de derivadas y la actualización mediante un optimizador. La Figura~\ref{fig:backpropagation} ilustra estos recorridos para una red con una capa oculta.
 
 \begin{figure}[H]
     \centering
@@ -588,14 +568,14 @@ El algoritmo de \textbf{backpropagation} es un método eficiente para calcular l
         \node[node in]     (x2) at (0,-0.55) {$x_{2}$};
 
         % Capa oculta (Capa 1)
-        \node[node hidden] (h1) at (1.5, 0.55) {$a^{(1)}_{1}$};
-        \node[node hidden] (h2) at (1.5,-0.55) {$a^{(1)}_{2}$};
+        \node[node hidden] (h1) at (1.5, 0.55) {$h^{(1)}_{1}$};
+        \node[node hidden] (h2) at (1.5,-0.55) {$h^{(1)}_{2}$};
 
         % Salida
-        \node[node out]    (yhat) at (3.0, 0.0) {$\hat{y}=a^{(2)}$};
+        \node[node out]    (yhat) at (3.0, 0.0) {$\hat{y}=h^{(2)}$};
 
         % Pérdida
-        \node[node out]    (L)    at (4.4, 0.0) {$\mathcal{L}$};
+        \node[node out]    (L)    at (4.4, 0.0) {$\ell$};
 
         % =====================================================
         % FORWARD PASS (azul)
@@ -606,10 +586,10 @@ El algoritmo de \textbf{backpropagation} es un método eficiente para calcular l
         (x1) to node[pos=0.35,above,labw] {$w^{(1)}_{11}$} (h1);
 
         \draw[connect arrow, bend left=10]
-        (x1) to node[pos=0.35,below,labw] {$w^{(1)}_{12}$} (h2);
+        (x1) to node[pos=0.35,below,labw] {$w^{(1)}_{21}$} (h2);
 
         \draw[connect arrow, bend left=10]
-        (x2) to node[pos=0.35,above,labw] {$w^{(1)}_{21}$} (h1);
+        (x2) to node[pos=0.35,above,labw] {$w^{(1)}_{12}$} (h1);
 
         \draw[connect arrow, bend left=10]
         (x2) to node[pos=0.35,below,labw] {$w^{(1)}_{22}$} (h2);
@@ -663,18 +643,18 @@ El algoritmo de \textbf{backpropagation} es un método eficiente para calcular l
         % =====================================================
         \node[font=\scriptsize,align=left] at (2.2,-1.70) {%
             \textbf{Forward:}\\[-1pt]
-            $z^{(1)} = W^{(1)}x + b^{(1)},\quad a^{(1)}=\sigma(z^{(1)})$\\
-            $z^{(2)} = W^{(2)}a^{(1)} + b^{(2)},\quad \hat{y}=a^{(2)}$\\[4pt]
+            $z^{(1)} = W^{(1)}x + b^{(1)},\quad h^{(1)}=\sigma(z^{(1)})$\\
+            $z^{(2)} = W^{(2)}h^{(1)} + b^{(2)},\quad \hat{y}=h^{(2)}=\sigma(z^{(2)})$\\[4pt]
             \textbf{Backprop:}\\[-1pt]
-            $\delta^{(2)}=\nabla_{a^{(2)}}\mathcal{L}\odot\sigma'(z^{(2)})$\\
+            $\delta^{(2)}=\nabla_{h^{(2)}}\ell\odot\sigma'(z^{(2)})$\\
             $\delta^{(1)}=(W^{(2)})^{T}\delta^{(2)}\odot\sigma'(z^{(1)})$\\[4pt]
             $\displaystyle
-                \frac{\partial\mathcal{L}}{\partial W^{(2)}}=\delta^{(2)}(a^{(1)})^{T},\quad
-                \frac{\partial\mathcal{L}}{\partial W^{(1)}}=\delta^{(1)}x^{T}$
+                \frac{\partial\ell}{\partial W^{(2)}}=\delta^{(2)}(h^{(1)})^{T},\quad
+                \frac{\partial\ell}{\partial W^{(1)}}=\delta^{(1)}x^{T}$
         };
 
         \node[font=\scriptsize] at (3.8,-1.05)
-        {$W^{(l)} \leftarrow W^{(l)} - \eta\,\nabla_{W^{(l)}}\mathcal{L}$};
+        {$W^{(l)} \leftarrow W^{(l)} - \eta\,\nabla_{W^{(l)}}\ell$};
 
         % =====================================================
         % Leyenda
@@ -686,157 +666,109 @@ El algoritmo de \textbf{backpropagation} es un método eficiente para calcular l
         \node[font=\scriptsize,anchor=west] at (2.07,1.65) {Backprop};
 
     \end{tikzpicture}
-    \caption{Backpropagation: forward (azul) y backward (rojo) con trayectorias separadas mediante desplazamiento de anclajes.}
+    \caption{Propagación de activaciones hacia la salida (azul) y de derivadas hacia las capas anteriores (rojo). La actualización utiliza los gradientes calculados.}
     \label{fig:backpropagation}
 \end{figure}
 \newpage
 \begin{definition}[Gradiente de la función de riesgo empírico]
-    Sea $f(\,\cdot\,;\theta): \mathcal{X} \longrightarrow \widehat{\mathcal{Y}}$ una red neuronal de $L$ capas parametrizada por $\theta \in \Theta$, dada por la composición $f = f^{(L)} \circ f^{(L-1)} \circ \dots \circ f^{(1)}$.
-
-    El \textbf{gradiente de la función de riesgo empírico} $\widehat{\mathcal{R}}(\theta)$ respecto al vector de parámetros $\theta$ se define como:
-    \[
-        \nabla_\theta \widehat{\mathcal{R}}(\theta) = \frac{1}{N} \sum_{i=1}^{N} \nabla_\theta \ell\bigl(y_i, f(x_i;\theta)\bigr),
-    \]
-    donde el gradiente de la pérdida puntual $\ell$ para cada ejemplo $(x_i, y_i)$ se calcula mediante la regla de la cadena a través de las $L$ capas de la red:
-    \[
-        \nabla_\theta \ell\bigl(y_i, f(x_i;\theta)\bigr) = \frac{\partial \ell}{\partial f^{(L)}} \cdot \frac{\partial f^{(L)}}{\partial f^{(L-1)}} \cdots \frac{\partial f^{(2)}}{\partial f^{(1)}} \cdot \frac{\partial f^{(1)}}{\partial \theta}.
-    \]
+\label{def:gradiente-riesgo-empirico}
+Se agrupan las entradas de las matrices de pesos y los sesgos en un vector $\theta\in\mathbb R^p$. Si las pérdidas compuestas son diferenciables respecto de este vector, entonces
+\[
+\nabla_\theta\widehat{\mathcal R}(\theta)
+=\frac1N\sum_{i=1}^{N}\nabla_\theta\ell\bigl(y_i,f(x_i;\theta)\bigr).
+\]
+Si, además, la red es diferenciable respecto de sus parámetros y la pérdida respecto de la predicción, la regla de la cadena da
+\[
+\nabla_\theta\ell\bigl(y_i,f(x_i;\theta)\bigr)
+=\bigl(D_\theta f(x_i;\theta)\bigr)^T
+\left.\nabla_{\hat y}\ell(y_i,\hat y)\right|_{\hat y=f(x_i;\theta)},
+\]
+donde $D_\theta f\in\mathbb R^{n_L\times p}$ es el jacobiano respecto de todos los parámetros de la red.
 \end{definition}
 
-De esta forma a partir de la definición anterior, podemos comenzar con la definición formal del algoritmo dividiéndolo en dos partes principales: la propagación hacia adelante y la propagación hacia atrás.
+La Definición~\ref{def:gradiente-riesgo-empirico} permite calcular el gradiente por observación y promediarlo. Para obtenerlo sin formar el jacobiano completo, se recorre la composición de capas en sentido inverso. A continuación se supone que cada activación se aplica componente a componente y es diferenciable en las preactivaciones consideradas.
 
-\noindent \textbf{Propagación hacía delante}\\
-En esta fase, los datos de entrada se pasan a través de la red capa por capa, calculando las activaciones en cada capa utilizando los pesos y sesgos actuales. La salida final de la red se compara con la etiqueta verdadera para calcular el error utilizando una función de pérdida.
+\noindent\textbf{Propagación hacia delante.}
+Para una observación $(\mathbf x,y)$ se fija $\mathbf h^{(0)}=\mathbf x$. Para cada capa $l=1,\ldots,L$, se calculan la preactivación y la activación:
+\[
+\mathbf z^{(l)}=\mathbf W^{(l)}\mathbf h^{(l-1)}+\mathbf b^{(l)},
+\qquad
+\mathbf h^{(l)}=\sigma(\mathbf z^{(l)}).
+\]
+La pérdida puntual es $\ell(y,\mathbf h^{(L)})$.
 
-Así, sabemos que para cada capa $(L)$ de una red neuronal, la salida $\mathbf{h}^{(L)}$ se calcula de manera recursiva, dado un vector de entrada $\mathbf{x}$ la red realiza las siguientes dos operaciones:
-\textbf{Preactivación} \\
-          Dada la matriz de pesos $\mathbf{W}^{(L)}$ , el vector de sesgos $\mathbf{b}^{(L)}$ en la capa $L$ y $\mathbf{h}^{(L-1)}$ la salida de la capa anterior, entonces la preactivación está dada por:
-          \[
-              \mathbf{z}^{(L)} = \mathbf{W}^{(L)}\mathbf{h}^{(L-1)} + \mathbf{b}^{(L)}
-          \]
-\textbf{Activación}\\
-          Dada $\sigma$ una función de activación (sigmoide,ReLu,etc), y $\mathbf{z}^{(L)}$ la preactivación de la capa $L$, entonces la activación en la capa $L$ está dada por:
-          \[
-              \mathbf{h}^{(L)} = \sigma \left( \mathbf{z}^{(L)} \right)
-          \]
+\noindent\textbf{Propagación hacia atrás.}
+Se denota por $\delta^{(l)}$ el gradiente de esta pérdida respecto de $\mathbf z^{(l)}$. Con $\odot$ para el producto componente a componente, se obtiene
+\[
+\delta^{(L)}=\nabla_{\mathbf h^{(L)}}\ell(y,\mathbf h^{(L)})
+\odot\sigma'(\mathbf z^{(L)}),
+\]
+y, para $l=L-1,\ldots,1$,
+\[
+\delta^{(l)}=(\mathbf W^{(l+1)})^T\delta^{(l+1)}
+\odot\sigma'(\mathbf z^{(l)}).
+\]
+Los gradientes de los parámetros de \emph{todas} las capas, incluida la de salida, son
+\[
+\nabla_{\mathbf W^{(l)}}\ell=\delta^{(l)}(\mathbf h^{(l-1)})^T,
+\qquad
+\nabla_{\mathbf b^{(l)}}\ell=\delta^{(l)},\qquad l=1,\ldots,L.
+\]
+El primer producto es exterior y tiene las dimensiones de $\mathbf W^{(l)}$. Todos los gradientes se calculan antes de modificar los parámetros. Si se utiliza ReLU, no existe derivada en cero; el procedimiento requiere una convención en ese punto, por ejemplo asignar el valor cero. Para activaciones vectoriales no separables debe utilizarse su jacobiano, en lugar del producto componente a componente anterior.
 
-Así, la salida de la última capa se compara con la etiqueta verdadera $\mathbf{y}$ utilizando alguna función de pérdida $\mathbf{J}(\mathbf{h}^{(L)},\mathbf{y})$ para calcular el error de la red.
-
-
-\noindent \textbf{Propagación hacía atrás}\\
-Para minimizar el error en la función de pérdida utilizamos la definición 45, por una serie de pasos dados de la siguiente manera:
-
-\textbf{Error en la capa de salida}\\
-          Sea $\frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} $ el gradiente de la función de pérdida con respecto a la salida de la red, $\sigma ' (\mathbf{z}^{(L)})$, la derivada de la función de activación de la última capa, entonces el error en la capa de salida está dado por:
-          \[
-              \delta^{(L)} = \frac{\partial \mathbf{J}}{\partial \mathbf{z}^{(L)}} = \frac{\partial \mathbf{J}}{\partial \mathbf{h}^{(L)}} \cdot \sigma ' (z^{(L)})
-          \]
-\newpage
-\textbf{Propagación del error hacía atrás}\\
-          Sea $\delta ^{(L+1)}$ el error de la capa siguiente y $\sigma ' (z^{(L)})$ la derivada de la función de activación de la capa L, entonces la propagación del error se da mediante la siguiente expresión:
-          \[
-              \delta^{(L)} = \left( W^{(L+1)}\right)^T \delta ^{(L+1)} \cdot \sigma ' (z^{(L)})
-          \]
-
-\textbf{Gradiente de los parámetros}\\
-Para calcular los gradientes de los parametros, vemos que se realiza de la siguiente forma:
-          \begin{itemize}
-              \item Sea $h^{(L-1)}$ la salida de la capa anterior, entonces el gradiente de los pesos está dado por:
-                    \[
-                        \frac{\partial \mathbf{J}}{\partial \mathbf{    W}^{(L)}} = \delta ^{(L)} \cdot \left(a^{(L-1)}\right)^T
-                    \]
-              \item Y para los sesgos se calcula de la siguiente forma:
-                    \[
-                        \frac{\partial\mathbf{J}}{\partial b^{(L)}} = \delta^{(L)}
-                    \]
-          \end{itemize}
-
-\textbf{Actualización de los parámetros}\\
-Una vez que se tienen los pesos y sesgos calculados de la red, se actualizan utilizando descenso del gradiente, de esta forma la actualización está dada por:
-          
-\textbf{Pesos}:
-                    \[
-                        W^{(L)} = W^{(L)}- \eta \frac{\partial \mathbf{J}}{\partial W^{(L)}}
-                    \]
-
-\textbf{Bias}:
-                    \[
-                        b^{(L)} = b^{(L)}- \eta \frac{\partial\mathbf{J}}{\partial b^{(L)}}
-                    \]
-
-
-Con lo observado anteriormente, podemos definir formalmente el algoritmo \textbf{backpropagation}.
+El Algoritmo~\ref{alg:backpropagation} combina estas operaciones con una actualización por observación. Esta variante se denomina descenso estocástico del gradiente cuando las observaciones se seleccionan aleatoriamente. Promediar los gradientes de todas las observaciones recupera el gradiente del riesgo empírico; promediar sólo un lote da la actualización por minilotes.
 
 \begin{algorithm}[H]
-    \caption{Algoritmo Backpropagation}
-    \begin{algorithmic}[1]
-        \State \textbf{Initialize} Inicializamos pesos $W^{[l]}$ y bias $b^{[l]}$ de manera aleatoria para cada capa $l = 1, \dots, L$
-
-        \For{cada época}
-        \For{cada ejemplo de entrenamiento $(x, y)$}
-
-        \State \textbf{Propagación hacía adelante}:
-        \State Asignamos $a^{[0]} = x$
-        \For{each layer $l = 1, \dots, L$}
-        \State $z^{[l]} = W^{[l]} a^{[l-1]} + b^{[l]}$
-        \State $a^{[l]} = g(z^{[l]})$
+\caption{Retropropagación y actualización por observación}
+\label{alg:backpropagation}
+\begin{algorithmic}[1]
+\Require Datos $\mathcal D$, capas $L$, épocas $T$, tasa $\eta>0$ y parámetros iniciales
+\For{cada época $t=1,\ldots,T$}
+    \For{cada observación $(\mathbf x,y)$ en el orden elegido para la época}
+        \State $\mathbf h^{(0)}\gets\mathbf x$
+        \For{$l=1,\ldots,L$}
+            \State $\mathbf z^{(l)}\gets\mathbf W^{(l)}\mathbf h^{(l-1)}+\mathbf b^{(l)}$
+            \State $\mathbf h^{(l)}\gets\sigma(\mathbf z^{(l)})$
         \EndFor
-
-        \State \textbf{Calculamos la pérdida} $J(a^{[L]}, y)$
-
-        \State \textbf{Backward Pass}:
-        \State Calculamos el error para cada capa de salida:
-        \State $\delta^{[L]} = \frac{\partial J}{\partial a^{[L]}} \cdot g'(z^{[L]})$
-
-        \For{cada capa $l = L-1, \dots, 1$}
-        \State Propagación del error hacía atrás:
-        \State $\delta^{[l]} = (W^{[l+1]})^\top \delta^{[l+1]} \cdot g'(z^{[l]})$
-        \State Calculamos los gradientes:
-        \State $\frac{\partial J}{\partial W^{[l]}} = \delta^{[l]} \cdot (a^{[l-1]})^\top$
-        \State $\frac{\partial J}{\partial b^{[l]}} = \delta^{[l]}$
+        \State Calcular $\ell(y,\mathbf h^{(L)})$
+        \State $\delta^{(L)}\gets\nabla_{\mathbf h^{(L)}}\ell(y,\mathbf h^{(L)})\odot\sigma'(\mathbf z^{(L)})$
+        \For{$l=L-1,\ldots,1$}
+            \State $\delta^{(l)}\gets(\mathbf W^{(l+1)})^T\delta^{(l+1)}\odot\sigma'(\mathbf z^{(l)})$
         \EndFor
-
-        \State \textbf{Actualización de parámetros} (Descenso del gradiente):
-        \For{each layer $l = 1, \dots, L$}
-        \State $W^{[l]} = W^{[l]} - \eta \cdot \frac{\partial J}{\partial W^{[l]}}$
-        \State $b^{[l]} = b^{[l]} - \eta \cdot \frac{\partial J}{\partial b^{[l]}}$
+        \For{$l=1,\ldots,L$}
+            \State $g_W^{(l)}\gets\delta^{(l)}(\mathbf h^{(l-1)})^T$; $g_b^{(l)}\gets\delta^{(l)}$
         \EndFor
-
+        \For{$l=1,\ldots,L$}
+            \State $\mathbf W^{(l)}\gets\mathbf W^{(l)}-\eta g_W^{(l)}$
+            \State $\mathbf b^{(l)}\gets\mathbf b^{(l)}-\eta g_b^{(l)}$
         \EndFor
-        \EndFor
-
-    \end{algorithmic}
+    \EndFor
+\EndFor
+\end{algorithmic}
 \end{algorithm}
 
-De esta forma hemos definido los componentes principales de una red neuronal, así como los algoritmos necesarios para su entrenamiento. A continuación, nos enfocaremos en un tipo específico de redes neuronales conocidas como \textbf{redes convolucionales (CNN)}, que son especialmente efectivas para procesar datos con estructura espacial, como imágenes y series temporales.
-
+Estos mecanismos de entrenamiento se aplican también a las transformaciones aprendibles de las arquitecturas posteriores. Lo que cambia entre modelos es, entre otros aspectos, la forma de compartir parámetros y combinar los datos. La convolución permite introducir estas ideas sobre una cuadrícula antes de considerar vecindarios en gráficas.
 
 \section{Redes convolucionales CNN}
-Las \textbf{redes neuronales convolucionales (CNN)} son una clase especializada de redes neuronales diseñadas para procesar datos que poseen una estructura de malla, como imágenes y series de tiempo. Estas redes se emplean comúnmente en tareas de procesamiento de imágenes, donde los datos se organizan en una malla bidimensional, o en el caso de las series temporales, que pueden representarse como una malla unidimensional con muestras tomadas a lo largo de intervalos de tiempo.
-
-A diferencia de las redes neuronales tradicionales, donde se utiliza la multiplicación general de matrices, las CNN aplican la operación de convolución en al menos una de sus capas. Esto les permite extraer automáticamente características locales de los datos, como bordes, texturas o patrones, lo que mejora significativamente su capacidad para procesar datos con una estructura espacial clara.
-
-Estudiar las CNN es fundamental como antecedente para entender las redes gráficas convolucionales (GCN), ya que comparten la idea central de la convolución, pero aplicadas a estructuras de datos más complejas, como las gráficas. En esta sección, exploraremos la importancia de las CNN como base teórica, profundizando en su arquitectura y en las definiciones que subyacen a este tipo particular de redes.La mayoría de las definiciones fueron obtenidas del libro \cite{Goodfellow-et-al-2016}.
+Una \textbf{red neuronal convolucional (CNN)} procesa datos en cuadrículas mediante operaciones locales con parámetros compartidos. Se estudian como antecedente de la agregación de información y de las simetrías de los modelos sobre gráficas, siguiendo \cite{Goodfellow-et-al-2016}. La exposición distingue la convolución matemática de la operación habitualmente implementada en las capas y conserva las convenciones necesarias para interpretar los esquemas.
 
 \subsection{Operación de convolución}
 
 Para entender las redes convolucionales, es esencial comprender primero la operación matemática de la convolución. A continuación, se presentan las definiciones clave relacionadas con la convolución en diferentes contextos.
 \begin{definition}[Convolución]
-    Sean $x, w : \mathbb{R} \to \mathbb{R}$ dos funciones integrables. La \textbf{convolución} de $x$ y $w$, denotada por $x \ast w$, es la función
-    \[
-        (x \ast w) : \mathbb{R} \to \mathbb{R}
-    \]
-    definida, para todo $t \in \mathbb{R}$, por
-    \[
-        (x \ast w)(t) = \int_{-\infty}^{\infty} x(a)\, w(t - a)\, da,
-    \]
-    siempre que dicha integral exista.
+\label{def:convolucion}
+Sean $x,w\in L^1(\mathbb R)$, es decir, funciones medibles absolutamente integrables. Su \textbf{convolución} se define por
+\[
+(x\ast w)(t)=\int_{\mathbb R}x(a)w(t-a)\,da
+\]
+en los puntos donde la integral converge absolutamente. Para estas funciones la expresión está definida casi en todas partes y determina una función de $L^1(\mathbb R)$.
 \end{definition}
 
 En el contexto de las redes neuronales convolucionales, el primer término (la función $x$) se refiere a la entrada, y el segundo término (la función $w$) es el kernel o filtro.
 
-Dado que en muchos escenarios, el tipo de datos es discreto, se maneja otro tipo de convolución, llamada convolución dicreta.
+Dado que en muchos escenarios, el tipo de datos es discreto, se maneja otro tipo de convolución, llamada convolución discreta.
 \begin{definition}[Convolución discreta]
+\label{def:convolucion-discreta}
     Sean $x, w : \mathbb{Z} \to \mathbb{R}$ dos sucesiones absolutamente sumables.
     La \textbf{convolución discreta} de $x$ y $w$, denotada por $x \ast w$, es la sucesión
     \[
@@ -852,6 +784,7 @@ Dado que en muchos escenarios, el tipo de datos es discreto, se maneja otro tipo
 Finalmente, para el uso particular del procesamiento de imágenes en dos dimensiones, podemos utilizar la convolución discreta en dos dimensiones.
 
 \begin{definition}[Convolución discreta en dos dimensiones]
+\label{def:convolucion-discreta-2d}
     Sean $\mathbf{I}, \mathbf{K} : \mathbb{Z}^2 \to \mathbb{R}$ dos funciones (o matrices discretas) absolutamente sumables.
     La \textbf{convolución discreta bidimensional} de $\mathbf{I}$ y $\mathbf{K}$, denotada por $\mathbf{I} \ast \mathbf{K}$, es la función
     \[
@@ -866,6 +799,7 @@ Finalmente, para el uso particular del procesamiento de imágenes en dos dimensi
 \end{definition}
 
 \begin{observation}
+\label{obs:conmutatividad-convolucion}
     La operación de convolución es conmutativa, es decir,
     \[
         \mathbf{I} \ast \mathbf{K} = \mathbf{K} \ast \mathbf{I}.
@@ -873,35 +807,15 @@ Finalmente, para el uso particular del procesamiento de imágenes en dos dimensi
 \end{observation}
 
 \begin{proof}
-
-    Sean $(i,j) \in \mathbb{Z}^2$. Por definición de convolución discreta en dos dimensiones, tenemos:
-    \[
-        (\mathbf{I} \ast \mathbf{K})(i,j) = \sum_{m=-\infty}^{\infty} \sum_{n=-\infty}^{\infty}
-        \mathbf{I}(m,n)\, \mathbf{K}(i - m, j - n).
-    \]
-
-    Observamos que cada suma converge, por lo que podemos intercambiar el orden de las sumas y reordenar los términos. Haciendo el cambio de variables $u = i - m$ y $v = j - n$, obtenemos:
-
-    \begin{align*}
-        (\mathbf{I} \ast \mathbf{K})(i,j) & = \sum_{u=-\infty}^{\infty} \sum_{v=-\infty}^{\infty}
-        \mathbf{I}(i - u, j - v)\, \mathbf{K}(u, v)                                               \\
-                                          & = \sum_{u=-\infty}^{\infty} \sum_{v=-\infty}^{\infty}
-        \mathbf{K}(u, v)\, \mathbf{I}(i - u, j - v)                                               \\
-                                          & = (\mathbf{K} \ast \mathbf{I}) (i,j)
-    \end{align*}
-
-    Además, observamos que las segunda igualdad es posible, debido a  la conmutatividad del producto en cada término de la suma. Cómo esto es válido para todo $(i,j) \in \mathbb{Z}^2$, concluimos que:
-    \[
-        \mathbf{I} \ast \mathbf{K} = \mathbf{K} \ast \mathbf{I}.
-    \]
+La sumabilidad absoluta permite efectuar el cambio de índices $u=i-m$, $v=j-n$. Para cada $(i,j)\in\mathbb Z^2$,
+\[
+(\mathbf I\ast\mathbf K)(i,j)
+=\sum_{u,v\in\mathbb Z}\mathbf I(i-u,j-v)\mathbf K(u,v)
+=(\mathbf K\ast\mathbf I)(i,j).
+\]
 \end{proof}
 
-En consecuencia, la expresión anterior puede reescribirse de manera equivalente como
-\[
-    (\mathbf{K} \ast \mathbf{I})(i,j) =
-    \sum_{m=-\infty}^{\infty} \sum_{n=-\infty}^{\infty}
-    \mathbf{K}(m,n)\, \mathbf{I}(i - m, j - n).
-\]
+La Figura~\ref{fig:convolucion2D} ilustra el filtrado local mediante un kernel simétrico respecto de su centro. El cálculo usa ventanas válidas y, por esa simetría, coincide con la correlación cruzada que se distinguirá de la convolución al definir los filtros.
 
 \begin{figure}[ht]
     \centering
@@ -964,6 +878,7 @@ Una de las propiedades más importantes de la operación de convolución es su c
 A continuación, se presentan las definiciones formales de invarianza y equivarianza.
 
 \begin{definition}[Invarianza]
+\label{def:invarianza}
     Sea $f: \mathbf{X} \longrightarrow \mathbf{Y}$ una función, $\mathbf{T}$ una transformación en $\mathbf{X}$. Se dice que una función $f$ es invariante bajo $\mathbf{T}$ si:
     \[
         f\left(\mathbf{T}(x)\right) = f(x) , \hspace{1cm} \forall x \in \mathbf{X}
@@ -971,22 +886,23 @@ A continuación, se presentan las definiciones formales de invarianza y equivari
 \end{definition}
 
 \begin{definition}[Equivarianza]
-    Sean $f,g$ dos funciones tales que $f: \mathbf{X} \longrightarrow \mathbf{Y}$, $g : \mathbf{Y} \longrightarrow \mathbf{X}$. Se dice que $f$ es equivariante bajo $g$ si:
-    \[
-        f\left( g(x)\right) = g\left(f(x)\right) \hspace{1cm} \forall x \in \mathbf{X}
-    \]
-
+\label{def:equivarianza}
+Sean $f:\mathbf X\to\mathbf Y$ y transformaciones $\mathbf T_{\mathbf X}:\mathbf X\to\mathbf X$ y $\mathbf T_{\mathbf Y}:\mathbf Y\to\mathbf Y$. Se dice que $f$ es \textbf{equivariante} respecto de estas transformaciones si
+\[
+f(\mathbf T_{\mathbf X}(x))=\mathbf T_{\mathbf Y}(f(x)),\qquad x\in\mathbf X.
+\]
 \end{definition}
 De lo anterior podemos observar que la invarianza implica que la salida de la función no cambia cuando se aplica una transformación a la entrada, mientras que la equivarianza implica que la transformación de la entrada se refleja de manera consistente en la salida.
 A continuación, demostraremos que la operación de convolución es equivariante bajo traslaciones.
 
-\begin{teorema}[Invarianza de la convolución bajo traslaciones]
+\begin{teorema}[Equivarianza de la convolución bajo traslaciones]
+\label{teo:convolucion-traslaciones}
 
     Sea $f, k \in L^1(\mathbb{R})$ y sea $\mathbf{T}_a$ el operador de traslación definido por
     \[
         (\mathbf{T}_a f)(x) = f(x - a), \quad a \in \mathbb{R}.
     \]
-    Entonces, para todo $x \in \mathbb{R}$, se cumple que
+    Entonces, para casi todo $x \in \mathbb{R}$, se cumple que
     \[
         (\mathbf{T}_a f \ast k)(x) = (f \ast k)(x - a).
     \]
@@ -1016,115 +932,66 @@ A continuación, demostraremos que la operación de convolución es equivariante
     \]
     Por lo tanto,
     \[
-        (\mathbf{T}_a f \ast k)(x) = (f \ast k)(x - a), \quad \forall x \in \mathbb{R}.
+        (\mathbf{T}_a f \ast k)(x) = (f \ast k)(x - a), \quad \text{para casi todo }x\in\mathbb R.
     \]
 \end{proof}
-De esta forma, demostramos que la operación convolución para funciones definidas en $\mathbb{R}$ son equivariantes con respecto a las traslaciones.
-Es decir , que en el contexto de las redes neuronales, si trasladamos la entrada de la red, significa que la salida estará traslada en la misma medida, lo cual es útil cuando se aplica a múltiples ubicaciones en la entrada.
-
+El Teorema~\ref{teo:convolucion-traslaciones} expresa equivarianza: trasladar la entrada traslada el resultado de la convolución. No implica que toda CNN sea invariante o equivariante ante cualquier traslación, pues el tratamiento de bordes, el paso del filtro y las capas posteriores pueden modificar esta propiedad. La misma distinción entre una salida que se transforma y una salida que permanece igual se retomará para las permutaciones de nodos.
 
 \subsection{Filtros y mapas de características}
 
 En el contexto de las redes neuronales convolucionales, los \textbf{filtros} (o kernels) son matrices de pesos que se utilizan para extraer características locales de los datos de entrada mediante la operación de convolución. A continuación, se presentan las definiciones clave relacionadas con los filtros y los mapas de características.
 
-\begin{definition}[Kernel (Filtro)]
-    Sea $\mathbf{X} \in \mathbb{R}^{m \times n}$ una matriz que representa los datos de entrada.
-    Un \textbf{kernel} (o \textbf{filtro}) es una matriz de pesos
-    \[
-        \mathbf{K} \in \mathbb{R}^{h \times w},
-        \quad \text{con } 1 \leq h \leq m, \; 1 \leq w \leq n.
-    \]
-    tal que la acción del kernel sobre la entrada $\mathbf{X}$ se define mediante la \textbf{convolución discreta bidimensional}, dada por
-    \[
-        (\mathbf{K} \ast \mathbf{X})(i,j)
-        = \sum_{u=1}^{h} \sum_{v=1}^{w}
-        \mathbf{X}(i + u - 1,\, j + v - 1)\, \mathbf{K}(u,v),
-    \]
-    para todo $(i,j)$ tal que los índices sean válidos en la matriz resultante.
+\begin{definition}[Kernel o filtro]
+\label{def:kernel}
+Para una entrada $\mathbf X\in\mathbb R^{m\times n}$, un \textbf{kernel} es una matriz de pesos $\mathbf K\in\mathbb R^{h\times w}$, con $1\leq h\leq m$ y $1\leq w\leq n$. La operación local sin invertir el filtro es la \textbf{correlación cruzada}, que se denota aquí por $\star$:
+\[
+(\mathbf X\star\mathbf K)(i,j)
+=\sum_{u=1}^{h}\sum_{v=1}^{w}\mathbf X(i+u-1,j+v-1)\mathbf K(u,v),
+\]
+para $1\leq i\leq m-h+1$ y $1\leq j\leq n-w+1$.
 \end{definition}
 
-El desplazamiento en los índices por $-1$ se introduce para asegurar la alineación del kernel respecto al elemento central de la región de entrada sobre la cual actúa.
-
-A continuación, enunciaremos algunas propiedas clave de los filtros.
-
-\begin{definition}[Propiedades del kernel]
-    Sea $\mathbf{K} \in \mathbb{R}^{h \times w}$ un filtro (kernel) discreto de dimensiones $h \times w$. Entonces, se definen las siguientes propiedades:
-
-    \begin{itemize}
-        \item \textbf{Dimensión.}
-              La dimensión del kernel viene dada por el producto de sus componentes espaciales:
-              \[
-                  \dim(\mathbf{K}) = h \times w.
-              \]
-
-        \item \textbf{Simetría.}
-              El kernel $\mathbf{K}$ se dice \emph{simétrico} si sus valores son invariantes bajo reflexión respecto al centro del filtro, es decir:
-              \[
-                  \mathbf{K}(i,j) = \mathbf{K}(h - i + 1,\, w - j + 1),
-                  \quad \forall\, i \in \{1, \dots, h\},\; j \in \{1, \dots, w\}.
-              \]
-
-        \item \textbf{Normalización.}
-              El kernel $\mathbf{K}$ está \emph{normalizado} si la suma total de sus coeficientes es igual a la unidad:
-              \[
-                  \sum_{i=1}^{h} \sum_{j=1}^{w} \mathbf{K}(i,j) = 1.
-              \]
-    \end{itemize}
-\end{definition}
-
-Con las definiciones anteriores, podemos definir el concepto de mapa de características, que es el resultado de aplicar un filtro a una entrada mediante la operación de convolución.
+El desplazamiento de índices corresponde a una enumeración desde uno y sitúa la esquina superior izquierda de la ventana en $(i,j)$. Muchas capas llamadas convolucionales utilizan esta correlación \cite{Goodfellow-et-al-2016}; se reserva $\ast$ para la convolución matemática. Los filtros aprendidos no tienen que ser simétricos ni estar normalizados para sumar uno. Sus $h\times w$ dimensiones espaciales determinan $hw$ coeficientes por canal.
 
 \begin{definition}[Mapa de características]
-    Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ un tensor (o matriz) de entrada y sea $\mathbf{K} \in \mathbb{R}^{h \times w}$ un kernel (o filtro) de convolución.
-    El \textbf{mapa de características} asociado a $\mathbf{I}$ y $\mathbf{K}$ se define como la matriz $\mathbf{F} \in \mathbb{R}^{(m-h+1) \times (n-w+1)}$ cuyos elementos están dados por:
-    \[
-        \mathbf{F}(i,j) = (\mathbf{I} \ast \mathbf{K})(i,j)
-        = \sum_{u=1}^{h} \sum_{v=1}^{w} \mathbf{I}(i+u-1,\, j+v-1)\,\mathbf{K}(u,v),
-    \]
-    para todo $1 \leq i \leq m-h+1$ y $1 \leq j \leq n-w+1$.
+\label{def:mapa-caracteristicas}
+Para $\mathbf I\in\mathbb R^{m\times n}$ y un filtro $\mathbf K\in\mathbb R^{h\times w}$, con ventana válida y paso uno, la respuesta lineal es $\mathbf Z=\mathbf I\star\mathbf K$. Al añadir un sesgo $b\in\mathbb R$ y aplicar una activación, se obtiene el \textbf{mapa de características}
+\[
+\mathbf F(i,j)=\sigma\bigl(\mathbf Z(i,j)+b\bigr),
+\qquad \mathbf F\in\mathbb R^{(m-h+1)\times(n-w+1)}.
+\]
+Si se omiten sesgo y activación, el mapa coincide con la respuesta lineal del filtro.
 \end{definition}
 
-Adicionalmente, existen dos conceptos importantes en el contexto de las redes convolucionales: el \textbf{stride} y el \textbf{padding}.
-El \textbf{stride} se refiere al paso con el que se mueve el filtro sobre la entrada durante la operación de convolución, mientras que el \textbf{padding} implica agregar bordes adicionales a la entrada para controlar las dimensiones del mapa de características resultante.
+El paso del filtro y el tratamiento del borde determinan qué ventanas se evalúan y las dimensiones de salida.
 
 \begin{definition}[Stride]
-    Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ una matriz de entrada y $\mathbf{K} \in \mathbb{R}^{h \times w}$ un kernel de convolución.
-    Definimos el \textbf{stride} (o paso de desplazamiento) como un entero positivo $s \in \mathbb{N}$ que determina el número de posiciones que se desplaza el kernel $\mathbf{K}$ sobre la entrada $\mathbf{I}$ en cada dirección.
-
-    De este modo, los índices $(i,j)$ del mapa de características $\mathbf{F}$ corresponden a las posiciones:
-    \[
-        (i,j) = (p \cdot s,\, q \cdot s),
-        \quad \text{para } p,q \in \mathbb{N}.
-    \]
-    Por tanto, los elementos del mapa de características se definen como:
-    \[
-        \mathbf{F}(p,q) = (\mathbf{I} \ast_s \mathbf{K})(p,q)
-        = \sum_{u=1}^{h} \sum_{v=1}^{w}
-        \mathbf{I}(p \cdot s + u - 1,\, q \cdot s + v - 1)\, \mathbf{K}(u,v),
-    \]
-    donde $\ast_s$ denota la convolución con stride $s$.
+\label{def:stride}
+El \textbf{stride} o paso es un entero $s\geq1$. Para una entrada y un filtro de dimensiones $m\times n$ y $h\times w$, respectivamente, con $h\leq m$ y $w\leq n$, la respuesta con paso $s$ es
+\[
+(\mathbf I\star_s\mathbf K)(i,j)
+=\sum_{u=1}^{h}\sum_{v=1}^{w}
+\mathbf I((i-1)s+u,(j-1)s+v)\mathbf K(u,v),
+\]
+con $1\leq i\leq\lfloor(m-h)/s\rfloor+1$ y $1\leq j\leq\lfloor(n-w)/s\rfloor+1$.
 \end{definition}
 
 \begin{definition}[Padding]
-    Sea $\mathbf{I} \in \mathbb{R}^{m \times n}$ una entrada y sea $\rho \in \mathbb{N}$ el tamaño del \textbf{padding}.
-    Definimos la función de padding
-    \[
-        \mathbf{p}_{\rho} : \mathbb{R}^{m \times n} \longrightarrow \mathbb{R}^{(m + 2\rho) \times (n + 2\rho)}
-    \]
-    como
-    \[
-        \mathbf{p}_\rho(\mathbf{I})(i, j) =
-        \begin{cases}
-            \alpha,                         & \text{si } i \leq \rho \text{ o } i > m + \rho \text{ o } j \leq \rho \text{ o } j > n + \rho, \\[6pt]
-            \mathbf{I}(i - \rho, j - \rho), & \text{en otro caso.}
-        \end{cases}
-    \]
-    donde $\alpha \in \mathbb{R}$ es el valor con el que se rellenan los bordes (por ejemplo, $\alpha = 0$ en el caso de \textit{zero-padding}).
+\label{def:padding}
+El \textbf{padding} de amplitud $\rho\in\mathbb Z_{\geq0}$ añade un borde a la entrada. Para relleno con ceros, la aplicación $\mathbf p_\rho:\mathbb R^{m\times n}\to\mathbb R^{(m+2\rho)\times(n+2\rho)}$ se define por
+\[
+\mathbf p_\rho(\mathbf I)(i,j)=
+\begin{cases}
+\mathbf I(i-\rho,j-\rho),&\rho<i\leq m+\rho,\ \rho<j\leq n+\rho,\\
+0,&\text{en las demás posiciones del arreglo.}
+\end{cases}
+\]
 \end{definition}
 
-Otra operación común en las redes convolucionales es el \textbf{pooling}, que se utiliza para reducir las dimensiones espaciales de los mapas de características, ayudando a disminuir la cantidad de parámetros y computación en la red, además de controlar el sobreajuste.
+El \textbf{pooling} agrega valores en una ventana y puede reducir la resolución espacial de un mapa. Las operaciones de máximo y promedio también se utilizarán sobre familias de características en gráficas y nubes de puntos; allí la región de agregación no tiene que ser una ventana rectangular.
 
 \begin{definition}[Max Pooling]
+\label{def:max-pooling}
 
     Sea $\mathbf{X} \in \mathbb{R}^{m \times n}$ una matriz de entrada, y sean $h, w \in \mathbb{N}$ las dimensiones de la ventana pooling, y $s \in \mathbb{N}$ el parámetro de stride.
     Definimos la operación de \textbf{max pooling} como una función
@@ -1135,13 +1002,14 @@ Otra operación común en las redes convolucionales es el \textbf{pooling}, que 
     \[
         \mathbf{M}(\mathbf{X})(i,j) =
         \max_{0 \leq u < h \, , \, 0 \leq v < w}
-        \, \mathbf{X}(i \cdot s + u,\; j \cdot s + v),
+        \, \mathbf{X}(1+(i-1)s+u,\;1+(j-1)s+v),
     \]
-    para todo $i = 0, \ldots, p-1$ y $j = 0, \ldots, q-1$,
-    donde $p = \left\lfloor \frac{m - h}{s} \right\rfloor + 1$ y $q = \left\lfloor \frac{n - w}{s} \right\rfloor + 1$.
+    para todo $i=1,\ldots,p$ y $j=1,\ldots,q$,
+    suponiendo $1\leq h\leq m$, $1\leq w\leq n$ y $s\geq1$, donde $p = \left\lfloor \frac{m - h}{s} \right\rfloor + 1$ y $q = \left\lfloor \frac{n - w}{s} \right\rfloor + 1$.
 \end{definition}
 
 \begin{definition}[Average Pooling]
+\label{def:average-pooling}
 
     Sea $\mathbf{X} \in \mathbb{R}^{m \times n}$ una matriz de entrada, y sean $h, w \in \mathbb{N}$ las dimensiones de la ventana de pooling, y $s \in \mathbb{N}$ el parámetro de stride.
     Definimos la operación de \textbf{average pooling} como una función
@@ -1153,17 +1021,17 @@ Otra operación común en las redes convolucionales es el \textbf{pooling}, que 
         \mathbf{A}(\mathbf{X})(i,j) =
         \frac{1}{h \cdot w}
         \sum_{u=0}^{h-1}\sum_{v=0}^{w-1}
-        \mathbf{X}(i \cdot s + u,\; j \cdot s + v),
+        \mathbf{X}(1+(i-1)s+u,\;1+(j-1)s+v),
     \]
-    para todo $i = 0, \ldots, p-1$ y $j = 0, \ldots, q-1$,
-    donde $p = \left\lfloor \frac{m - h}{s} \right\rfloor + 1$ y $q = \left\lfloor \frac{n - w}{s} \right\rfloor + 1$.
+    para todo $i=1,\ldots,p$ y $j=1,\ldots,q$,
+    suponiendo $1\leq h\leq m$, $1\leq w\leq n$ y $s\geq1$, donde $p = \left\lfloor \frac{m - h}{s} \right\rfloor + 1$ y $q = \left\lfloor \frac{n - w}{s} \right\rfloor + 1$.
 \end{definition}
 
 Con lo anterior hemos definido los conceptos fundamentales relacionados con las redes neuronales convolucionales, incluyendo la operación de convolución, los filtros, los mapas de características, el stride, el padding y las operaciones de pooling. A continuación, exploraremos la arquitectura típica de una CNN y cómo estos componentes se integran para formar una red completa.
 
 \begin{figure}[ht]
 \centering
-\begin{tikzpicture}[
+\begin{tikzpicture}[scale=0.85,transform shape,
   2d-arr/.style={
     matrix of nodes,
     row sep=-\pgflinewidth,
@@ -1194,7 +1062,7 @@ Con lo anterior hemos definido los conceptos fundamentales relacionados con las 
   thick,
   rounded corners=2pt,
   inner sep=0pt,
-  fit=(Ipad-2-4)(Ipad-4-6)
+  fit=(Ipad-1-3)(Ipad-3-5)
 ] (win) {};
 \node[
   font=\scriptsize,
@@ -1205,7 +1073,7 @@ Con lo anterior hemos definido los conceptos fundamentales relacionados con las 
 %--------------------------------------------------
 % Operador
 %--------------------------------------------------
-\node[right=0.25em of Ipad] (star) {$*$};
+\node[right=0.25em of Ipad] (star) {$\star$};
 
 %--------------------------------------------------
 % Kernel
@@ -1223,11 +1091,12 @@ Con lo anterior hemos definido los conceptos fundamentales relacionados con las 
 \node[right=0.25em of K] (eq1) {$=$};
 
 \matrix (Z) [2d-arr, right=0.25em of eq1] {
-1 & |[fill=blue!80!black!30]| 4 & 1\\
-1 & 3 & 1\\
-3 & 1 & 0\\
+0 & 2 & 1 & 0\\
+0 & 2 & 3 & 0\\
+1 & 3 & 1 & 0\\
+2 & 1 & 0 & 0\\
 };
-\node[below=of Z-3-2] {$\mathbf Z\ (s=2)$};
+\node[below=of Z-4-2] {$\mathbf Z\ (s=2)$};
 \node[font=\scriptsize, above=2pt of Z-1-2] {$(i,j)$};
 
 %--------------------------------------------------
@@ -1237,12 +1106,13 @@ Con lo anterior hemos definido los conceptos fundamentales relacionados con las 
 \node[right=0.35em of act] (eq2) {$=$};
 
 \matrix (F) [2d-arr, right=0.35em of eq2, nodes={draw, fill=blue!15}] {
-1 & |[fill=blue!80!black!30]| 4 & 1\\
-1 & 3 & 1\\
-3 & 1 & 0\\
+0 & 2 & 1 & 0\\
+0 & 2 & 3 & 0\\
+1 & 3 & 1 & 0\\
+2 & 1 & 0 & 0\\
 };
-\node[below=of F-3-2] {$\mathbf F = \sigma(\mathbf Z)$};
-\node[below=0.4em of F-3-2, font=\scriptsize] {Mapa de características};
+\node[below=of F-4-2] {$\mathbf F = \sigma(\mathbf Z)$};
+\node[below=0.4em of F-4-2, font=\scriptsize] {Mapa de características};
 
 %--------------------------------------------------
 % Guías
@@ -1264,7 +1134,7 @@ Con lo anterior hemos definido los conceptos fundamentales relacionados con las 
 Z_{i,j}
 =
 \sum_{u=1}^{k}\sum_{v=1}^{k}
-I^{(p)}_{\,s i + u - 1,\; s j + v - 1}\,K_{u,v},
+I^{(p)}_{\,(i-1)s+u,\;(j-1)s+v}\,K_{u,v},
 \qquad
 F_{i,j}=\sigma(Z_{i,j})
 $};
@@ -1273,7 +1143,7 @@ $};
 {aquí $k=3$, $p=1$, $s=2$};
 
 \end{tikzpicture}
-\caption{Convolución con padding $p$ y stride $s$ produciendo un mapa de características. La salida del filtro es la pre-activación $\mathbf Z$ y, tras aplicar la no linealidad $\sigma$, se obtiene el mapa de características $\mathbf F$.}
+\caption{Filtrado con padding $p=1$ y stride $s=2$. Una entrada de $7\times7$ y un filtro de $3\times3$ producen una salida de $4\times4$. En este ejemplo el sesgo es cero y $\sigma$ es ReLU; como $\mathbf Z$ tiene entradas no negativas, $\mathbf F=\mathbf Z$.}
 \label{fig:conv-featuremap-stride-padding}
 \end{figure}
 
@@ -1282,37 +1152,28 @@ $};
 \subsection{Arquitectura de una CNN}
 A continuación, presentamos la definición formal de la arquitectura de una red neuronal convolucional (CNN).
 
-\begin{definition}[Arquitectura de una red neuronal convolucional (CNN)]
+\begin{definition}[Arquitectura básica de una CNN]
+\label{def:arquitectura-cnn}
+Una arquitectura convolucional básica para clasificación se expresa como
+\[
+f=\mathbf g\circ\operatorname{vec}\circ\mathbf P\circ\mathbf C,
+\]
+donde $\mathbf C$ produce mapas de características, $\mathbf P$ agrega valores mediante pooling, $\operatorname{vec}$ aplana el tensor resultante y $\mathbf g$ es un clasificador sobre vectores.
 
-    Sea $f: \mathbb{R}^{m \times n \times d} \longrightarrow \mathbb{R}^k$ una función que representa el modelo completo de una red neuronal convolucional.
-    La arquitectura de una CNN se define como la composición de tres funciones principales:
-    \[
-        \mathbf{y} = (\mathbf{g} \circ \mathbf{P} \circ \mathbf{C})(\mathbf{X}),
-    \]
-    donde $\mathbf{C}$ denota la capa convolucional, $\mathbf{P}$ la capa de pooling y $\mathbf{g}$ la capa completamente conectada, definidas como sigue.
-
-    La \textbf{capa convolucional} se define por
-    \[
-        \mathbf{C}(\mathbf{X}) = (\mathbf{K} \ast \mathbf{X}) + \mathbf{b},
-    \]
-    donde $\mathbf{K}$ representa el conjunto de filtros convolucionales y $\mathbf{b}$ el sesgo asociado.
-
-    La \textbf{capa de pooling}, en este caso correspondiente al \textit{max pooling}, está dada por
-    \[
-        \mathbf{P}(\mathbf{C}(\mathbf{X}))(i,j,c) =
-        \max_{0 \leq u < h ,\, 0 \leq v < w}
-        \mathbf{C}(\mathbf{X})(i \cdot s + u,\, j \cdot s + v,\, c),
-    \]
-    donde $(h,w)$ son las dimensiones de la ventana y $s$ el desplazamiento o \textit{stride}.
-
-    Finalmente, la \textbf{capa completamente conectada} se expresa como
-    \[
-        \mathbf{y} = \mathbf{g}(\mathbf{z}) = \sigma(\mathbf{W}\mathbf{z} + \mathbf{b}),
-    \]
-    donde $\mathbf{z}$ es la versión aplanada de $\mathbf{P}(\mathbf{C}(\mathbf{X}))$, $\mathbf{W}$ la matriz de pesos y $\sigma$ una función de activación no lineal.
+Para una entrada $\mathbf X\in\mathbb R^{m\times n\times d}$, con $d$ canales, un bloque sin padding y con paso uno puede escribirse como
+\[
+\mathbf C(\mathbf X)(i,j,r)
+=\sigma\!\left(\sum_{c=1}^{d}\sum_{u=1}^{h}\sum_{v=1}^{w}
+\mathbf X(i+u-1,j+v-1,c)\mathbf K(u,v,c,r)+b_r\right).
+\]
+Aquí $r$ identifica un filtro de salida. El pooling se aplica a cada canal según las Definiciones~\ref{def:max-pooling} o~\ref{def:average-pooling}. Después del aplanamiento, $\mathbf g$ combina capas densas y una función de salida adecuada a la clasificación. El pooling puede omitirse tomando $\mathbf P$ como la identidad. Pueden apilarse varios bloques convolucionales; esta composición no pretende describir todas las arquitecturas CNN.
 \end{definition}
 
-Con lo definido anteriormente, se ha establecido una base sólida para comprender las redes neuronales convolucionales (CNN). A continuación, nos adentraremos en el estudio de las redes neuronales gráficas (GNN), que extienden los conceptos de las CNN para trabajar con datos estructurados en forma de gráficas.
+En clasificación con $k$ clases, una opción para convertir las puntuaciones $a\in\mathbb R^k$ en probabilidades es la función vectorial
+\[
+\operatorname{softmax}(a)_j=\frac{e^{a_j}}{\sum_{r=1}^{k}e^{a_r}},\qquad j=1,\ldots,k.
+\]
+A diferencia de las activaciones escalares, cada componente depende de todas las puntuaciones. La Figura~\ref{fig:cnn-3d-simple-clean} muestra un ejemplo de extracción convolucional y clasificación. La localidad y el uso de parámetros compartidos motivan el paso a gráficas, donde el vecindario reemplaza a la ventana rectangular.
 
 \begin{figure}[ht]
 \centering
@@ -1365,10 +1226,10 @@ Con lo definido anteriormente, se ha establecido una base sólida para comprende
 
 
 \vol{C1}{3.3}{0.15}{2.05}{1.60}{0.85}{volConv}
-\node[lab, below=3pt of C1-sw] {Conv + ReLU\\$k{\times}k$};
+\node[lab, below=3pt of C1-sw] {Conv + ReLU\\$h{\times}w$};
 
 
-\node[lab, above=10pt of C1-nw, anchor=south west] {$H\times W$};
+\node[lab, above=10pt of C1-nw, anchor=south west] {$H^{\prime}\times W^{\prime}$};
 
 % F: a la derecha para no encimar
 \node[lab, right=10pt of C1-ne] {$F$};
@@ -1384,12 +1245,12 @@ Con lo definido anteriormente, se ha establecido una base sólida para comprende
 
 
 \node[draw, thick, rounded corners=2pt, fill=blue!14,
-      minimum width=1.55cm, minimum height=1.15cm] (fc1) at (9.0,0.75) {FC + ReLU};
-\node[lab, below=3pt of fc1.south] {$\mathbf{u}\in\mathbb{R}^{m}$};
+      minimum width=1.55cm, minimum height=1.15cm] (fc1) at (9.0,0.75) {Capa densa};
+\node[lab, below=3pt of fc1.south] {$\mathbf{u}\in\mathbb{R}^{k}$};
 
 \node[draw, thick, rounded corners=2pt, fill=blue!18,
       minimum width=1.55cm, minimum height=1.15cm] (out) at (11.15,0.75) {Softmax};
-\node[lab, below=3pt of out.south] {$\hat{\mathbf{y}}\in\mathbb{R}^{K}$};
+\node[lab, below=3pt of out.south] {$\hat{\mathbf{y}}\in\mathbb{R}^{k}$};
 
 
 \draw[arrow] ($(X-se)!0.55!(X-ne)$) -- ($(C1-sw)!0.55!(C1-nw)$);
@@ -1398,10 +1259,10 @@ Con lo definido anteriormente, se ha establecido una base sólida para comprende
 \draw[arrow] (fc1.east) -- (out.west);
 
 \node[font=\footnotesize, align=center] at (6.2,-1.15) {$\displaystyle
-Z=\mathbf{X}*\mathbf{K}+\mathbf{b},\quad
-\mathbf{A}=\sigma(Z),\quad
-\mathbf{h}=\mathrm{vec}(\mathbf{A}),\quad
-\hat{\mathbf{y}}=\mathrm{softmax}(\mathbf{W}\mathbf{h}+\mathbf{c})
+Z=\mathbf{X}\star\mathbf{K}+\mathbf{b},\quad
+\mathbf{F}=\sigma(Z),\quad
+\mathbf{h}=\mathrm{vec}(\mathbf{F}),\quad
+\mathbf u=\mathbf W\mathbf h+\mathbf c,\quad\hat{\mathbf y}=\operatorname{softmax}(\mathbf u)
 $};
 
 \end{tikzpicture}
@@ -1413,11 +1274,11 @@ $};
 
 \section{Redes Neuronales Gráficas}
 
-Las \textbf{Redes Neuronales Gráficas} (GNN, por sus siglas en inglés) son una clase de modelos de aprendizaje automático diseñados para trabajar con datos estructurados en forma de gráficas. A diferencia de las redes neuronales tradicionales que operan sobre datos tabulares o secuenciales, las GNN están diseñadas para capturar las relaciones y dependencias entre los nodos y las aristas de una gráfica.\\
-Cómo paso inicial, estableceremos algunas definiciones, que nos ayudarán a entender y formalizar el concepto de GNN.
-Puesto que hemos definido y estudiado las definiciones básicas de gráficas en la sección 2, no nos detendremos en ellas.
-Las definiciones que se presentan a continuación estan basadas en el libro \cite{graph_representation_learning}.
+Las \textbf{redes neuronales gráficas} (GNN) utilizan atributos de nodos y relaciones de adyacencia para construir representaciones aprendidas. Se retoman la gráfica simple, el vecindario $N_G(v)$ y la matriz de adyacencia del Capítulo~\ref{cap:graficasysuperficies} (Definiciones~\ref{def:grafica-simple}, \ref{def:vecindario} y~\ref{def:matriz-adyacencia}). Estas nociones permiten precisar qué información recibe cada nodo sin volver a definir la estructura combinatoria.
 
+Para una gráfica de orden $\nu_G$, se fija una enumeración $v_1,\ldots,v_{\nu_G}$ y una matriz de atributos $\mathbf X\in\mathbb R^{\nu_G\times d_0}$. Cada fila corresponde al mismo nodo que la fila y columna respectivas de la matriz de adyacencia $\mathbf A$. En la representación de superficies del Capítulo~\ref{cap:muestreo}, las coordenadas pueden servir como atributos iniciales. Los encajes que produce la red son representaciones aprendidas y no necesariamente posiciones en el espacio ambiente.
+
+Siguiendo \cite{graph_representation_learning}, se distinguen la codificación de los nodos, el intercambio de información local y la obtención de una predicción. La clasificación de una superficie completa requiere además combinar las representaciones de sus nodos en una representación global.
 
 \begin{figure}[ht]
 \centering
@@ -1524,23 +1385,16 @@ Las definiciones que se presentan a continuación estan basadas en el libro \cit
 
 
 
-\subsection{Encoders y Decoders}
-Para el objeto de estudiode las Redes Neuronales Gráficas (GNN), los conceptos de \textbf{encoder} y \textbf{decoder} son de vital importancia para comprender cómo se procesan y representan los datos estructurados en forma de gráficas. A continuación, se presentan las definiciones formales de estos conceptos.
-
-
+\subsection{Codificación y predicción}
+Se utilizan los términos \textit{encoder} y \textit{decoder} para separar la construcción de una representación de su transformación en una predicción. Aquí se considera la tarea de clasificación; no se presupone que el segundo reconstruya la gráfica ni sea una inversa del primero.
 
 \begin{definition}[Encoder]
-    Sea $G = (V, E)$ una gráfica, donde $V$ denota el conjunto de vértices y $E$ el conjunto de aristas.
-    Un \emph{encoder} es una función
-    \[
-        \phi : V \longrightarrow \mathbb{R}^d
-    \]
-    que asigna a cada vértice $v \in V$ un encaje $z_v \in \mathbb{R}^d$, el cual se obtiene a partir de la información local de $v$, sus vecinos $\mathcal{N}(v)$ y las aristas de la gráfica $E(G)$, esto es:
-    \[
-        \phi(v, \mathcal{N}(v), E(G)) = z_v, \quad \text{con } z_v \in \mathbb{R}^d.
-    \]
-
-    Por simplicidad denotaremos $\phi(v,\mathcal{N}(v),E(G)) :=\phi(v)$.
+\label{def:encoder}
+Fijadas una gráfica $G=(V,E)$, sus características iniciales y los parámetros del modelo, un \emph{encoder} o codificador de nodos es una aplicación
+\[
+\phi:V\longrightarrow\mathbb R^d,\qquad \phi(v)=z_v.
+\]
+El vector $z_v$ es el encaje del nodo $v$. En los codificadores basados en propagación de mensajes, esta representación depende de los atributos de $v$ y de la información que se agrega a través de las adyacencias. La dependencia de la gráfica, los atributos y los parámetros queda implícita al escribir $\phi(v)$.
 \end{definition}
 
 \begin{figure}[ht]
@@ -1608,14 +1462,15 @@ Para el objeto de estudiode las Redes Neuronales Gráficas (GNN), los conceptos 
 \node[small] at (4.1,0.25) {$\phi(v)$};
 
 % "encode nodes" label in the middle
-\node[small] at (4.55,1.05) {encode nodes};
+\node[small] at (4.55,1.05) {codificar nodos};
 
 \end{tikzpicture}
 \end{figure}
 
-Notamos que a partir de la codificación de los vértices de una gráfica se obtiene un vector que contiene la información estructural de la gráfica, lo que permite que cada vértice sea representado en conjunto como una matriz, por lo cual de forma similar a la matriz de adyacencia de una gráfica y de la definición de enconder, podemos definir la matriz de encajes de una gráfica.
+Los encajes de los nodos se organizan en una matriz respetando la enumeración usada para $\mathbf X$ y $\mathbf A$. Esto permite expresar varias capas de propagación mediante operaciones matriciales.
 
 \begin{definition}[Matriz de encajes]
+\label{def:matriz-encajes}
     Sea $G = (V, E)$ una gráfica, con $|V| = \nu_G$.
     La \emph{matriz de encajes} es una matriz
     \[
@@ -1628,104 +1483,49 @@ Notamos que a partir de la codificación de los vértices de una gráfica se obt
     \]
     donde $\mathbf{Z}[v]$ representa la fila de $\mathbf{Z}$ correspondiente al vértice $v$, y $\phi(v) = z_v \in \mathbb{R}^d$ es el vector de encaje del nodo $v$.
 \end{definition}
-Dicha matriz de encajes nos puede ser útil para representar la información estructural de la gráfica en un espacio vectorial, lo que facilita su uso y manipulación en distintas tareas de aprendizaje automático.
+Cada fila contiene información de un nodo. La matriz completa aún no es un único vector que represente la gráfica; para obtenerlo se introducirá una agregación global.
 
-Por otro lado, podemos definir el concepto de decoder como la función que toma los encajes producidos por el encoder y genera una predicción en el espacio de salida.
-
-Recordemo que en el contexto de autoencoders sobre gráficas, el decoder busca reconstruir la estructura original de la gráfica (por ejemplo, su matriz de adyacencia) o inferir propiedades derivadas de ella, utilizando la información contenida en los vectores de encaje.
+Una vez obtenidos los encajes, una función de predicción los transforma en salidas acordes con la tarea.
 
 \begin{definition}[Decoder]
-    Sea $z_v \in \mathbb{R}^d$ el vector de encaje asociado a un vértice $v \in V$, obtenido mediante un encoder.
-    Se denomina \emph{decoder} a una función
-    \[
-        \psi : \mathbb{R}^d \longrightarrow \mathcal{Y},
-    \]
-    que asigna a cada representación latente $z_v$ una predicción en el espacio de salida $\mathcal{Y}$, de modo que
-    \[
-        \psi(z_v) = \hat{y}.
-    \]
+\label{def:decoder}
+Un \emph{decoder} o función de predicción es una aplicación
+\[
+\psi:\mathbb R^d\longrightarrow\widehat{\mathcal Y}
+\]
+que transforma un encaje en una predicción. Para una tarea por nodo se escribe $\hat y_v=\psi(z_v)$. Si se utiliza un encaje global de la gráfica, la salida corresponde a la gráfica completa. El espacio $\widehat{\mathcal Y}$ es el espacio de predicciones de la Definición~\ref{def:funcion-perdida}.
 \end{definition}
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-  font=\sffamily,
-  >=Latex,
-  nodeG/.style={circle, fill=gray!55, draw=none, minimum size=5.5pt, inner sep=0pt},
-  nodeH/.style={circle, fill=gray!15, draw=black, line width=0.6pt, minimum size=10pt, inner sep=0pt},
-  edge/.style={line width=0.8pt, draw=black},
-  dotarr/.style={densely dotted, line width=1.0pt, -{Latex[length=2.2mm]}},
-  labelB/.style={font=\bfseries},
-  small/.style={font=\small}
-]
-
-% ---------------- LEFT: embedding space ----------------
-\coordinate (C) at (1.8,0.85);
-\fill[blue!18, opacity=0.6] (C) circle (1.75);
-
-\node[circle, fill=black, inner sep=1.2pt, label={[small]left:$z_u$}] (zu) 
-    at ($(C)+(0.3,0.7)$) {};
-\node[circle, fill=black, inner sep=1.2pt, label={[small]left:$z_v$}] (zv) 
-    at ($(C)+(0.4,-0.1)$) {};
-
-\node[font=\bfseries] at (1.8,-1.0) {Espacio de encajes};
-
-% ---------------- RIGHT: reconstructed network ----------------
-\node[nodeH] (uhat) at (6.2, 0.85) {$\hat u$};
-\node[nodeH] (vhat) at (6.8, 0.55) {$\hat v$};
-\node[nodeG] (m) at (5.5, 0.5) {};
-\node[nodeG] (t) at (6.5, 1.35) {};
-
-\node[nodeG] (a) at (4.2, 0.8) {};
-\node[nodeG] (b) at (4.8, 1.2) {};
-\node[nodeG] (c) at (4.9, 0.3) {};
-\node[nodeG] (d) at (4.3,-0.1) {};
-
-\draw[edge] (a)--(b)--(c)--(a);
-\draw[edge] (a)--(d);
-\draw[edge] (c)--(m);
-
-\draw[edge] (m)--(uhat);
-\draw[edge] (m)--(vhat);
-\draw[edge] (uhat)--(vhat);
-\draw[edge] (uhat)--(t);
-\draw[edge] (t)--(vhat);
-
-\node[font=\bfseries] at (5.8,-1.0) {Red reconstruida};
-
-% ---------------- Arrows + labels ----------------
-\draw[dotarr] (zu) .. controls (3.5,2.0) and (4.8,2.0) .. (uhat);
-\draw[dotarr] (zv) .. controls (3.5,0.0) and (4.8,0.1) .. (vhat);
-
-\node[small] at (3.8,1.8) {$\psi(z_u)$};
-\node[small] at (3.8,0.15) {$\psi(z_v)$};
-
+\begin{tikzpicture}[>=Latex,node distance=1.1cm]
+\node[draw,rounded corners] (z) {$z_v\in\mathbb R^d$};
+\node[draw,rounded corners,right=of z] (dec) {Función de predicción $\psi$};
+\node[draw,rounded corners,right=of dec] (out) {$\hat y_v$};
+\draw[->] (z)--(dec);
+\draw[->] (dec)--(out);
 \end{tikzpicture}
+\caption{Predicción por nodo a partir de un encaje. Para clasificar la gráfica completa se requiere una representación global previa.}
 \end{figure}
 
-Los conceptos previamente definidos son escenciales en el contexto de las GNN, ya que permiten transformar la información estructural de las gráficas en representaciones vectoriales más fácilmente manejables para distintas tareas de aprendizaje automático, como clasificación de nodos, predicción de enlaces y generación de gráficas.\\
-En secciones posteriores, explicaremos el uso de estos conceptos en las arquitecturas de redes utilizadas para los objetivos de este trabajo, mostrando cómo los encoders y decoders se integran en el proceso de aprendizaje de las GNN para capturar y utilizar la información estructural de las gráficas de manera efectiva.
+Estas funciones separan representación y predicción. La siguiente construcción especifica cómo obtener los encajes mediante información de los vecindarios.
 
 \subsection{Propagación de Mensajes Neuronales}
-El concepto de \textbf{Propagación de Mensajes Neuronales} se refiere al mecanismo mediante el cual las representaciones de los vértices de una gráfica, se actualizan mediante el intercambio de información de su vecindario.
-En cada paso del mecanismo, los nodos intercambian mensajes que contienen información sobre el estado en que se encuentran para luego combinarse y actualizar su información interna.\\
-Esto viene motivado por la necesidad de capturar relaciones y dependencias entre los vértices de una gráfica para estudiar su comportamiento estructural.\\
-El concepto de \textbf{Propagación de Mensajes Neuronales}, permite estudiar a la gráfica, no sólo a nivel de característica de vértice, sino también a nivel estructural de gráfica.\\
-
-Cómo se mencionó anteriormente, durante cada iteración del mecanismo en una GNN (Red Neuronal Gráfica), los encajes ocultos $h_u^{(k)}$ correspondientes a cada nodo $u \in V$, son actualizadas de acuerdo a la información recopilada del vecinadrio de $u$.
-El mecanismo puede ser definido de la siguiente forma:
+La propagación de mensajes actualiza el estado de cada nodo a partir de su estado anterior y de los estados de sus vecinos. Se fija $h_v^{(0)}=x_v$, donde $x_v$ es el vector de atributos iniciales de $v$. Los estados de una capa se calculan utilizando los de la capa anterior; no se mezclan actualizaciones de la misma iteración.
 
 \begin{definition}[Propagación de mensajes neuronales]
-
-    Sea $G = (V, E)$ una gráfica, $N_G(v)$ el vecindario del nodo $v \in V$, $h_u^{(t)}$ los encajes ocultos de cada nodo $u$, y $\mathscr{A}$ una función de agregación que combina los encajes de los vecinos de $v$. Entonces, el mecanismo de propagación de mensajes se define como:
-    \[
-        m_v^{(t)} = \mathscr{A}\bigl(\{\,h_u^{(t)} : u \in N_G(v)\,\}\bigr).
-    \]
+\label{def:propagacion-mensajes}
+Sea $G=(V,E)$ y, para $t\geq1$, sean $h_u^{(t-1)}$ los estados de los nodos en la capa anterior. Una forma básica de mensaje agregado en el nodo $v$ es
+\[
+m_v^{(t)}=\mathscr A\bigl((h_u^{(t-1)})_{u\in N_G(v)}\bigr),
+\]
+donde $\mathscr A$ combina una familia de vectores sin depender de su orden. La familia conserva multiplicidades: dos vecinos con el mismo estado siguen aportando dos elementos. Ejemplos son la suma, el promedio y el máximo componente a componente. Para un vecindario vacío debe fijarse una convención; en la suma se utiliza el vector cero.
 \end{definition}
 
-Una vez que el vértice a recibido el mensaje, la actualización de su información es el resultado de la combinación del mensaje recibido, con la información actual que tenía y se define de la siguiente forma:
+El mensaje agregado se combina con el estado previo del nodo central mediante una función de actualización.
 
 \begin{definition}[Actualización de estados neuronales]
+\label{def:actualizacion-estados}
     Sea $h_v^{(t-1)}$ el encaje oculto del nodo $v$ en la capa anterior $(t-1)$, y $m_v^{(t)}$ el mensaje agregado en la capa $t$. Entonces, la actualización del estado del nodo está dada por:
     \[
         h_v^{(t)} = \mathscr{U}\!\left(h_v^{(t-1)},\, m_v^{(t)}\right),
@@ -1733,13 +1533,13 @@ Una vez que el vértice a recibido el mensaje, la actualización de su informaci
     donde $\mathscr{U}$ es una función de actualización, típicamente implementada mediante una red neuronal, por ejemplo, una capa lineal seguida de una función de activación (como ReLU).
 \end{definition}
 
-Después de K iteraciones del mecanismo, podemos utilizar la salida del final de la capa para definir los encajes de cada vértice, es decir:
+Tras $K$ iteraciones, el estado final define el encaje del nodo:
 
 \begin{center}
     $z_u$ = $h_u^{(K)}$.
 \end{center}
 
-Con lo anterior, se ha establecido el marco general para la propagación de mensajes en las GNN, que permite capturar la información estructural de las gráficas a través del intercambio iterativo de mensajes entre los nodos.
+La Figura~\ref{fig:gnn-message-passing-formal} reúne ambas operaciones. Si cada capa utiliza únicamente vecinos inmediatos, tras $K$ capas el estado de un nodo puede depender de atributos situados a lo más a $K$ aristas de distancia. Esto expresa un alcance combinatorio, no una garantía de recuperar invariantes topológicos de la superficie.
 
 \begin{figure}[H]
 \centering
@@ -1839,7 +1639,7 @@ Con lo anterior, se ha establecido el marco general para la propagación de mens
      % Aggregation block 
      % ----------------------------- 
      \node[box] (agg) at (5,0) { 
-        $\displaystyle m_v^{(t)} = \mathscr{A} \bigl( \{h_u^{(t-1)}:u\in N_G(v)\} \bigr) $ 
+        $\displaystyle m_v^{(t)} = \mathscr{A} \bigl( (h_u^{(t-1)})_{u\in N_G(v)} \bigr) $
         }; 
     \draw[flow] (v.east) -- (agg.west); 
     
@@ -1898,91 +1698,85 @@ Con lo anterior, se ha establecido el marco general para la propagación de mens
                 }; 
             
             \end{tikzpicture} }
-\caption{Esquema del mecanismo de propagación de información en una red neuronal sobre grafos. En la iteración \(t\), cada nodo \(v\) agrega las representaciones de sus vecinos mediante una función invariante al orden \(\mathscr{A}\), obteniendo \(m_v^{(t)}\). Posteriormente, su representación se actualiza mediante \(\mathscr{U}\), combinando el estado previo con la información agregada. Tras \(K\) iteraciones, se obtiene la representación final \(z_u = h_u^{(K)}\), que captura información estructural del grafo.}
+\caption{Esquema del mecanismo de propagación de información en una red neuronal sobre gráficas. En la iteración \(t\), cada nodo \(v\) agrega las representaciones de sus vecinos mediante una función invariante al orden \(\mathscr{A}\), obteniendo \(m_v^{(t)}\). Posteriormente, su representación se actualiza mediante \(\mathscr{U}\), combinando el estado previo con la información agregada. Tras \(K\) iteraciones, se obtiene la representación final \(z_u = h_u^{(K)}\), que captura información de los atributos y las adyacencias.}
 \label{fig:gnn-message-passing-formal}
 \end{figure}
 \newpage
 \subsection{La GNN fundamental}
-Hasta el momento, se ha estudiado el marco de las GNN de una manera un poco abstracta utilizando las funciones que definimos en la sección anterior e iterando K veces.\\
-Para introducir una manera de abordarlas de forma más general, introducimos el modelo GNN más básico.
-Podemos definir el modelo GNN fundamental mediante la siguiente ecuación:
+
+La agregación anterior puede ampliarse transformando primero cada par de estados del nodo central y de un vecino. Esta formulación distingue la función que produce mensajes de la que actualiza el estado, y sirve como antecedente de las operaciones locales presentadas en el Capítulo~\ref{cap:resultados}.
 
 \begin{definition}[Modelo GNN fundamental]
-    Sea $G = (V, E)$ una gráfica, $x_u$ la característica del nodo $u \in V$, y $\mathcal{N}(u)$ el conjunto de vecinos de $u$. La actualización de la representación del nodo $u$ en una capa de la GNN se define como:
-    \[
-        h_u = \phi\!\left(x_u,\, \bigoplus_{v \in \mathcal{N}(u)} \psi(x_u, x_v)\right).
-    \]
-    \noindent En esta expresión, $\boldsymbol{h_u}$ representa la nueva representación del nodo $\boldsymbol{u}$ después de aplicar una capa de la red.
-
-    \noindent La variable $\boldsymbol{x_u}$ corresponde a las características originales del nodo antes de la actualización.
-
-    \noindent La función $\boldsymbol{\psi}(\boldsymbol{x_u}, \boldsymbol{x_v})$ transforma las características del nodo $\boldsymbol{u}$ y de su vecino $\boldsymbol{v}$, generando un mensaje o interacción entre ambos.
-
-    \noindent La operación $\boldsymbol{\bigoplus_{v \in \mathcal{N}(u)}}$ denota una función de agregación —como la suma, el promedio o el \emph{max pooling}— que combina los mensajes provenientes de los vecinos de $\boldsymbol{u}$.
-
-    \noindent Finalmente, $\boldsymbol{\phi}(\cdot)$ es la función de actualización que integra las características propias del nodo con la información agregada de su vecindario para producir la nueva representación $\boldsymbol{h_u}$.
+\label{def:gnn-fundamental}
+Sean $x_u\in\mathbb R^{d_0}$ los atributos del nodo $u$, $\mathscr M:\mathbb R^{d_0}\times\mathbb R^{d_0}\to\mathbb R^r$ una función de mensajes y $\mathscr U:\mathbb R^{d_0}\times\mathbb R^r\to\mathbb R^{d_1}$ una función de actualización. Una capa de propagación puede escribirse como
+\[
+h_u=\mathscr U\!\left(x_u,\,\bigoplus_{v\in N_G(u)}\mathscr M(x_u,x_v)\right),
+\]
+donde $\bigoplus$ agrega, sin depender del orden, la familia de mensajes indexada por los vecinos. Esta familia conserva las multiplicidades. Las funciones $\mathscr M$ y $\mathscr U$ comparten sus parámetros entre los nodos de la capa.
 \end{definition}
 
-En términos generales, el comportamiento del modelo GNN fundamental basado en el mecanismo descrito anteriormente puede estructurarse en los siguientes pasos:
+La operación comprende tres pasos: producir un mensaje por vecino, agregar esos mensajes y actualizar el nodo central. La notación $\mathscr M$ y $\mathscr U$ distingue estos componentes del codificador $\phi$ y del predictor $\psi$. En capas posteriores se sustituyen los atributos iniciales por los estados de la capa anterior. Cuando se usan promedio o máximo, debe especificarse el tratamiento de nodos aislados o incluirse al propio nodo en la agregación.
 
-\textbf{Mensajes entre nodos vecinos} ($\boldsymbol{\psi(x_u, x_v)}$).
-La función $\boldsymbol{\psi}$ calcula la interacción entre las características del nodo $u$ y las de cada uno de sus vecinos $v$. Esta operación permite capturar las relaciones entre nodos de manera dependiente de sus características, es decir, la forma en que un nodo percibe a su entorno en función de su propio estado y el de sus vecinos.
+\subsection{Arquitectura y simetrías de una GNN}
 
-\textbf{Agregación} ($\boldsymbol{\bigoplus}$).
-Una vez obtenidas las interacciones entre $u$ y sus vecinos, estas se combinan mediante una operación de agregación $\bigoplus$, que suele ser una suma, un promedio o una operación de \emph{max pooling}. El propósito de esta etapa es sintetizar la información proveniente de todos los vecinos de $u$ en un único vector representativo.
-
-\textbf{Actualización} ($\boldsymbol{\phi}$).
-Finalmente, la función $\boldsymbol{\phi}$ toma la característica original del nodo $u$, representada por $x_u$, junto con el resultado de la agregación, para producir la nueva representación $\boldsymbol{h_u}$.
-La función $\boldsymbol{\phi}$ suele implementarse como una red neuronal \emph{feedforward} o alguna otra transformación no lineal capaz de integrar la información propia del nodo con la de su vecindario.
-
-En síntesis, el modelo GNN fundamental expresa el proceso de \textbf{message passing} en una GNN, donde los mensajes de los vecinos de un nodo se combinan para actualizar la representación del nodo central, aprovechando las simetrías presentes en las gráficas.
-
-\section{Redes Gráficas Convolucionales (GCNs)}
-A lo largo de este capítulo se han revisado los conceptos fundamentales que abarcan desde las redes neuronales artificiales (RNA) hasta las redes neuronales gráficas (GNN).
-Las definiciones y formulaciones previamente presentadas han permitido establecer una base teórica sólida para comprender las arquitecturas más avanzadas que se estudiarán a continuación.
-En particular, el siguiente apartado se enfoca en una familia específica de modelos que representan una extensión natural de las redes neuronales convolucionales (CNN) al dominio de las estructuras de gráficas.
-
-Las \textbf{Redes Convolucionales Gráficas} (\emph{Graph Convolutional Networks}, GCNs) constituyen una clase particular dentro del marco general de las Redes Neuronales Gráficas. Su objetivo principal es generalizar el operador de convolución, ampliamente utilizado en el procesamiento de datos estructurados en forma de cuadrículas —como imágenes o señales espaciales—, hacia el contexto más general de las gráficas, donde la información está distribuida de manera irregular y las relaciones entre elementos se describen mediante aristas.
-
-En esencia, las GCNs trasladan los principios de las CNNs al dominio no euclidiano de las gráficas, permitiendo el aprendizaje de representaciones de nodos, aristas o incluso gráficas completas a partir de la topología de las conexiones y las características asociadas a cada entidad.
-Este enfoque posibilita capturar dependencias estructurales complejas, manteniendo la eficiencia y la capacidad de generalización propias de los modelos convolucionales tradicionales.
+La forma matricial organiza simultáneamente las actualizaciones de todos los nodos y permite precisar el papel de la entrada que se modifica en el Capítulo~\ref{cap:muestreo}.
 
 \begin{definition}[Arquitectura de una GNN]
-    Sea $G = (V, E)$ una gráfica, $\mathbf{A}$ su matriz de adyacencia, $\mathbf{F}$ una función de propagación neuronal (que incluye la activación no lineal), y $\Phi = \{\Phi_0, \Phi_1, \dots, \Phi_{K-1}\}$ el conjunto de parámetros entrenables de la red.
-    Entonces, la arquitectura general de una \textbf{Red Neuronal Gráfica} (GNN) de $K$ capas se define de manera recursiva como:
-    \[
-        \begin{aligned}
-            \mathbf{H}_1 & = \mathbf{F}(\mathbf{X},\, \mathbf{A},\, \Phi_0),           \\
-            \mathbf{H}_2 & = \mathbf{F}(\mathbf{H}_1,\, \mathbf{A},\, \Phi_1),         \\
-                         & \ \vdots                                                    \\
-            \mathbf{H}_K & = \mathbf{F}(\mathbf{H}_{K-1},\, \mathbf{A},\, \Phi_{K-1}),
-        \end{aligned}
-    \]
-    donde $\mathbf{X}$ representa la matriz de características iniciales de los nodos y $\mathbf{H}_K$ contiene las representaciones (o encajes) finales resultantes después de $K$ pasos de propagación de información.
-    En términos generales, cada capa aplica una transformación y agregación de información basada en la estructura de la gráfica y las características de sus nodos.
+\label{def:arquitectura-gnn}
+Sean $\mathbf A\in\mathbb R^{\nu_G\times\nu_G}$ la matriz de adyacencia y $\mathbf H_0=\mathbf X\in\mathbb R^{\nu_G\times d_0}$ la matriz de características iniciales. Una GNN con $K$ capas de propagación se expresa como
+\[
+\mathbf H_{t+1}=\mathbf F(\mathbf H_t,\mathbf A,\Phi_t),
+\qquad t=0,\ldots,K-1,
+\]
+donde $\mathbf H_t\in\mathbb R^{\nu_G\times d_t}$, $\Phi_t$ contiene los parámetros de la capa y $\mathbf F$ combina mensajes y actualización con dimensiones compatibles. La notación $\mathbf F$ representa la operación de cada capa, cuyos parámetros y dimensiones pueden variar con $t$. La matriz final $\mathbf H_K$ es la matriz de encajes de la Definición~\ref{def:matriz-encajes}.
 \end{definition}
+
+Esta formulación utiliza una adyacencia fija. En modelos que reconstruyen sus conexiones durante las capas se requiere una matriz $\mathbf A_t$ dependiente del estado; tal es la distinción que se retomará al presentar DGCNN. Cambiar la matriz de entrada mediante muestreo tampoco equivale a aprender nuevas características: son operaciones diferentes.
+
+La equivarianza de la Definición~\ref{def:equivarianza} se especializa ahora a la enumeración de nodos. Al cambiar esa enumeración, deben permutarse de forma compatible tanto las características como la adyacencia.
+
+\begin{definition}[Equivarianza a permutaciones]
+\label{def:equivarianza-permutaciones}
+Sean $\mathbf H\in\mathbb R^{\nu_G\times d}$, $\mathbf A\in\mathbb R^{\nu_G\times\nu_G}$ y $\mathbf P\in\mathbb R^{\nu_G\times\nu_G}$ una matriz de permutación. Una capa $\mathbf F$ es \textbf{equivariante a permutaciones} si, para toda entrada admisible y toda $\mathbf P$,
+\[
+\mathbf F(\mathbf P\mathbf H,\mathbf P\mathbf A\mathbf P^T,\Phi)
+=\mathbf P\,\mathbf F(\mathbf H,\mathbf A,\Phi).
+\]
+La multiplicación por $\mathbf P$ a la izquierda reordena las filas, que corresponden a los nodos. La salida se reordena de la misma manera; no permanece necesariamente igual como matriz.
+\end{definition}
+
+La propagación con funciones compartidas y agregación independiente del orden respeta este cambio de enumeración: cada nodo recibe la misma familia de mensajes, sólo reindexada. Esta propiedad de las capas no se transfiere automáticamente al procedimiento de reducción del Capítulo~\ref{cap:muestreo}, cuyas decisiones también dependen del recorrido y de los índices.
+
+Para clasificar una gráfica completa se utiliza una agregación global $\mathscr R$ sobre los encajes, seguida de una función predictora:
+\[
+z_G=\mathscr R\bigl((z_v)_{v\in V}\bigr),\qquad
+\hat y_G=\psi(z_G).
+\]
+Si $\mathscr R$ es independiente del orden, por ejemplo una suma o un máximo componente a componente, y los encajes son equivariantes, la predicción es invariante a la enumeración. Así se distingue la representación por nodo de la representación global necesaria para clasificar una superficie.
+
+\section{Redes gráficas convolucionales (GCN)}
+
+Una GCN es un caso particular de GNN que utiliza una agregación convolucional sobre la gráfica. Para concretar esta diferencia, se considera la agregación normalizada por grados descrita en \cite{graph_representation_learning}. Sean
+\[
+\widetilde{\mathbf A}=\mathbf A+\mathbf I,\qquad
+\widetilde{\mathbf D}_{ii}=\sum_j\widetilde{\mathbf A}_{ij},
+\]
+donde $\mathbf I$ es la identidad y $\widetilde{\mathbf D}$ es diagonal. La identidad incorpora el estado propio del nodo en la propagación; $\widetilde{\mathbf A}$ no es la matriz de adyacencia de la gráfica simple original. Esta construcción usa el grado de la Definición~\ref{def:grado-vertice} y permite definir una capa mediante
+\[
+\mathbf H_{t+1}=\sigma\!\left(
+\widetilde{\mathbf D}^{-1/2}\widetilde{\mathbf A}
+\widetilde{\mathbf D}^{-1/2}\mathbf H_t\mathbf W_t
+\right).
+\]
+Aquí $\mathbf W_t\in\mathbb R^{d_t\times d_{t+1}}$ transforma las características, la matriz normalizada combina vecinos y $\sigma$ actúa componente a componente. Los pesos multiplican a la derecha porque cada nodo ocupa una fila, a diferencia de la convención de vectores columna usada en las capas densas. La Figura~\ref{fig:graph_convolutions} ilustra el intercambio local de información.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.6\textwidth]{../img/graph_convolutions.jpg}
-    \caption{Ilustración de convoluciones en gráficos}
-    \label{fig:graph_convolutions}
+\centering
+\includegraphics[width=0.6\textwidth]{img/graph_convolutions.jpg}
+\caption{Ilustración de la agregación local de información sobre una gráfica.}
+\label{fig:graph_convolutions}
 \end{figure}
 
-Un aspecto fundamental de las GNNs es su capacidad para manejar la invariancia estructural de las gráficas, es decir, que el orden en que se indexan los nodos no debe afectar el resultado final de la red.
-Esta propiedad se conoce como \textbf{equivarianza a permutaciones} y se define formalmente a continuación:
-\begin{definition}[Equivarianza]
-    Sea $\mathbf{F}$ una función de propagación en una capa de la GNN, $\mathbf{H}$ la matriz de representaciones ocultas de los nodos, y $\mathbf{P}$ una matriz de permutación que reordena los nodos de la gráfica.
-    Decimos que una capa es \textbf{equivariante a permutaciones} si se cumple la siguiente relación:
-    \[
-        \mathbf{H}_{K+1}\mathbf{P} = \mathbf{F}\!\left(\mathbf{H}_K \mathbf{P},\, \mathbf{P}^\top \mathbf{A}\mathbf{P},\, \Phi_K\right),
-    \]
-    donde $\mathbf{A}$ denota la matriz de adyacencia de la gráfica $G$.
-    Esta propiedad garantiza que el resultado de la red no depende del orden en que los nodos son indexados, lo cual es fundamental para preservar la invariancia estructural del grafo.
-\end{definition}
+Los fundamentos anteriores permiten distinguir las entradas y las operaciones de los modelos estudiados en el Capítulo~\ref{cap:resultados}. PointNet procesa conjuntos de puntos mediante transformaciones compartidas y agregación simétrica \cite{pointnet}; no requiere propagación sobre una matriz de adyacencia. Las GNN emplean relaciones entre nodos y las GCN constituyen una familia particular dentro de ellas. Por su parte, FNO se presenta como un operador neuronal, no como una GCN. Las arquitecturas específicas se desarrollarán allí, sin identificar automáticamente todos los modelos sobre datos geométricos con redes gráficas.
 
-En conclusión, en este capítulo se han establecido los fundamentos teóricos necesarios para comprender el funcionamiento de las GNN's y, en particular, de las redes Convolucionales Gráficas (GCNs).
-Se han descrito sus componentes clave, como la propagación de mensajes y la actualización de representaciones, así como las propiedades estructurales que garantizan su correcta operación sobre datos en forma de gráficas.
-Este conocimiento servirá como base para explorar arquitecturas específicas de GCNs y sus aplicaciones en diversas tareas de aprendizaje automático sobre gráficas en los capítulos siguientes.
-En capítulos posteriores se introducirá el modelo \textbf{PointNet}, que es una arquitectura basada en GNNs diseñada específicamente para procesar nubes de puntos 3D, aprovechando las propiedades de las GCNs para capturar la estructura espacial y las relaciones entre los puntos en el espacio tridimensional. Aunque dicho modelo no emplea explícitamente convoluciones gráficas, su diseño se inspira en los principios fundamentales de las GNNs para manejar datos no estructurados de manera eficiente.
-Su análisis permitirá explorar cómo estos fundamentos pueden aplicarse a dominios no estructurados, ampliando así la comprensión y el alcance de las arquitecturas neuronales basadas en gráficas.
+El Capítulo~\ref{cap:muestreo} utiliza estas distinciones para transformar las coordenadas y adyacencias de entrada antes del aprendizaje. La evaluación posterior examina el efecto de esa representación en la clasificación; ni la equivarianza de una capa ni una predicción acertada demuestran, por sí solas, que la reducción conserve la topología de la superficie.
